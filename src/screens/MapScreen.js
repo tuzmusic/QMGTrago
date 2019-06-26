@@ -47,8 +47,8 @@ class MapScreen extends Component {
             onMarkerPress={() => {}}
             // onMarkerPress={this.onMarkerPress.bind(this)}
           /> 
-          <CurrentRegionMarker currentRegion={this.props.currentRegion} />
         */}
+          <CurrentRegionMarker currentRegion={this.props.currentRegion} />
         </MapView>
         {/* <Callout style={styles.searchCallout}>
           <AutoFillMapSearch
