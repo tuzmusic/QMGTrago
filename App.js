@@ -3,15 +3,9 @@ import React from "react";
 import { StyleSheet, Text, View } from "react-native";
 import MapScreen from "./src/screens/MapScreen";
 import MapView from "react-native-maps";
-
+import AppNavigator from "./src/navigators/AppNavigator";
 export default function App() {
-  return (
-    // <View style={styles.container}>
-    // <Text>Home Screen</Text>
-    // <MapView style={{ flex: 1 }} showsUserLocation={true} />
-    <MapScreen />
-    // </View>
-  );
+  return <AppNavigator />;
 }
 
 const styles = StyleSheet.create({
