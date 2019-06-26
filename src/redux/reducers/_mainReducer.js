@@ -1,4 +1,3 @@
-// @flow
 import type { ElectroLocation, Action } from "../../../flowTypes";
 import type Station from "../../models/Station";
 

@@ -1,5 +1,7 @@
 import React, { Component } from "react";
 import MapView, { Marker, Callout } from "react-native-maps";
+import { connect } from "react-redux";
+
 import { View, Button, Text, Platform, TextInput } from "react-native";
 
 const CurrentRegionMarker = ({ currentRegion }) => {
@@ -79,7 +81,7 @@ class MapScreen extends Component {
   }
 }
 
-export default MapScreen;
+export default connect()(MapScreen);
 
 const styles = {
   searchCallout: {

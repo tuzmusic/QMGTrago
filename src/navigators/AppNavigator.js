@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { connect } from "react-redux";
 import {
   createAppContainer,
   createSwitchNavigator,
@@ -7,8 +8,7 @@ import {
 } from "react-navigation";
 import MapScreen from "../screens/MapScreen";
 import TabBarIcon from "../components/TabBarIcon";
-// import MainTabNavigator from "./MainTabNavigator";
-// import AuthStack from "./AuthNavigator";
+import { getLocationAsync } from "../redux/actions/locationActions";
 
 const MapStack = createStackNavigator({
   MapScreen: {
@@ -22,7 +22,6 @@ const MapStack = createStackNavigator({
 });
 
 MapStack.navigationOptions = {
-  tabBarLabel: "Map",
   tabBarIcon: ({ focused }) => (
     <TabBarIcon
       focused={focused}
@@ -36,9 +35,23 @@ const TabNavigator = createBottomTabNavigator({
   Map: MapStack
 });
 
-const AppNavigator = createSwitchNavigator({
-  // Auth: AuthStack,
+const SwitchNavigator = createSwitchNavigator({
   Main: TabNavigator
 });
 
-export default createAppContainer(AppNavigator);
+const AppNavigator = createAppContainer(SwitchNavigator);
+
+class AppContainer extends Component {
+  static router = TabNavigator.router;
+  componentWillMount() {
+    this.props.getLocationAsync();
+  }
+  render() {
+    return <AppNavigator navigation={this.props.navigation} />;
+  }
+}
+
+export default connect(
+  null,
+  { getLocationAsync }
+)(AppContainer);

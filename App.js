@@ -7,12 +7,14 @@ import AppNavigator from "./src/navigators/AppNavigator";
 import { combineReducers, createStore, applyMiddleware } from "redux";
 import { Provider } from "react-redux";
 import dealsReducer from "./src/redux/reducers/dealsReducer";
+import locationReducer from "./src/redux/reducers/locationReducer";
 import authReducer from "./src/redux/reducers/authReducer";
 // import authSaga from "./src/redux/actions/authActions";
 import createSagaMiddleware from "redux-saga";
 
 const combinedReducer = combineReducers({
-  deals: dealsReducer
+  deals: dealsReducer,
+  location: locationReducer
   // auth: authReducer
 });
 const sagaMiddleware = createSagaMiddleware();
