@@ -8,6 +8,9 @@
     "eject": "expo eject",
     "test": "node ./node_modules/jest/bin/jest.js --watchAll --bail"
   },
+  "jest": {
+    "preset": "react-native"
+  },
   "dependencies": {
     "@expo/samples": "2.1.1",
     "@expo/vector-icons": "^10.0.0",
@@ -38,6 +41,7 @@
     "@babel/core": "^7.4.5",
     "@babel/polyfill": "^7.4.4",
     "@babel/preset-env": "^7.4.5",
+    "@babel/preset-flow": "^7.0.0",
     "@babel/preset-react": "^7.0.0",
     "axios-mock-adapter": "^1.16.0",
     "babel-core": "^6.26.3",

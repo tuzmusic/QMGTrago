@@ -11,15 +11,22 @@ import locationReducer from "./src/redux/reducers/locationReducer";
 import authReducer from "./src/redux/reducers/authReducer";
 // import authSaga from "./src/redux/actions/authActions";
 import createSagaMiddleware from "redux-saga";
+import locationSaga from "./src/redux/actions/locationActions";
+import type { Saga } from "redux-saga";
 
 const combinedReducer = combineReducers({
   deals: dealsReducer,
   location: locationReducer
   // auth: authReducer
 });
+
+function* rootSaga(): Saga<void> {
+  sagaMiddleware.run(locationSaga);
+}
+
 const sagaMiddleware = createSagaMiddleware();
 const store = createStore(combinedReducer, {}, applyMiddleware(sagaMiddleware));
-// sagaMiddleware.run(authSaga);
+sagaMiddleware.run(rootSaga);
 
 export default function App() {
   return (

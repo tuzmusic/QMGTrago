@@ -40,7 +40,11 @@ class MapScreen extends Component {
           message={"Loading Stations..."}
           isVisible={this.props.isLoading}
         /> */}
-        <MapView style={{ flex: 1 }} showsUserLocation={true}>
+        <MapView
+          style={{ flex: 1 }}
+          showsUserLocation={true}
+          region={this.props.currentRegion}
+        >
           {/* <StationMarkers
             // provider={MapView.PROVIDER_GOOGLE}
             // region={this.props.currentRegion}
@@ -81,7 +85,9 @@ class MapScreen extends Component {
   }
 }
 
-export default connect()(MapScreen);
+export default connect(({ location }) => ({ currentRegion: location.region }))(
+  MapScreen
+);
 
 const styles = {
   searchCallout: {
