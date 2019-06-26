@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import MapView from "react-native-maps";
+import MapView, { Marker, Callout } from "react-native-maps";
 import { View, Button, Text, Platform, TextInput } from "react-native";
 
 const CurrentRegionMarker = ({ currentRegion }) => {

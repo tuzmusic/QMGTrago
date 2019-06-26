@@ -47,6 +47,7 @@
     "enzyme": "^3.9.0",
     "enzyme-adapter-react-16": "^1.12.1",
     "fetch-mock": "^7.3.3",
+    "flow-typed": "^2.5.2",
     "jest": "^24.8.0",
     "jest-enzyme": "^7.0.2",
     "jest-expo": "^32.0.0",
