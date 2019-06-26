@@ -9,10 +9,6 @@ const CurrentRegionMarker = ({ currentRegion }) => {
 };
 
 class MapScreen extends Component {
-  static navigationOptions = {
-    title: "Deals Near You"
-  };
-
   componentDidMount = () => {
     // setTimeout(automate.bind(this), 2000);
   };

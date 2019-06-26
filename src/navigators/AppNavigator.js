@@ -9,7 +9,12 @@ import MapScreen from "../screens/MapScreen";
 // import AuthStack from "./AuthNavigator";
 
 const MapStack = createStackNavigator({
-  MapScreen: MapScreen
+  MapScreen: {
+    screen: MapScreen,
+    navigationOptions: {
+      title: "Deals Near You"
+    }
+  }
   // ResultsScreen: StationsListScreen,
   // StationDetail: StationDetailScreen
 });
