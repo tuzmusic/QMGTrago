@@ -6,7 +6,7 @@ import { View, TouchableOpacity, Text } from "react-native";
 import { connect } from "react-redux";
 import HTML from "react-native-render-html";
 
-const CellTextRow = props => {
+const CellTextRow = (props: Object) => {
   if (typeof props.children === "string")
     return <Text style={[{ padding: 1 }, props.style]}>{props.children}</Text>;
   return <View style={[{ padding: 1 }, props.style]}>{props.children}</View>;
@@ -28,16 +28,6 @@ const DealCellView = (props: Props) => {
         <CellTextRow>
           <HTML html={deal.descriptionWithStyle(text.html)} />
         </CellTextRow>
-        {/*           
-  <CellTextRow style={text.address}>{deal.address}</CellTextRow>
-        </View>
-        <View style={styles.rightSection}>
-          {props.location && (
-            <CellTextRow style={text.distance}>
-              {deal.distanceFromLocation(this.props.location)} mi.
-            </CellTextRow>
-          )}
-          <CellTextRow style={text.price}>{deal.priceString()}</CellTextRow> */}
       </View>
     </TouchableOpacity>
   );

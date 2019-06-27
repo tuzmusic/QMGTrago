@@ -9,7 +9,9 @@ const deals: Object[] = [
     fullPrice: 11,
     salePrice: 5,
     description:
-      "<p>Pete's Tavern<br />129 E 18th St<br />New York, NY 10003</p><p>Weekdays from 4 p.m. to 7 p.m.<br />$5 wines and beers</p>"
+      "<p>Pete's Tavern<br />129 E 18th St<br />New York, NY 10003</p><p>Weekdays from 4 p.m. to 7 p.m.<br />$5 wines and beers</p>",
+    address: "129 E 18th St, New York, NY 10003",
+    location: { latitude: 40.7364959, longitude: -73.9866989 }
   },
   {
     id: 2,
@@ -18,7 +20,9 @@ const deals: Object[] = [
     fullPrice: 15,
     salePrice: 7,
     description:
-      "<p>Lamano<br />265 W 20th St<br />New York, NY 10011</p><p>4 p.m. to 6:30 p.m.<br />$7 sangria and wine<br />$4.50 beer</p>"
+      "<p>Lamano<br />265 W 20th St<br />New York, NY 10011</p><p>4 p.m. to 6:30 p.m.<br />$7 sangria and wine<br />$4.50 beer</p>",
+    address: "265 W 20th St, New York, NY 10011",
+    location: { latitude: 40.7433797, longitude: -73.9994258 }
   },
   {
     id: 3,
@@ -27,7 +31,9 @@ const deals: Object[] = [
     fullPrice: 20,
     salePrice: 10,
     description:
-      "<p>Wokuni<br />327 Lexington Ave<br />New York, NY 10016</p><p>5 p.m. to 7 p.m.<br />$10 arigato set</p>"
+      "<p>Wokuni<br />327 Lexington Ave<br />New York, NY 10016</p><p>5 p.m. to 7 p.m.<br />$10 arigato set</p>",
+    address: "327 Lexington Ave, New York, NY 10016",
+    location: { latitude: 40.7492189, longitude: -73.9773529 }
   }
 ];
 

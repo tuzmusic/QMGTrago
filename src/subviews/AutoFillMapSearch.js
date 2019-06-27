@@ -48,7 +48,6 @@ export class AutoFillMapSearch extends React.Component<Props, State> {
         addressPredictions: json.predictions,
         showPredictions: true
       });
-      // debugger;
     } catch (err) {
       console.warn(err);
     }
@@ -62,12 +61,15 @@ export class AutoFillMapSearch extends React.Component<Props, State> {
 
   async onPredictionSelect(prediction: { [key: string]: string }) {
     this.textInput && this.textInput.blur();
+
     this.setState({ address: prediction.description, showPredictions: false });
     const url = `https://maps.googleapis.com/maps/api/place/details/json?key=${GoogleMapsApiKey}&placeid=${prediction.place_id}&fields=geometry`;
     try {
       const result = await fetch(url);
       const json = await result.json();
       const location = json.result.geometry.location;
+      console.log(location);
+
       this.props.setCurrentRegion({
         latitude: location.lat,
         longitude: location.lng,

@@ -6,6 +6,7 @@ import { connect } from "react-redux";
 import { getLocationAsync } from "../redux/actions/locationActions";
 import Icon from "react-native-vector-icons/FontAwesome";
 import AutoFillMapSearch from "../subviews/AutoFillMapSearch";
+import DealMarkers from "../subviews/DealMarkers";
 
 const CurrentRegionMarker = ({ currentRegion }) => {
   return currentRegion && currentRegion.showMarker ? (
@@ -29,6 +30,7 @@ class MapScreen extends Component {
   state = { region: null };
 
   onMarkerPress = deal => {
+    // this is for reorienting the map. not working yet.
     this.setState({
       region: { ...this.props.currentRegion, ...deal.location }
     });
@@ -41,7 +43,6 @@ class MapScreen extends Component {
     });
   };
   beforePressPrediction = async () => {
-    console.log("beforePressPrediction");
     await this.setState({ region: null });
   };
   render() {
@@ -56,15 +57,12 @@ class MapScreen extends Component {
           showsUserLocation={true}
           region={this.props.currentRegion || null}
         >
-          {/* 
-          // provider={MapView.PROVIDER_GOOGLE}
           <DealMarkers
             deals={this.props.deals}
             onCalloutPress={this.onCalloutPress.bind(this)}
             onMarkerPress={() => {}}
             // onMarkerPress={this.onMarkerPress.bind(this)}
-          /> 
-        */}
+          />
           <CurrentRegionMarker currentRegion={this.props.currentRegion} />
         </MapView>
         <Callout style={styles.searchCallout}>
@@ -81,8 +79,9 @@ class MapScreen extends Component {
 }
 
 export default connect(
-  ({ location }) => ({
-    currentRegion: location.currentRegion
+  ({ location, deals }) => ({
+    currentRegion: location.currentRegion,
+    deals: deals.deals
   }),
   { getLocationAsync }
 )(MapScreen);
