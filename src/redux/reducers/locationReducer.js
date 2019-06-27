@@ -1,13 +1,7 @@
 // @flow
 
 const initialState: LocationState = {
-  currentRegion: {
-    latitude: 37.33233141,
-    longitude: -122.0312186,
-    latitudeDelta: 0.00922,
-    longitudeDelta: 0.00421,
-    showMarker: false
-  },
+  currentRegion: null,
   error: null
 };
 
@@ -33,7 +27,7 @@ export type Location = {
   showMarker?: boolean
 };
 type LocationState = {
-  +currentRegion: Location,
+  +currentRegion: ?Location,
   +error: ?string
 };
 

@@ -1,8 +1,11 @@
 import React, { Component } from "react";
-import { View, Button, Text, Platform, TextInput } from "react-native";
+import { View, Text, Platform, TextInput } from "react-native";
+import { Button } from "react-native-elements";
 import MapView, { Marker, Callout } from "react-native-maps";
 import { connect } from "react-redux";
 import { getLocationAsync } from "../redux/actions/locationActions";
+import TabBarIcon from "../components/TabBarIcon";
+import Icon from "react-native-vector-icons/FontAwesome";
 
 const CurrentRegionMarker = ({ currentRegion }) => {
   return currentRegion && currentRegion.showMarker ? (
@@ -13,7 +16,11 @@ const CurrentRegionMarker = ({ currentRegion }) => {
 const LocationButton = ({ onPress }) => {
   return (
     <Callout style={styles.locationButtonCallout}>
-      <Button onPress={onPress} title={"Find Me"} style={styles.locationButton}>
+      <Button
+        buttonStyle={styles.locationButton}
+        onPress={onPress}
+        icon={<Icon name="location-arrow" color="blue" size={20} />}
+      >
         {/* <TabBarIcon name={"location-arrow"} library={"FontAwesome"} /> */}
       </Button>
     </Callout>
@@ -72,25 +79,8 @@ class MapScreen extends Component {
             beforeOnPress={this.beforePressPrediction.bind(this)}
           />
         </Callout>
-        <Callout style={[styles.locationButtonCallout, { right: 100 }]}>
-          <Button
-            onPress={() =>
-              this.props.setCurrentRegion({
-                ...Locations.cupertino,
-                showMarker: true
-              })
-            }
-            title={"Cupertino"}
-            style={styles.locationButton}
-          />
-        </Callout>
       */}
-        <LocationButton
-          onPress={() => {
-            // this.setState({ region: null });
-            this.props.getLocationAsync();
-          }}
-        />
+        <LocationButton onPress={this.props.getLocationAsync} />
       </View>
     );
   }
@@ -118,7 +108,7 @@ const styles = {
     height: 40
   },
   locationButtonCallout: {
-    borderRadius: 10,
+    borderRadius: 50,
     opacity: 0.7,
     backgroundColor: "lightgrey",
     bottom: 0,
@@ -126,9 +116,8 @@ const styles = {
     margin: 10
   },
   locationButton: {
-    backgroundColor: "grey",
-    borderRadius: 10,
-    opacity: 0.8
+    backgroundColor: "transparent",
+    padding: 12
   },
   container: {
     flex: 1,
