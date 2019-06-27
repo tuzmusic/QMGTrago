@@ -3,7 +3,7 @@ import type {
   Location,
   LocationAction
 } from "../src/redux/reducers/locationReducer";
-import { getLocationSaga } froaam "../src/redux/actions/locationActions";
+import { getLocationSaga } from "../src/redux/actions/locationActions";
 import SagaTester from "redux-saga-tester";
 import recordSaga from "../recordSaga";
 

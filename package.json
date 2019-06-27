@@ -18,6 +18,8 @@
     "axios": "^0.18.0",
     "email-validator": "^2.0.4",
     "expo": "^33.0.0",
+    "expo-location": "~5.0.1",
+    "expo-permissions": "~5.0.1",
     "native-base": "^2.12.1",
     "pluralize": "^7.0.0",
     "react": "16.5.0",

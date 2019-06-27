@@ -43,7 +43,7 @@ class MapScreen extends Component {
         <MapView
           style={{ flex: 1 }}
           showsUserLocation={true}
-          region={this.props.currentRegion}
+          region={this.props.currentRegion || null}
         >
           {/* <StationMarkers
             // provider={MapView.PROVIDER_GOOGLE}
@@ -79,15 +79,16 @@ class MapScreen extends Component {
             // this.setState({ region: null });
             this.props.getLocationAsync();
           }}
-        /> */}
+        /> 
+      */}
       </View>
     );
   }
 }
 
-export default connect(({ location }) => ({ currentRegion: location.region }))(
-  MapScreen
-);
+export default connect(({ location }) => ({
+  currentRegion: location.currentRegion
+}))(MapScreen);
 
 const styles = {
   searchCallout: {
