@@ -30,7 +30,6 @@ const LocationButton = ({ onPress }) => {
 };
 
 const GoToMockDealsButton = props => {
-  debugger;
   return (
     <Callout style={[styles.locationButtonCallout, { right: 50 }]}>
       <Button
@@ -60,7 +59,8 @@ class MapScreen extends Component {
   onCalloutPress = deal => {
     this.props.setCurrentDealID(deal.id);
     this.props.navigation.navigate("DealDetail", {
-      title: deal.title
+      title: deal.title,
+      deal: deal
     });
   };
   beforePressPrediction = async () => {

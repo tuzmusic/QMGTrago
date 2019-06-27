@@ -1,19 +1,22 @@
+// @flow
 import React, { Component } from "react";
 import {
   ScrollView,
   View,
   Linking,
   TouchableOpacity,
-  Platform
+  Platform,
+  Text
 } from "react-native";
 import { Image, Avatar, Button } from "react-native-elements";
 import { connect } from "react-redux";
 // import {
-//   getImageURLForStation,
-//   deleteStation
-// } from "../redux/actions/stationActions";
+//   getImageURLForDeal,
+//   deleteDeal
+// } from "../redux/actions/dealActions";
 import { MaterialIndicator } from "react-native-indicators";
 import CellTextRow from "../subviews/CellTextRow";
+import type Deal from "../models/Deal";
 
 const Spinner = <MaterialIndicator color={"blue"} />;
 
@@ -35,12 +38,12 @@ function openMap(address) {
   openURL(baseURL + address);
 }
 
-const StationWebsite = ({ station }) => {
-  if (station.website) {
+const DealWebsite = ({ deal }) => {
+  if (deal.website) {
     return (
-      <TouchableOpacity onPress={() => Linking.openURL(station.website)}>
+      <TouchableOpacity onPress={() => Linking.openURL(deal.website)}>
         <CellTextRow style={[text.address, text.link]}>
-          {station.website}
+          {deal.website}
         </CellTextRow>
       </TouchableOpacity>
     );
@@ -48,12 +51,12 @@ const StationWebsite = ({ station }) => {
   return null;
 };
 
-const StationImage = ({ station }) => {
-  if (station.mediaDataURL || station.imageURL) {
+const DealImage = ({ deal }) => {
+  if (deal.mediaDataURL || deal.imageURL) {
     return (
       <Image
         style={[styles.image, { resizeMode: "cover" }]}
-        source={{ uri: station.imageURL }}
+        source={{ uri: deal.imageURL }}
         PlaceholderContent={Spinner}
       />
     );
@@ -79,85 +82,75 @@ const ContactIcon = props => {
   );
 };
 
-const ContactButtons = ({ station }) => {
+const ContactButtons = ({ deal }) => {
   return (
     <View style={[styles.iconCell]}>
-      {station.contactEmail ? (
+      {deal.contactEmail ? (
         <ContactIcon
           icon={{ name: "email-outline", type: "material-community" }}
-          onPress={() => openURL(`mailto:${station.contactEmail}`)}
+          onPress={() => openURL(`mailto:${deal.contactEmail}`)}
         />
       ) : null}
-      {station.contactPhone ? (
+      {deal.contactPhone ? (
         <ContactIcon
           icon={{ name: "phone", type: "feather" }}
-          onPress={() => openURL(`tel:${station.contactPhone}`)}
+          onPress={() => openURL(`tel:${deal.contactPhone}`)}
         />
       ) : null}
     </View>
   );
 };
 
-class StationDetailView extends Component {
+class DealDetailScreen extends Component<Object> {
   static navigationOptions = ({ navigation }) => {
     return {
       title: navigation.getParam("title")
     };
   };
 
-  async componentDidMount() {
-    if (!this.props.station.imageURL) {
-      try {
-        await this.props.getImageURLForStation(this.props.station);
-      } catch (error) {
-        console.warn(error);
-      }
-    }
+  deal: Deal;
+
+  constructor(props) {
+    super(props);
+    this.deal = this.props.navigation.getParam("deal");
   }
+
+  // async componentDidMount() {
+  //   if (!this.props.deal.imageURL) {
+  //     try {
+  //       await this.props.getImageURLForDeal(this.props.deal);
+  //     } catch (error) {
+  //       console.warn(error);
+  //     }
+  //   }
+  // }
 
   async onDelete() {
     this.props.navigation.navigate("ListScreen");
-    this.props.deleteStation(this.props.station);
+    this.props.deleteDeal(this.props.deal);
   }
 
   render() {
-    if (!this.props.station) return null;
-    const { station, users } = this.props;
-
-    const user = users[station.userID];
+    // if (!this.props.deal) return null;
+    // const { deal, users } = this.props;
+    const deal = this.deal;
+    // const user = users[deal.userID];
     return (
       <ScrollView>
         <View style={styles.imageContainer}>
-          <StationImage station={station} />
+          <DealImage deal={deal} />
         </View>
 
         <View style={styles.textContainer}>
-          {/* Title */}
-          <CellTextRow style={text.title}>{station.title}</CellTextRow>
+          {/* Name */}
+          <CellTextRow style={text.name}>{deal.name}</CellTextRow>
           {/* Address */}
-          <TouchableOpacity onPress={openMap.bind(null, station.address)}>
+          <TouchableOpacity onPress={openMap.bind(null, deal.address)}>
             <CellTextRow style={[text.address, text.link]}>
-              {station.address}
+              {deal.address}
             </CellTextRow>
           </TouchableOpacity>
-          {/* Website */}
-          <StationWebsite station={station} />
-          <CellTextRow style={[text.address]}>
-            {station.contactEmail}
-          </CellTextRow>
-          <CellTextRow style={[text.address]}>
-            {station.contactPhone}
-          </CellTextRow>
-          <ContactButtons station={station} />
-          {/* Price */}
-          <CellTextRow style={[text.price]}>
-            {/* Adds dollar sign to a bare number but leaves prices with dollar signs alone */}
-            {station.priceString("Free charging!")}
-          </CellTextRow>
-          {/* Description */}
-          <CellTextRow style={[text.content, { paddingTop: 20 }]}>
-            {station.content.replace("<p>", "").replace("</p>", "")}
-          </CellTextRow>
+
           {/* <View style={styles.buttonContainer}>
             <Button
               title="Delete Listing"
@@ -173,19 +166,19 @@ class StationDetailView extends Component {
 }
 
 const mapStateToProps = state => ({
-  station: state.main.stations[state.main.currentStationID],
-  stations: state.main.stations,
-  users: state.auth.users
+  // deal: state.deals.deals[state.main.currentDealID],
+  deals: state.deals.deals
+  // users: state.auth.users
 });
 
 export default connect(
-  mapStateToProps,
-  { getImageURLForStation, deleteStation }
-)(StationDetailView);
+  mapStateToProps
+  // { getImageURLForDeal, deleteDeal }
+)(DealDetailScreen);
 
 const baseSize = 17;
 const text = {
-  title: {
+  name: {
     fontWeight: "bold",
     fontSize: 24
   },

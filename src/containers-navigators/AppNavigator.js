@@ -9,10 +9,11 @@ import {
 } from "react-navigation";
 import MapScreen from "../screens/MapScreen";
 import DealsListScreen from "../screens/DealsListScreen";
+import DealDetailScreen from "../screens/DealDetailScreen";
 import TabBarIcon from "../components/TabBarIcon";
 import { getLocationAsync } from "../redux/actions/locationActions";
 
-const initialRouteName = "Map";
+const initialRouteName = "List";
 
 const MapStack = createStackNavigator({
   MapScreen: {
@@ -20,6 +21,9 @@ const MapStack = createStackNavigator({
     navigationOptions: {
       title: "Deals Near You"
     }
+  },
+  DetailScreen: {
+    screen: DealDetailScreen
   }
 });
 
@@ -29,6 +33,9 @@ const ListStack = createStackNavigator({
     navigationOptions: {
       title: "Deals Near You"
     }
+  },
+  DetailScreen: {
+    screen: DealDetailScreen
   }
 });
 
