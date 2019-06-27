@@ -8,6 +8,7 @@ export default class Deal {
   salePrice: number;
   photoUrls: string[];
   description: string[]; // almost definitely HTML
+  address: string;
   // reviews: Review[]
 
   constructor(obj: Object) {
@@ -18,6 +19,7 @@ export default class Deal {
     this.salePrice = obj.salePrice;
     this.photoUrls = obj.photoUrls;
     this.description = obj.description;
+    this.address = address;
     // this.reviews = obj.reviews
   }
 

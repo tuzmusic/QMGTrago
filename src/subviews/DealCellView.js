@@ -1,14 +1,16 @@
 // @flow
 import type { Location } from "../redux/reducers/locationReducer";
 import type Deal from "../models/Deal";
-
 import React, { Component } from "react";
 import { View, TouchableOpacity, Text } from "react-native";
 import { connect } from "react-redux";
+import HTML from "react-native-render-html";
 
-const CellTextRow = props => (
-  <Text style={[{ padding: 1 }, props.style]}>{props.children}</Text>
-);
+const CellTextRow = props => {
+  if (typeof props.children === "string")
+    return <Text style={[{ padding: 1 }, props.style]}>{props.children}</Text>;
+  return <View style={[{ padding: 1 }, props.style]}>{props.children}</View>;
+};
 
 type Props = {
   deal: Deal,
@@ -23,6 +25,9 @@ const DealCellView = (props: Props) => {
     <TouchableOpacity style={styles.cellContainer} onPress={props.onTextPress}>
       <View style={styles.leftSection}>
         <CellTextRow style={text.title}>{deal.name}</CellTextRow>
+        <CellTextRow style={text.title}>
+          <HTML html={deal.description} />
+        </CellTextRow>
         {/*           
   <CellTextRow style={text.address}>{deal.address}</CellTextRow>
         </View>
@@ -45,7 +50,6 @@ export default connect(({ location }) => ({
 const baseSize = 16;
 const text = {
   title: {
-    fontWeight: "bold",
     fontSize: baseSize + 3
   },
   address: {
