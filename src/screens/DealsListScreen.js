@@ -8,38 +8,36 @@ import DealsListContainer from "../containers-navigators/DealsListContainer";
 
 type Props = { deals: Deal[], isLoading: boolean, navigation: Object };
 
-class DealsListScreen extends Component<Props> {
-  onDealClick = (deal: Deal) => {
-    // this.props.setCurrentDealID(deal.id);
-    // this.props.navigation.navigate("DealDetail", { title: deal.title });
-  };
-
-  onSelectSearchRadius = (radius: number) => {
-    // this.props.setSearchRadius(radius);
-  };
-
-  render() {
-    return (
-      <ScrollView>
-        <FilterInput
-          onSelectDropdown={this.onSelectSearchRadius.bind(this)}
-          startingValue={0}
-          // startingValue={this.props.searchRadius}
-        />
-        <DealsListContainer
-          deals={
-            this.props.deals
-            // .filter(withinSearchRadius.bind(this))
-            // .sort(closestFirst.bind(this))
-          }
-          navigation={this.props.navigation}
-          onTextPress={this.onDealClick.bind(this)}
-          isLoading={this.props.isLoading}
-        />
-      </ScrollView>
-    );
+const DealsListScreen = (props: Props) => {
+  function onDealClick(deal: Deal) {
+    // props.setCurrentDealID(deal.id);
+    // props.navigation.navigate("DealDetail", { title: deal.title });
   }
-}
+
+  function onSelectSearchRadius(radius: number) {
+    // props.setSearchRadius(radius);
+  }
+
+  return (
+    <ScrollView>
+      <FilterInput
+        onSelectDropdown={onSelectSearchRadius.bind(this)}
+        startingValue={0}
+        // startingValue={props.searchRadius}
+      />
+      <DealsListContainer
+        deals={
+          props.deals
+          // .filter(withinSearchRadius.bind(this))
+          // .sort(closestFirst.bind(this))
+        }
+        navigation={props.navigation}
+        onTextPress={onDealClick.bind(this)}
+        isLoading={props.isLoading}
+      />
+    </ScrollView>
+  );
+};
 const mapStateToProps = ({ deals, location, main }) => ({
   deals: Object.values(deals.deals), // Array of deals
   isLoading: deals.isLoading,
