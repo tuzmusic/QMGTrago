@@ -17,31 +17,26 @@ type Props = {
   containerStyle: { [key: string]: {} }
 };
 
-class DealCellView extends Component<Props> {
-  render() {
-    const deal = this.props.deal;
-    return (
-      <TouchableOpacity
-        style={styles.cellContainer}
-        onPress={this.props.onTextPress}
-      >
-        <View style={styles.leftSection}>
-          <CellTextRow style={text.title}>{deal.name}</CellTextRow>
-          {/*           
+const DealCellView = (props: Props) => {
+  const deal = props.deal;
+  return (
+    <TouchableOpacity style={styles.cellContainer} onPress={props.onTextPress}>
+      <View style={styles.leftSection}>
+        <CellTextRow style={text.title}>{deal.name}</CellTextRow>
+        {/*           
   <CellTextRow style={text.address}>{deal.address}</CellTextRow>
         </View>
         <View style={styles.rightSection}>
-          {this.props.location && (
+          {props.location && (
             <CellTextRow style={text.distance}>
               {deal.distanceFromLocation(this.props.location)} mi.
             </CellTextRow>
           )}
           <CellTextRow style={text.price}>{deal.priceString()}</CellTextRow> */}
-        </View>
-      </TouchableOpacity>
-    );
-  }
-}
+      </View>
+    </TouchableOpacity>
+  );
+};
 
 export default connect(({ location }) => ({
   location: location.currentRegion
