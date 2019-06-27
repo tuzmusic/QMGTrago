@@ -12,6 +12,8 @@ import DealsListScreen from "../screens/DealsListScreen";
 import TabBarIcon from "../components/TabBarIcon";
 import { getLocationAsync } from "../redux/actions/locationActions";
 
+const initialRouteName = "List";
+
 const MapStack = createStackNavigator({
   MapScreen: {
     screen: MapScreen,
@@ -49,10 +51,13 @@ ListStack.navigationOptions = {
   )
 };
 
-const TabNavigator = createBottomTabNavigator({
-  Map: MapStack,
-  List: ListStack
-});
+const TabNavigator = createBottomTabNavigator(
+  {
+    Map: MapStack,
+    List: ListStack
+  },
+  { initialRouteName }
+);
 
 const SwitchNavigator = createSwitchNavigator({
   Main: TabNavigator
