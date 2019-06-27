@@ -5,12 +5,7 @@ import React, { Component } from "react";
 import { View, TouchableOpacity, Text } from "react-native";
 import { connect } from "react-redux";
 import HTML from "react-native-render-html";
-
-const CellTextRow = (props: Object) => {
-  if (typeof props.children === "string")
-    return <Text style={[{ padding: 1 }, props.style]}>{props.children}</Text>;
-  return <View style={[{ padding: 1 }, props.style]}>{props.children}</View>;
-};
+import CellTextRow from "../subviews/CellTextRow";
 
 type Props = {
   deal: Deal,

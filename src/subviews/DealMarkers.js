@@ -3,8 +3,9 @@ import type { Location } from "../redux/reducers/locationReducer";
 import type Deal from "../models/Deal";
 import React, { Component } from "react";
 import { Marker, Callout } from "react-native-maps";
-
 import { View, Button, Text, Platform, TextInput } from "react-native";
+import DealCellView from "../subviews/DealCellView";
+import CellTextRow from "./CellTextRow";
 import { connect } from "react-redux";
 import { setCurrentRegion } from "../redux/actions/locationActions";
 import pluralize from "pluralize";
@@ -15,9 +16,6 @@ type Props = {
   onCalloutPress: Deal => void,
   location: Location
 };
-const CellTextRow = props => (
-  <Text style={[{ padding: 0.5 }, props.style]}>{props.children}</Text>
-);
 
 const DealMarkers = (props: Props) => {
   return Object.keys(props.deals).map<Marker>((key: string) => {
@@ -36,7 +34,7 @@ const DealMarkers = (props: Props) => {
           onPress={props.onCalloutPress.bind(null, deal)}
           style={styles.callout}
         >
-          <CellTextRow style={text.title}>{deal.name}</CellTextRow>
+          <DealCellView deal={deal} />
           <CellTextRow style={text.distance}>{distanceString}</CellTextRow>
         </Callout>
       </Marker>
@@ -58,7 +56,9 @@ const text = {
     fontSize: baseSize
   },
   distance: {
-    fontSize: baseSize
+    fontSize: baseSize,
+    textAlign: "center",
+    marginTop: 10
   },
   caption: {
     textAlign: "center"

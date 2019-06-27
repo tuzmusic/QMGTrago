@@ -36,8 +36,8 @@ const GoToMockDealsButton = props => {
       <Button
         onPress={() =>
           props.setCurrentRegion({
-            latitude: 40.74338,
-            longitude: -73.99944,
+            latitude: 40.74410640000001,
+            longitude: -73.98741129999999,
             showMarker: false
           })
         }
