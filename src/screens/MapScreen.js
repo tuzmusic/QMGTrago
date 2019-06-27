@@ -57,7 +57,6 @@ class MapScreen extends Component {
   };
 
   onCalloutPress = deal => {
-    // this.props.setCurrentDealID(deal.id);
     this.props.navigation.navigate("DetailScreen", {
       title: deal.name,
       deal: deal

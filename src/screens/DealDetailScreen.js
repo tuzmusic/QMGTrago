@@ -165,14 +165,8 @@ class DealDetailScreen extends Component<Object> {
   }
 }
 
-const mapStateToProps = state => ({
-  // deal: state.deals.deals[state.main.currentDealID],
-  deals: state.deals.deals
-  // users: state.auth.users
-});
-
 export default connect(
-  mapStateToProps
+  null
   // { getImageURLForDeal, deleteDeal }
 )(DealDetailScreen);
 

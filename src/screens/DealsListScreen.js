@@ -10,7 +10,6 @@ type Props = { deals: Deal[], isLoading: boolean, navigation: Object };
 
 const DealsListScreen = (props: Props) => {
   function onDealClick(deal: Deal) {
-    // props.setCurrentDealID(deal.id);
     props.navigation.navigate("DetailScreen", { title: deal.name, deal: deal });
   }
 
