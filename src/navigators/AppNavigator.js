@@ -44,7 +44,7 @@ const AppNavigator = createAppContainer(SwitchNavigator);
 class AppContainer extends Component {
   static router = TabNavigator.router;
   componentWillMount() {
-    // this.props.getLocationAsync();
+    this.props.getLocationAsync();
   }
   render() {
     return <AppNavigator navigation={this.props.navigation} />;

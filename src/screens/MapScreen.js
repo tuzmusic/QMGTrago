@@ -1,13 +1,23 @@
 import React, { Component } from "react";
+import { View, Button, Text, Platform, TextInput } from "react-native";
 import MapView, { Marker, Callout } from "react-native-maps";
 import { connect } from "react-redux";
-
-import { View, Button, Text, Platform, TextInput } from "react-native";
+import { getLocationAsync } from "../redux/actions/locationActions";
 
 const CurrentRegionMarker = ({ currentRegion }) => {
   return currentRegion && currentRegion.showMarker ? (
     <Marker coordinate={currentRegion} pinColor={"green"} />
   ) : null;
+};
+
+const LocationButton = ({ onPress }) => {
+  return (
+    <Callout style={styles.locationButtonCallout}>
+      <Button onPress={onPress} title={"Find Me"} style={styles.locationButton}>
+        {/* <TabBarIcon name={"location-arrow"} library={"FontAwesome"} /> */}
+      </Button>
+    </Callout>
+  );
 };
 
 class MapScreen extends Component {
@@ -74,21 +84,24 @@ class MapScreen extends Component {
             style={styles.locationButton}
           />
         </Callout>
+      */}
         <LocationButton
           onPress={() => {
             // this.setState({ region: null });
             this.props.getLocationAsync();
           }}
-        /> 
-      */}
+        />
       </View>
     );
   }
 }
 
-export default connect(({ location }) => ({
-  currentRegion: location.currentRegion
-}))(MapScreen);
+export default connect(
+  ({ location }) => ({
+    currentRegion: location.currentRegion
+  }),
+  { getLocationAsync }
+)(MapScreen);
 
 const styles = {
   searchCallout: {
