@@ -1,4 +1,7 @@
-const deals = [
+// @flow
+import Deal from "../src/models/Deal";
+
+const deals: Object[] = [
   {
     id: 1,
     name: "Cheap beer",
@@ -25,7 +28,7 @@ const deals = [
   }
 ];
 
-const realDeals = {};
+const realDeals: { [key: number]: Deal } = {};
 deals.forEach(d => {
   realDeals[d.id] = new Deal(d);
 });

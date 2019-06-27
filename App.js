@@ -3,7 +3,7 @@ import React from "react";
 import { StyleSheet, Text, View } from "react-native";
 import MapScreen from "./src/screens/MapScreen";
 import MapView from "react-native-maps";
-import AppNavigator from "./src/navigators/AppNavigator";
+import AppNavigator from "./src/containers-navigators/AppNavigator";
 import { combineReducers, createStore, applyMiddleware } from "redux";
 import { Provider } from "react-redux";
 import dealsReducer from "./src/redux/reducers/dealsReducer";

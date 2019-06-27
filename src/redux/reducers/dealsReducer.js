@@ -1,6 +1,8 @@
 // @flow
+import mockDeals from "../../../__mocks__/mockDeals";
+import type Deal from "../../models/Deal";
 
-const initialState: DealState = { deals: {} };
+const initialState: DealState = { deals: mockDeals };
 
 export default function dealsReducer(
   state: DealState = initialState,
@@ -9,7 +11,7 @@ export default function dealsReducer(
   return state;
 }
 
-type DealState = { deals: Object };
+type DealState = { deals: { [key: number]: Deal } };
 type DealAction = {
   type: string,
   payload: Object
