@@ -5,6 +5,7 @@ import MapView, { Marker, Callout } from "react-native-maps";
 import { connect } from "react-redux";
 import { getLocationAsync } from "../redux/actions/locationActions";
 import Icon from "react-native-vector-icons/FontAwesome";
+import AutoFillMapSearch from "../subviews/AutoFillMapSearch";
 
 const CurrentRegionMarker = ({ currentRegion }) => {
   return currentRegion && currentRegion.showMarker ? (
@@ -25,28 +26,24 @@ const LocationButton = ({ onPress }) => {
 };
 
 class MapScreen extends Component {
-  componentDidMount = () => {
-    // setTimeout(automate.bind(this), 2000);
-  };
-
   state = { region: null };
 
-  // onMarkerPress = station => {
-  //   this.setState({
-  //     region: { ...this.props.currentRegion, ...station.location }
-  //   });
-  // };
+  onMarkerPress = station => {
+    this.setState({
+      region: { ...this.props.currentRegion, ...station.location }
+    });
+  };
 
-  // onCalloutPress = station => {
-  //   this.props.setCurrentStationID(station.id);
-  //   this.props.navigation.navigate("StationDetail", {
-  //     title: station.title
-  //   });
-  // };
-  // beforePressPrediction = async () => {
-  //   console.log("beforePressPrediction");
-  //   await this.setState({ region: null });
-  // };
+  onCalloutPress = station => {
+    this.props.setCurrentStationID(station.id);
+    this.props.navigation.navigate("StationDetail", {
+      title: station.title
+    });
+  };
+  beforePressPrediction = async () => {
+    console.log("beforePressPrediction");
+    await this.setState({ region: null });
+  };
   render() {
     return (
       <View style={styles.container}>
@@ -59,9 +56,9 @@ class MapScreen extends Component {
           showsUserLocation={true}
           region={this.props.currentRegion || null}
         >
-          {/* <StationMarkers
-            // provider={MapView.PROVIDER_GOOGLE}
-            // region={this.props.currentRegion}
+          {/* 
+          // provider={MapView.PROVIDER_GOOGLE}
+          <StationMarkers
             stations={this.props.stations}
             onCalloutPress={this.onCalloutPress.bind(this)}
             onMarkerPress={() => {}}
@@ -70,13 +67,13 @@ class MapScreen extends Component {
         */}
           <CurrentRegionMarker currentRegion={this.props.currentRegion} />
         </MapView>
-        {/* <Callout style={styles.searchCallout}>
+        <Callout style={styles.searchCallout}>
           <AutoFillMapSearch
             style={styles.calloutSearch}
             beforeOnPress={this.beforePressPrediction.bind(this)}
           />
         </Callout>
-      */}
+
         <LocationButton onPress={this.props.getLocationAsync} />
       </View>
     );
