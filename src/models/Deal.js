@@ -7,7 +7,7 @@ export default class Deal {
   fullPrice: number;
   salePrice: number;
   photoUrls: string[];
-  description: string[]; // almost definitely HTML
+  description: string; // almost definitely HTML
   address: string;
   // reviews: Review[]
 
@@ -19,8 +19,16 @@ export default class Deal {
     this.salePrice = obj.salePrice;
     this.photoUrls = obj.photoUrls;
     this.description = obj.description;
-    this.address = address;
+    this.address = obj.address;
     // this.reviews = obj.reviews
+  }
+
+  descriptionWithTextSize(size: number): string {
+    return this.descriptionWithStyle(`font-size:${size}`);
+  }
+
+  descriptionWithStyle(style: string): string {
+    return `<div style="${style}">${this.description}</div>`;
   }
 
   static fromApi(json: Object): Deal {

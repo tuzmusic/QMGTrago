@@ -25,8 +25,8 @@ const DealCellView = (props: Props) => {
     <TouchableOpacity style={styles.cellContainer} onPress={props.onTextPress}>
       <View style={styles.leftSection}>
         <CellTextRow style={text.title}>{deal.name}</CellTextRow>
-        <CellTextRow style={text.title}>
-          <HTML html={deal.description} />
+        <CellTextRow>
+          <HTML html={deal.descriptionWithStyle(text.html)} />
         </CellTextRow>
         {/*           
   <CellTextRow style={text.address}>{deal.address}</CellTextRow>
@@ -49,7 +49,9 @@ export default connect(({ location }) => ({
 
 const baseSize = 16;
 const text = {
+  html: `fontSize:${baseSize};`,
   title: {
+    fontWeight: "bold",
     fontSize: baseSize + 3
   },
   address: {
