@@ -4,7 +4,6 @@ import { Button } from "react-native-elements";
 import MapView, { Marker, Callout } from "react-native-maps";
 import { connect } from "react-redux";
 import { getLocationAsync } from "../redux/actions/locationActions";
-import TabBarIcon from "../components/TabBarIcon";
 import Icon from "react-native-vector-icons/FontAwesome";
 
 const CurrentRegionMarker = ({ currentRegion }) => {
@@ -20,9 +19,7 @@ const LocationButton = ({ onPress }) => {
         buttonStyle={styles.locationButton}
         onPress={onPress}
         icon={<Icon name="location-arrow" color="blue" size={20} />}
-      >
-        {/* <TabBarIcon name={"location-arrow"} library={"FontAwesome"} /> */}
-      </Button>
+      ></Button>
     </Callout>
   );
 };
