@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { Platform } from "react-native";
 import { connect } from "react-redux";
 import {
   createAppContainer,
@@ -7,6 +8,7 @@ import {
   createBottomTabNavigator
 } from "react-navigation";
 import MapScreen from "../screens/MapScreen";
+import DealsListScreen from "../screens/DealsListScreen";
 import TabBarIcon from "../components/TabBarIcon";
 import { getLocationAsync } from "../redux/actions/locationActions";
 
@@ -17,8 +19,15 @@ const MapStack = createStackNavigator({
       title: "Deals Near You"
     }
   }
-  // ResultsScreen: StationsListScreen,
-  // StationDetail: StationDetailScreen
+});
+
+const ListStack = createStackNavigator({
+  ListScreen: {
+    screen: DealsListScreen,
+    navigationOptions: {
+      title: "Deals Near You"
+    }
+  }
 });
 
 MapStack.navigationOptions = {
@@ -31,8 +40,18 @@ MapStack.navigationOptions = {
   )
 };
 
+ListStack.navigationOptions = {
+  tabBarIcon: ({ focused }) => (
+    <TabBarIcon
+      focused={focused}
+      name={Platform.OS === "ios" ? "ios-list" : "md-list"}
+    />
+  )
+};
+
 const TabNavigator = createBottomTabNavigator({
-  Map: MapStack
+  Map: MapStack,
+  List: ListStack
 });
 
 const SwitchNavigator = createSwitchNavigator({

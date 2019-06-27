@@ -8,15 +8,15 @@ import type {
 import type { Saga } from "redux-saga";
 import { call, put, select, takeEvery, all } from "redux-saga/effects";
 
-export function getLocationAsync(): LocationAction {
-  return { type: "USER_LOCATION_START" };
-}
-
 export function setCurrentRegion(region: LocationType): LocationAction {
   return {
     type: "SET_CURRENT_REGION",
     region: { ...region, ...calculateRegion(region) }
   };
+}
+
+export function getLocationAsync(): LocationAction {
+  return { type: "USER_LOCATION_START" };
 }
 
 export function* getLocationSaga(): Saga<void> {

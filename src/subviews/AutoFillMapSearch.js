@@ -23,11 +23,13 @@ type Props = {
 // #endregion
 
 export class AutoFillMapSearch extends React.Component<Props, State> {
-  componentDidMount = () => {
+  automate() {
     setTimeout(() => {
       this.onChangeText("white");
-      // this.handleAddressChange();
     }, 800);
+  }
+  componentDidMount = () => {
+    // this.automate();
   };
 
   textInput: ?TextInput;
