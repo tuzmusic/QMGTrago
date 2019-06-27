@@ -52,11 +52,12 @@ const DealWebsite = ({ deal }) => {
 };
 
 const DealImage = ({ deal }) => {
-  if (deal.mediaDataURL || deal.imageURL) {
+  if (deal.photoUrls.length) {
+    // debugger;
     return (
       <Image
         style={[styles.image, { resizeMode: "cover" }]}
-        source={{ uri: deal.imageURL }}
+        source={{ uri: deal.photoUrls[0] }}
         PlaceholderContent={Spinner}
       />
     );
