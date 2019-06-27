@@ -11,6 +11,7 @@ export default function dealsReducer(
 ): LocationState {
   switch (action.type) {
     case "USER_LOCATION_SUCCESS":
+    case "SET_CURRENT_REGION":
       return { ...state, currentRegion: action.region };
     case "USER_LOCATION_FAILURE":
       return { ...state, error: action.error };
@@ -22,10 +23,12 @@ export default function dealsReducer(
 export type Location = {
   latitude: number,
   longitude: number,
-  latitudeDelta: number,
-  longitudeDelta: number,
+  latitudeDelta?: number,
+  longitudeDelta?: number,
+  accuracy?: number,
   showMarker?: boolean
 };
+
 type LocationState = {
   +currentRegion: ?Location,
   +error: ?string
@@ -40,4 +43,8 @@ export type LocationAction =
   | {
       type: "USER_LOCATION_FAILURE",
       error: string
+    }
+  | {
+      type: "SET_CURRENT_REGION",
+      region: Location
     };

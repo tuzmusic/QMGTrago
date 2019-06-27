@@ -12,6 +12,13 @@ export function getLocationAsync(): LocationAction {
   return { type: "USER_LOCATION_START" };
 }
 
+export function setCurrentRegion(region: LocationType): LocationAction {
+  return {
+    type: "SET_CURRENT_REGION",
+    region: { ...region, ...calculateRegion(region) }
+  };
+}
+
 export function* getLocationSaga(): Saga<void> {
   try {
     const region = yield call(getUserLocation);
@@ -48,12 +55,3 @@ function calculateRegion({
 export default function* locationSaga(): Saga<void> {
   yield all([yield takeEvery("USER_LOCATION_START", getLocationSaga)]);
 }
-
-const errorLocation = {
-  // the problem is with the deltas
-  latitude: 37.33233141,
-  longitude: -122.0312186,
-  accuracy: 0.05,
-  latitudeDelta: 0.0004491555874955085,
-  longitudeDelta: -0.05737702242408729
-};
