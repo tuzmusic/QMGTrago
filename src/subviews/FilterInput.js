@@ -17,7 +17,7 @@ const FilterInput = (props: {
   dropDownOptions.push({ value: 1e100, label: "∞ miles" });
   return (
     <View style={styles.filterContainerLine1}>
-      <Text style={{ fontSize: 17 }}>Show stations within: </Text>
+      <Text style={{ fontSize: 17 }}>Show deals within: </Text>
       <View style={styles.dropDownContainer}>
         <Dropdown
           dropdownOffset={{ top: 15, left: 0 }}

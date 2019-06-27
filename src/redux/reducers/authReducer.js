@@ -1,14 +1,13 @@
 import { AsyncStorage } from "react-native";
 
 export const initialState = {
-  stations: [],
   user: null,
   isLoading: false,
   error: null,
   users: {}
 };
 
-export default (authReducer = (
+export default authReducer = (
   state = initialState,
   { user, users, error, ...action }
 ) => {
@@ -39,4 +38,4 @@ export default (authReducer = (
     default:
       return state;
   }
-});
+};

@@ -28,16 +28,16 @@ const LocationButton = ({ onPress }) => {
 class MapScreen extends Component {
   state = { region: null };
 
-  onMarkerPress = station => {
+  onMarkerPress = deal => {
     this.setState({
-      region: { ...this.props.currentRegion, ...station.location }
+      region: { ...this.props.currentRegion, ...deal.location }
     });
   };
 
-  onCalloutPress = station => {
-    this.props.setCurrentStationID(station.id);
-    this.props.navigation.navigate("StationDetail", {
-      title: station.title
+  onCalloutPress = deal => {
+    this.props.setCurrentDealID(deal.id);
+    this.props.navigation.navigate("DealDetail", {
+      title: deal.title
     });
   };
   beforePressPrediction = async () => {
@@ -48,7 +48,7 @@ class MapScreen extends Component {
     return (
       <View style={styles.container}>
         {/* <LoadingIndicator
-          message={"Loading Stations..."}
+          message={"Loading Deals..."}
           isVisible={this.props.isLoading}
         /> */}
         <MapView
@@ -58,8 +58,8 @@ class MapScreen extends Component {
         >
           {/* 
           // provider={MapView.PROVIDER_GOOGLE}
-          <StationMarkers
-            stations={this.props.stations}
+          <DealMarkers
+            deals={this.props.deals}
             onCalloutPress={this.onCalloutPress.bind(this)}
             onMarkerPress={() => {}}
             // onMarkerPress={this.onMarkerPress.bind(this)}
