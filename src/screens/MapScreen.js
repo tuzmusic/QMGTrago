@@ -3,7 +3,10 @@ import { View, Text, Platform, TextInput } from "react-native";
 import { Button } from "react-native-elements";
 import MapView, { Marker, Callout } from "react-native-maps";
 import { connect } from "react-redux";
-import { getLocationAsync } from "../redux/actions/locationActions";
+import {
+  getLocationAsync,
+  setCurrentRegion
+} from "../redux/actions/locationActions";
 import Icon from "react-native-vector-icons/FontAwesome";
 import AutoFillMapSearch from "../subviews/AutoFillMapSearch";
 import DealMarkers from "../subviews/DealMarkers";
@@ -22,6 +25,24 @@ const LocationButton = ({ onPress }) => {
         onPress={onPress}
         icon={<Icon name="location-arrow" color="blue" size={20} />}
       ></Button>
+    </Callout>
+  );
+};
+
+const GoToMockDealsButton = props => {
+  debugger;
+  return (
+    <Callout style={[styles.locationButtonCallout, { right: 50 }]}>
+      <Button
+        onPress={() =>
+          props.setCurrentRegion({
+            latitude: 40.74338,
+            longitude: -73.99944,
+            showMarker: false
+          })
+        }
+        title={"New York"}
+      />
     </Callout>
   );
 };
@@ -71,7 +92,7 @@ class MapScreen extends Component {
             beforeOnPress={this.beforePressPrediction.bind(this)}
           />
         </Callout>
-
+        <GoToMockDealsButton setCurrentRegion={this.props.setCurrentRegion} />
         <LocationButton onPress={this.props.getLocationAsync} />
       </View>
     );
@@ -83,7 +104,7 @@ export default connect(
     currentRegion: location.currentRegion,
     deals: deals.deals
   }),
-  { getLocationAsync }
+  { getLocationAsync, setCurrentRegion }
 )(MapScreen);
 
 const styles = {
