@@ -1,6 +1,6 @@
 import axios from "axios";
 import MockAdapter from "axios-mock-adapter";
-import { ApiUrls } from "../../constants";
+import { ApiUrls } from "../../src/constants/constants";
 import { loginResponse, registerResponse, registration } from "./authResponses";
 
 export function setupAuthMockAdapter() {
