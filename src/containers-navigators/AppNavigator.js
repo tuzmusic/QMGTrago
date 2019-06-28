@@ -15,11 +15,11 @@ import TabBarIcon from "../components/TabBarIcon";
 import { getLocationAsync } from "../redux/actions/locationActions";
 import LoadingIndicator from "../components/LoadingIndicator";
 import LoginScreen from "../screens/LoginScreen";
+import AuthNavigator from "./AuthNavigator";
 
 let initialRouteName;
 initialRouteName = "Map";
 initialRouteName = "List";
-initialRouteName = "Login";
 
 const MapStack = createStackNavigator({
   MapScreen: {
@@ -66,7 +66,6 @@ ListStack.navigationOptions = {
 
 const TabNavigator = createBottomTabNavigator(
   {
-    Login: LoginScreen,
     Map: MapStack,
     List: ListStack
   },
@@ -74,6 +73,7 @@ const TabNavigator = createBottomTabNavigator(
 );
 
 const SwitchNavigator = createSwitchNavigator({
+  Auth: AuthNavigator,
   Main: TabNavigator
 });
 
