@@ -19,7 +19,7 @@ import LoginView from "../screens/LoginView";
 let initialRouteName;
 initialRouteName = "Map";
 initialRouteName = "List";
-// initialRouteName = "Login";
+initialRouteName = "Login";
 
 const MapStack = createStackNavigator({
   MapScreen: {
@@ -66,7 +66,7 @@ ListStack.navigationOptions = {
 
 const TabNavigator = createBottomTabNavigator(
   {
-    // Login: LoginView,
+    Login: LoginView,
     Map: MapStack,
     List: ListStack
   },

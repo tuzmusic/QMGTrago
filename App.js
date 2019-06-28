@@ -16,8 +16,8 @@ import type { Saga } from "redux-saga";
 
 const combinedReducer = combineReducers({
   deals: dealsReducer,
-  location: locationReducer
-  // auth: authReducer
+  location: locationReducer,
+  auth: authReducer
 });
 
 function* rootSaga(): Saga<void> {
