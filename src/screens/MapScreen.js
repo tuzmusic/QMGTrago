@@ -54,7 +54,7 @@ const GoToMockDealsButton = props => {
 type Props = {
   currentRegion: ?Location,
   deals: Deal[],
-  isLoading: boolean,
+  loadingMessage: string,
   getLocationAsync: () => void,
   setCurrentRegion: Location => void,
   navigation: Object
@@ -63,7 +63,7 @@ type State = { region: ?Location };
 
 class MapScreen extends Component<Props, State> {
   static defaultProps = {
-    isLoading: false
+    loadingMessage: ""
   };
 
   state = { region: null };
@@ -88,8 +88,8 @@ class MapScreen extends Component<Props, State> {
     return (
       <View style={styles.container}>
         <LoadingIndicator
-          message={"Loading Deals..."}
-          isVisible={this.props.isLoading}
+          // message={"Loading Deals..."}
+          message={this.props.loadingMessage}
         />
         <MapView
           style={{ flex: 1 }}
@@ -121,7 +121,7 @@ export default connect(
   ({ location, deals }) => ({
     currentRegion: location.currentRegion,
     deals: deals.deals,
-    isLoading: location.isLoading || deals.isLoading
+    loadingMessage: location.loadingMessage || deals.loadingMessage
   }),
   { getLocationAsync, setCurrentRegion }
 )(MapScreen);

@@ -4,7 +4,7 @@ const initialState: LocationState = {
   currentRegion: null,
   error: null,
   searchRadiusInMiles: 5,
-  isLoading: false
+  loadingMessage: ""
 };
 
 export default function dealsReducer(
@@ -13,12 +13,12 @@ export default function dealsReducer(
 ): LocationState {
   switch (action.type) {
     case "USER_LOCATION_START":
-      return { ...state, isLoading: true };
+      return { ...state, loadingMessage: "Getting Location..." };
     case "USER_LOCATION_SUCCESS":
     case "SET_CURRENT_REGION":
-      return { ...state, currentRegion: action.region, isLoading: false };
+      return { ...state, currentRegion: action.region, loadingMessage: "" };
     case "USER_LOCATION_FAILURE":
-      return { ...state, error: action.error, isLoading: false };
+      return { ...state, error: action.error, loadingMessage: "" };
     case "SET_SEARCH_RADIUS":
       return { ...state, searchRadiusInMiles: action.radius };
     default:
@@ -39,7 +39,7 @@ type LocationState = {
   +currentRegion: ?Location,
   +error: ?string,
   +searchRadiusInMiles: number,
-  +isLoading: boolean
+  +loadingMessage: string
 };
 
 export type LocationAction =

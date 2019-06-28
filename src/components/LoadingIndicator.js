@@ -4,11 +4,13 @@ import { Text, View } from "react-native";
 import { Overlay } from "react-native-elements";
 import { DotIndicator } from "react-native-indicators";
 
+type Props = { isVisible?: boolean, message: string };
+
 const LoadingIndicator = ({ isVisible, message }: Props) => (
   <Overlay
     containerStyle={styles.modal}
     height={200}
-    isVisible={isVisible}
+    isVisible={!!message}
     style={styles.modal}
     borderRadius={20}
     overlayBackgroundColor={"lightblue"}
@@ -35,4 +37,3 @@ const styles = {
     alignItems: "center"
   }
 };
-type Props = { isVisible: boolean, message: string };
