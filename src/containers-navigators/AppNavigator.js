@@ -14,7 +14,7 @@ import DealDetailScreen from "../screens/DealDetailScreen";
 import TabBarIcon from "../components/TabBarIcon";
 import { getLocationAsync } from "../redux/actions/locationActions";
 import LoadingIndicator from "../components/LoadingIndicator";
-import LoginView from "../screens/LoginView";
+import LoginScreen from "../screens/LoginScreen";
 
 let initialRouteName;
 initialRouteName = "Map";
@@ -66,7 +66,7 @@ ListStack.navigationOptions = {
 
 const TabNavigator = createBottomTabNavigator(
   {
-    Login: LoginView,
+    Login: LoginScreen,
     Map: MapStack,
     List: ListStack
   },
