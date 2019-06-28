@@ -12,7 +12,6 @@ import {
 import Icon from "react-native-vector-icons/FontAwesome";
 import AutoFillMapSearch from "../subviews/AutoFillMapSearch";
 import DealMarkers from "../subviews/DealMarkers";
-import LoadingIndicator from "../components/LoadingIndicator";
 import type { Location } from "../redux/reducers/locationReducer";
 import type Deal from "../models/Deal";
 
