@@ -87,10 +87,6 @@ class MapScreen extends Component<Props, State> {
   render() {
     return (
       <View style={styles.container}>
-        <LoadingIndicator
-          // message={"Loading Deals..."}
-          message={this.props.loadingMessage}
-        />
         <MapView
           style={{ flex: 1 }}
           showsUserLocation={true}

@@ -44,19 +44,7 @@ type LocationState = {
 
 export type LocationAction =
   | { type: "USER_LOCATION_START" }
-  | {
-      type: "USER_LOCATION_SUCCESS",
-      region: Location
-    }
-  | {
-      type: "USER_LOCATION_FAILURE",
-      error: string
-    }
-  | {
-      type: "SET_SEARCH_RADIUS",
-      radius: number
-    }
-  | {
-      type: "SET_CURRENT_REGION",
-      region: Location
-    };
+  | { type: "USER_LOCATION_SUCCESS", region: Location }
+  | { type: "USER_LOCATION_FAILURE", error: string }
+  | { type: "SET_SEARCH_RADIUS", radius: number }
+  | { type: "SET_CURRENT_REGION", region: Location };

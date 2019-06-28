@@ -1,5 +1,6 @@
+// @flow
 import React, { Component } from "react";
-import { Platform } from "react-native";
+import { Platform, View } from "react-native";
 import { connect } from "react-redux";
 import {
   createAppContainer,
@@ -12,8 +13,11 @@ import DealsListScreen from "../screens/DealsListScreen";
 import DealDetailScreen from "../screens/DealDetailScreen";
 import TabBarIcon from "../components/TabBarIcon";
 import { getLocationAsync } from "../redux/actions/locationActions";
+import LoadingIndicator from "../components/LoadingIndicator";
 
-const initialRouteName = "Map";
+let initialRouteName;
+initialRouteName = "List";
+initialRouteName = "Map";
 
 const MapStack = createStackNavigator({
   MapScreen: {
@@ -72,17 +76,29 @@ const SwitchNavigator = createSwitchNavigator({
 
 const AppNavigator = createAppContainer(SwitchNavigator);
 
-class AppContainer extends Component {
+type Props = {
+  navigation: Object,
+  getLocationAsync: () => void,
+  loadingMessage: string
+};
+class AppContainer extends Component<Props> {
   static router = TabNavigator.router;
-  componentWillMount() {
+  componentDidMount() {
     this.props.getLocationAsync();
   }
   render() {
-    return <AppNavigator navigation={this.props.navigation} />;
+    return (
+      <View style={{ flex: 1 }}>
+        <LoadingIndicator message={this.props.loadingMessage} />
+        <AppNavigator navigation={this.props.navigation} />
+      </View>
+    );
   }
 }
 
 export default connect(
-  null,
+  ({ location, deals }) => ({
+    loadingMessage: location.loadingMessage || deals.loadingMessage
+  }),
   { getLocationAsync }
 )(AppContainer);
