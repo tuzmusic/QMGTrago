@@ -12,9 +12,9 @@ export default function dealsReducer(
     case "GET_DEALS_START":
       return { ...state, loadingMessage: "Loading Deals..." };
     case "GET_DEALS_SUCCESS":
-      return { ...state, deals: action.deals };
+      return { ...state, deals: action.deals, loadingMessage: "" };
     case "GET_DEALS_FAILURE":
-      return { ...state, error: action.error };
+      return { ...state, error: action.error, loadingMessage: "" };
     default:
       return state;
   }

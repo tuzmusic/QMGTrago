@@ -16,8 +16,8 @@ import { getLocationAsync } from "../redux/actions/locationActions";
 import LoadingIndicator from "../components/LoadingIndicator";
 
 let initialRouteName;
-initialRouteName = "List";
 initialRouteName = "Map";
+initialRouteName = "List";
 
 const MapStack = createStackNavigator({
   MapScreen: {
@@ -83,9 +83,11 @@ type Props = {
 };
 class AppContainer extends Component<Props> {
   static router = TabNavigator.router;
+
   componentDidMount() {
     this.props.getLocationAsync();
   }
+
   render() {
     return (
       <View style={{ flex: 1 }}>
