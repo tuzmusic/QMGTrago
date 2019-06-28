@@ -2,7 +2,7 @@
 import mockDeals from "../../../__mocks__/mockDeals";
 import type Deal from "../../models/Deal";
 
-const initialState: DealState = { deals: mockDeals };
+const initialState: DealState = { deals: mockDeals, isLoading: false };
 
 export default function dealsReducer(
   state: DealState = initialState,
@@ -11,7 +11,7 @@ export default function dealsReducer(
   return state;
 }
 
-type DealState = { deals: { [key: number]: Deal } };
+type DealState = { +deals: { [key: number]: Deal }, +isLoading: boolean };
 type DealAction = {
   type: string,
   payload: Object

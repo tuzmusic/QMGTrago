@@ -1,3 +1,5 @@
+// @flow
+
 import React, { Component } from "react";
 import { View, Text, Platform, TextInput } from "react-native";
 import { Button } from "react-native-elements";
@@ -10,6 +12,9 @@ import {
 import Icon from "react-native-vector-icons/FontAwesome";
 import AutoFillMapSearch from "../subviews/AutoFillMapSearch";
 import DealMarkers from "../subviews/DealMarkers";
+import LoadingIndicator from "../components/LoadingIndicator";
+import type { Location } from "../redux/reducers/locationReducer";
+import type Deal from "../models/Deal";
 
 const CurrentRegionMarker = ({ currentRegion }) => {
   return currentRegion && currentRegion.showMarker ? (
@@ -46,7 +51,21 @@ const GoToMockDealsButton = props => {
   );
 };
 
-class MapScreen extends Component {
+type Props = {
+  currentRegion: ?Location,
+  deals: Deal[],
+  isLoading: boolean,
+  getLocationAsync: () => void,
+  setCurrentRegion: Location => void,
+  navigation: Object
+};
+type State = { region: ?Location };
+
+class MapScreen extends Component<Props, State> {
+  static defaultProps = {
+    isLoading: false
+  };
+
   state = { region: null };
 
   onMarkerPress = deal => {
@@ -68,10 +87,10 @@ class MapScreen extends Component {
   render() {
     return (
       <View style={styles.container}>
-        {/* <LoadingIndicator
+        <LoadingIndicator
           message={"Loading Deals..."}
           isVisible={this.props.isLoading}
-        /> */}
+        />
         <MapView
           style={{ flex: 1 }}
           showsUserLocation={true}
@@ -101,7 +120,8 @@ class MapScreen extends Component {
 export default connect(
   ({ location, deals }) => ({
     currentRegion: location.currentRegion,
-    deals: deals.deals
+    deals: deals.deals,
+    isLoading: location.isLoading || deals.isLoading
   }),
   { getLocationAsync, setCurrentRegion }
 )(MapScreen);

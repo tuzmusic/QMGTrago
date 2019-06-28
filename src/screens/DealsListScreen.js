@@ -30,8 +30,6 @@ class DealsListScreen extends Component<Props> {
   }
 
   render() {
-    console.log("rendering DealsListScreen");
-
     return (
       <ScrollView>
         <FilterInput
