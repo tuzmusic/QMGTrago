@@ -3,7 +3,7 @@ import type { Location } from "../redux/reducers/locationReducer";
 import * as React from "react";
 import { Text, TextInput, View, TouchableOpacity } from "react-native";
 import { Input } from "react-native-elements";
-import { GoogleMapsApiKey } from "../../.secrets";
+import { GoogleMapsApiKey } from "../../secrets";
 import _, { debounce } from "lodash";
 import { connect } from "react-redux";
 import { setCurrentRegion } from "../redux/actions/locationActions";
