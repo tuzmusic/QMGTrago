@@ -15,6 +15,10 @@ export function setCurrentRegion(region: LocationType): LocationAction {
   };
 }
 
+export function setSearchRadius(radius: number) {
+  return { type: "SET_SEARCH_RADIUS", radius };
+}
+
 export function getLocationAsync(): LocationAction {
   return { type: "USER_LOCATION_START" };
 }

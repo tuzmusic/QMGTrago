@@ -25,8 +25,6 @@ const FilterInput = (props: {
           onChangeText={props.onSelectDropdown}
           data={dropDownOptions}
           dropdownPosition={-5.15}
-          // renderBase can use default text, but then you lose the accessory.
-          // Original accessory uses styles, check out the module's index.js, search for "renderAccessory() {"
         />
       </View>
     </View>
