@@ -6,20 +6,31 @@ import { View, TouchableOpacity, Text } from "react-native";
 import { connect } from "react-redux";
 import HTML from "react-native-render-html";
 import CellTextRow from "../subviews/CellTextRow";
+import pluralize from "pluralize";
 
 type Props = {
   deal: Deal,
   onTextPress: () => mixed,
   location: Location,
-  containerStyle: { [key: string]: {} }
+  containerStyle: { [key: string]: {} },
+  showDistance: boolean
 };
 
 const DealCellView = (props: Props) => {
   const deal = props.deal;
+  const distanceString = props.location
+    ? pluralize("mile", deal.distanceFromLocation(props.location), true) +
+      " away"
+    : "";
   return (
     <TouchableOpacity style={styles.cellContainer} onPress={props.onTextPress}>
       <View style={styles.leftSection}>
-        <CellTextRow style={text.title}>{deal.name}</CellTextRow>
+        <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
+          <CellTextRow style={text.title}>{deal.name}</CellTextRow>
+          {props.showDistance && (
+            <CellTextRow style={text.distance}>{distanceString}</CellTextRow>
+          )}
+        </View>
         <CellTextRow>
           <HTML html={deal.descriptionWithStyle(text.html)} />
         </CellTextRow>

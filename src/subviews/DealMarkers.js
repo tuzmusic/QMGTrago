@@ -36,14 +36,7 @@ const DealMarkers = (props: Props) => {
           onPress={props.onCalloutPress.bind(null, deal)}
           style={styles.callout}
         >
-          {deal.photoUrls.length && (
-            <Image
-              style={[styles.image, { resizeMode: "cover" }]}
-              source={{ uri: deal.photoUrls[0] }}
-              // PlaceholderContent={Spinner}
-            />
-          )}
-          <DealCellView deal={deal} />
+          <DealCellView deal={deal} showDistance={false} />
           <CellTextRow style={text.distance}>{distanceString}</CellTextRow>
         </Callout>
       </Marker>

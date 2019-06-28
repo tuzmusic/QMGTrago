@@ -40,6 +40,7 @@ const DealsList = (props: Props) => {
               deal={item}
               navigation={props.navigation}
               onTextPress={() => props.onTextPress(item)}
+              showDistance={true}
             />
           )}
           style={{ marginLeft: 5, marginRight: 5 }}
