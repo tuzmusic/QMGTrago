@@ -4,12 +4,14 @@ import type Deal from "../models/Deal";
 import React, { Component } from "react";
 import { Marker, Callout } from "react-native-maps";
 import { View, Button, Text, Platform, TextInput } from "react-native";
+import { Image } from "react-native-elements";
+
 import DealCellView from "../subviews/DealCellView";
+
 import CellTextRow from "./CellTextRow";
 import { connect } from "react-redux";
 import { setCurrentRegion } from "../redux/actions/locationActions";
 import pluralize from "pluralize";
-
 type Props = {
   deals: { [key: string]: Deal },
   onMarkerPress: Deal => void,
@@ -34,6 +36,13 @@ const DealMarkers = (props: Props) => {
           onPress={props.onCalloutPress.bind(null, deal)}
           style={styles.callout}
         >
+          {deal.photoUrls.length && (
+            <Image
+              style={[styles.image, { resizeMode: "cover" }]}
+              source={{ uri: deal.photoUrls[0] }}
+              // PlaceholderContent={Spinner}
+            />
+          )}
           <DealCellView deal={deal} />
           <CellTextRow style={text.distance}>{distanceString}</CellTextRow>
         </Callout>
@@ -92,5 +101,9 @@ const styles = {
   imageContainer: {
     flex: 2,
     padding: 7
+  },
+  image: {
+    height: 100,
+    width: 100
   }
 };

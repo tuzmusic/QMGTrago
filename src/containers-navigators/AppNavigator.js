@@ -13,7 +13,7 @@ import DealDetailScreen from "../screens/DealDetailScreen";
 import TabBarIcon from "../components/TabBarIcon";
 import { getLocationAsync } from "../redux/actions/locationActions";
 
-const initialRouteName = "List";
+const initialRouteName = "Map";
 
 const MapStack = createStackNavigator({
   MapScreen: {
