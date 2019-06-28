@@ -88,7 +88,7 @@ class AppContainer extends Component<Props> {
   static router = TabNavigator.router;
 
   componentDidMount() {
-    this.props.getLocationAsync();
+    // this.props.getLocationAsync();
   }
 
   render() {
@@ -102,8 +102,9 @@ class AppContainer extends Component<Props> {
 }
 
 export default connect(
-  ({ location, deals }) => ({
-    loadingMessage: location.loadingMessage || deals.loadingMessage
+  ({ location, deals, auth }) => ({
+    loadingMessage:
+      auth.loadingMessage || location.loadingMessage || deals.loadingMessage
   }),
   { getLocationAsync }
 )(AppContainer);

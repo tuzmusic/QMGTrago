@@ -7,7 +7,7 @@ import type { Saga } from "redux-saga";
 import Sugar from "sugar";
 Sugar.extend();
 
-type AuthParams = { email?: string, username: string, password: string };
+export type AuthParams = { email?: string, username: string, password: string };
 export async function registerWithApi({
   email,
   username,

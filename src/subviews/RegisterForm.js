@@ -5,12 +5,14 @@ import { connect } from "react-redux";
 
 class RegisterForm extends Component {
   state = {
-    // username: "testuser1",
-    // email: "123123",
     username: "",
     email: "",
     password: "",
-    passwordConfirmation: ""
+    passwordConfirmation: "",
+    username: "testuser1",
+    email: "api1@trago.com",
+    password: "123123",
+    passwordConfirmation: "123123"
   };
 
   render() {

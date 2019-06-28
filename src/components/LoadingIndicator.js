@@ -6,21 +6,25 @@ import { DotIndicator } from "react-native-indicators";
 
 type Props = { isVisible?: boolean, message: string };
 
-const LoadingIndicator = ({ isVisible, message }: Props) => (
-  <Overlay
-    containerStyle={styles.modal}
-    height={200}
-    isVisible={!!message}
-    style={styles.modal}
-    borderRadius={20}
-    overlayBackgroundColor={"lightblue"}
-  >
-    <View style={styles.modalContainer}>
-      <DotIndicator color={"darkgrey"} />
-      <Text>{message}</Text>
-    </View>
-  </Overlay>
-);
+const LoadingIndicator = ({ isVisible, message }: Props) => {
+  console.log("message:", message);
+
+  return (
+    <Overlay
+      containerStyle={styles.modal}
+      height={200}
+      isVisible={!!message}
+      style={styles.modal}
+      borderRadius={20}
+      overlayBackgroundColor={"lightblue"}
+    >
+      <View style={styles.modalContainer}>
+        <DotIndicator color={"darkgrey"} />
+        <Text>{message}</Text>
+      </View>
+    </Overlay>
+  );
+};
 
 export default LoadingIndicator;
 

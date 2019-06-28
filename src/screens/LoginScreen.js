@@ -1,3 +1,4 @@
+// @flow
 import React, { Component } from "react";
 import { Image, Overlay } from "react-native-elements";
 import { View, Text, TouchableOpacity, AsyncStorage } from "react-native";
@@ -9,12 +10,27 @@ import {
   cancelLogin,
   clearAuthError
 } from "../redux/actions/authActions";
+import { getLocationAsync } from "../redux/actions/locationActions";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scrollview";
 import LoginForm from "../subviews/LoginForm";
 import RegisterForm from "../subviews/RegisterForm";
 import { validate } from "email-validator";
-
-class LoginView extends Component {
+import type { AuthParams } from "../redux/actions/authActions";
+type State = {
+  loggingIn: boolean,
+  registering: boolean,
+  errors: string[]
+};
+type Props = {
+  clearAuthError: () => void,
+  login: AuthParams => void,
+  register: AuthParams => void,
+  navigation: Object,
+  error: string,
+  isLoading: boolean,
+  getLocationAsync: () => void
+};
+class LoginView extends Component<Props, State> {
   state = {
     loggingIn: true,
     registering: false,
@@ -32,7 +48,7 @@ class LoginView extends Component {
     // automate();
   }
 
-  async handleLogin({ username, password }) {
+  async handleLogin({ username, password }: AuthParams) {
     let errors = [];
     if (!username) errors.push("Username required");
     if (!password) errors.push("Password required");
@@ -42,7 +58,7 @@ class LoginView extends Component {
       return this.setState({ errors });
     }
 
-    let creds = { password };
+    let creds: AuthParams = { password, username: "" };
     if (username.includes("@")) {
       creds.email = username;
     } else {
@@ -69,7 +85,7 @@ class LoginView extends Component {
     await this.props.register({ username, email, password });
   }
 
-  async componentWillReceiveProps(newProps) {
+  async componentWillReceiveProps(newProps: Object) {
     if (newProps.user) {
       try {
         // await AsyncStorage.setItem(
@@ -83,8 +99,10 @@ class LoginView extends Component {
       } catch (error) {
         console.warn("Couldn't write user to storage.", error);
       }
-
-      this.props.navigation.navigate("Main");
+      await setTimeout(() => {
+        this.props.navigation.navigate("Main");
+        this.props.getLocationAsync();
+      }, 2000);
     }
   }
 
@@ -101,24 +119,6 @@ class LoginView extends Component {
     return (
       <KeyboardAwareScrollView contentContainerStyle={styles.superContainer}>
         <View style={styles.container}>
-          <Overlay
-            containerStyle={styles.modal}
-            height={200}
-            width={200}
-            isVisible={this.props.isLoading}
-            style={styles.modal}
-            borderRadius={20}
-            overlayBackgroundColor={"lightblue"}
-          >
-            <View style={styles.modalContainer}>
-              <DotIndicator color={"darkgrey"} />
-              <Text>Logging in...</Text>
-              {/* <Text></Text>
-              <TouchableOpacity onPress={this.props.cancelLogin}>
-                <Text style={[styles.link]}>Cancel</Text>
-              </TouchableOpacity> */}
-            </View>
-          </Overlay>
           {/*  <Image
             source={require("../../assets/images/proz-reviews-logo.png")}
             style={styles.image}
@@ -158,7 +158,7 @@ export default connect(
     user: state.auth.user,
     error: state.auth.error
   }),
-  { login, register, cancelLogin, clearAuthError }
+  { login, register, cancelLogin, clearAuthError, getLocationAsync }
 )(LoginView);
 
 const styles = {
