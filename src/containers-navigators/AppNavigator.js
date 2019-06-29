@@ -14,6 +14,8 @@ import DealDetailScreen from "../screens/DealDetailScreen";
 import TabBarIcon from "../components/TabBarIcon";
 import { getLocationAsync } from "../redux/actions/locationActions";
 import LoadingIndicator from "../components/LoadingIndicator";
+import LoginScreen from "../screens/LoginScreen";
+import AuthNavigator from "./AuthNavigator";
 
 let initialRouteName;
 initialRouteName = "Map";
@@ -71,6 +73,7 @@ const TabNavigator = createBottomTabNavigator(
 );
 
 const SwitchNavigator = createSwitchNavigator({
+  Auth: AuthNavigator,
   Main: TabNavigator
 });
 
@@ -85,7 +88,7 @@ class AppContainer extends Component<Props> {
   static router = TabNavigator.router;
 
   componentDidMount() {
-    this.props.getLocationAsync();
+    // this.props.getLocationAsync();
   }
 
   render() {
@@ -99,8 +102,9 @@ class AppContainer extends Component<Props> {
 }
 
 export default connect(
-  ({ location, deals }) => ({
-    loadingMessage: location.loadingMessage || deals.loadingMessage
+  ({ location, deals, auth }) => ({
+    loadingMessage:
+      auth.loadingMessage || location.loadingMessage || deals.loadingMessage
   }),
   { getLocationAsync }
 )(AppContainer);
