@@ -64,9 +64,8 @@ export class AutoFillMapSearch extends React.Component<Props, State> {
     this.setState({ address: prediction.description, showPredictions: false });
     const url = `https://maps.googleapis.com/maps/api/place/details/json?key=${GoogleMapsApiKey}&placeid=${prediction.place_id}&fields=geometry`;
     try {
-      const result = await fetch(url);
-      const json = await result.json();
-      const location = json.result.geometry.location;
+      const { data, error_message } = await axios.get(url);
+      const location = data.result.geometry.location;
       console.log(location);
 
       this.props.setCurrentRegion({
