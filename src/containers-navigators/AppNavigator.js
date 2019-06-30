@@ -18,8 +18,8 @@ import LoginScreen from "../screens/LoginScreen";
 import AuthNavigator from "./AuthNavigator";
 
 let initialRouteName;
-initialRouteName = "Map";
 initialRouteName = "List";
+initialRouteName = "Map";
 
 const MapStack = createStackNavigator({
   MapScreen: {
@@ -73,7 +73,7 @@ const TabNavigator = createBottomTabNavigator(
 );
 
 const SwitchNavigator = createSwitchNavigator({
-  Auth: AuthNavigator,
+  // Auth: AuthNavigator,
   Main: TabNavigator
 });
 

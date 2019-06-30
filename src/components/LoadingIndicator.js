@@ -7,7 +7,7 @@ import { DotIndicator } from "react-native-indicators";
 type Props = { isVisible?: boolean, message: string };
 
 const LoadingIndicator = ({ isVisible, message }: Props) => {
-  console.log("message:", message);
+  // console.log("message:", message);
 
   return (
     <Overlay

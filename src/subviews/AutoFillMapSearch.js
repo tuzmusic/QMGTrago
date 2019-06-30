@@ -7,8 +7,9 @@ import { GoogleMapsApiKey } from "../../secrets";
 import _, { debounce } from "lodash";
 import { connect } from "react-redux";
 import { setCurrentRegion } from "../redux/actions/locationActions";
+import axios from "axios";
+import type { AxiosPromise, $AxiosXHR } from "axios";
 
-// #region TYPES
 type State = {
   address: string,
   addressPredictions: [],
@@ -20,7 +21,6 @@ type Props = {
   style: { [key: string]: {} },
   beforeOnPress: () => void
 };
-// #endregion
 
 export class AutoFillMapSearch extends React.Component<Props, State> {
   automate() {
@@ -29,7 +29,7 @@ export class AutoFillMapSearch extends React.Component<Props, State> {
     }, 800);
   }
   componentDidMount = () => {
-    // this.automate();
+    this.automate();
   };
 
   textInput: ?TextInput;
@@ -41,11 +41,10 @@ export class AutoFillMapSearch extends React.Component<Props, State> {
   async handleAddressChange() {
     const url = `https://maps.googleapis.com/maps/api/place/autocomplete/json?key=${GoogleMapsApiKey}&input=${this.state.address}`;
     try {
-      const result = await fetch(url);
-      const json = await result.json();
-      if (json.error_message) throw Error(json.error_message);
+      const { data, error_message } = await axios.get(url);
+      if (error_message) throw Error(error_message);
       this.setState({
-        addressPredictions: json.predictions,
+        addressPredictions: data.predictions,
         showPredictions: true
       });
     } catch (err) {
