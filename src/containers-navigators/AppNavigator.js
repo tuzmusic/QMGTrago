@@ -16,6 +16,7 @@ import { getLocationAsync } from "../redux/actions/locationActions";
 import LoadingIndicator from "../components/LoadingIndicator";
 import LoginScreen from "../screens/LoginScreen";
 import AuthNavigator from "./AuthNavigator";
+import axios from "axios";
 
 let initialRouteName;
 initialRouteName = "List";
@@ -84,11 +85,14 @@ type Props = {
   getLocationAsync: () => void,
   loadingMessage: string
 };
+
+import { getProductsApi } from "../redux/actions/dealActions";
 class AppContainer extends Component<Props> {
   static router = TabNavigator.router;
 
   componentDidMount() {
-    // this.props.getLocationAsync();
+    getProductsApi();
+    getLocationAsync();
   }
 
   render() {

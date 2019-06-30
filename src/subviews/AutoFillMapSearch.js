@@ -41,10 +41,13 @@ export class AutoFillMapSearch extends React.Component<Props, State> {
   async handleAddressChange() {
     const url = `https://maps.googleapis.com/maps/api/place/autocomplete/json?key=${GoogleMapsApiKey}&input=${this.state.address}`;
     try {
-      const { data, error_message } = await axios.get(url);
+      const res = await fetch(url);
+      const { predictions, error_message } = await res.json();
+      // Axios is commented out until I can figure out how to get my axios-mock-adapter to let other things through
+      // const { data, error_message } = await axios.get(url);
       if (error_message) throw Error(error_message);
       this.setState({
-        addressPredictions: data.predictions,
+        addressPredictions: predictions || data.predictions,
         showPredictions: true
       });
     } catch (err) {
@@ -64,8 +67,12 @@ export class AutoFillMapSearch extends React.Component<Props, State> {
     this.setState({ address: prediction.description, showPredictions: false });
     const url = `https://maps.googleapis.com/maps/api/place/details/json?key=${GoogleMapsApiKey}&placeid=${prediction.place_id}&fields=geometry`;
     try {
-      const { data, error_message } = await axios.get(url);
-      const location = data.result.geometry.location;
+      const res = await fetch(url);
+      const { result, error_message } = await res.json();
+      // Axios is commented out until I can figure out how to get my axios-mock-adapter to let other things through
+      // const { data, error_message } = await axios.get(url);
+      const location =
+        result.geometry.location || data.result.geometry.location;
       console.log(location);
 
       this.props.setCurrentRegion({
