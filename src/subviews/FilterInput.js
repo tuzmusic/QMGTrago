@@ -14,7 +14,9 @@ const FilterInput = (props: {
     value: num,
     label: pluralize("mile", num, true)
   }));
+
   dropDownOptions.push({ value: 1e100, label: "∞ miles" });
+
   return (
     <View style={styles.filterContainerLine1}>
       <Text style={{ fontSize: 17 }}>Show deals within: </Text>

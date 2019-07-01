@@ -86,12 +86,10 @@ type Props = {
   loadingMessage: string
 };
 
-import { getProductsApi } from "../redux/actions/dealActions";
 class AppContainer extends Component<Props> {
   static router = TabNavigator.router;
 
   componentDidMount() {
-    getProductsApi();
     this.props.getLocationAsync();
   }
 
