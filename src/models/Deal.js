@@ -52,15 +52,15 @@ export default class Deal {
     // console.log(obj);
 
     // console.log("id", obj.id);
-    // this.id = obj.id;
-    // this.name = obj.name;
-    // this.headline = obj.headline;
-    // this.fullPrice = obj.fullPrice;
-    // this.salePrice = obj.salePrice;
-    // this.photoUrls = obj.photoUrls;
-    // this.description = obj.description;
-    // this.address = obj.address;
-    // this.location = obj.location;
+    this.id = obj.id;
+    this.name = obj.name;
+    this.headline = obj.headline;
+    this.fullPrice = obj.fullPrice;
+    this.salePrice = obj.salePrice;
+    this.photoUrls = obj.photoUrls;
+    this.description = obj.description;
+    this.address = obj.address;
+    this.location = obj.location;
     // this.reviews = obj.reviews;
   }
 

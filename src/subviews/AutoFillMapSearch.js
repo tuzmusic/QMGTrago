@@ -29,7 +29,7 @@ export class AutoFillMapSearch extends React.Component<Props, State> {
     }, 800);
   }
   componentDidMount = () => {
-    this.automate();
+    // this.automate();
   };
 
   textInput: ?TextInput;

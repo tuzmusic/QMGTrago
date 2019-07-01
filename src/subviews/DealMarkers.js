@@ -20,6 +20,7 @@ type Props = {
 };
 
 const DealMarkers = (props: Props) => {
+  // return null;
   return Object.keys(props.deals).map<Marker>((key: string) => {
     const deal = props.deals[key];
     const distanceString = props.location
