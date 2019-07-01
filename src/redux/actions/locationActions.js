@@ -20,6 +20,7 @@ export function setSearchRadius(radius: number) {
 }
 
 export function getLocationAsync(): LocationAction {
+  debugger;
   return { type: "USER_LOCATION_START" };
 }
 

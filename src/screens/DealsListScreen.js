@@ -36,7 +36,7 @@ class DealsListScreen extends Component<Props> {
           onSelectDropdown={this.onSelectSearchRadius.bind(this)}
           startingValue={this.props.searchRadius}
         />
-        {this.props.location && ( // WILL WAIT FOR LOADING
+        {this.props.location && (
           <DealsListContainer
             deals={this.props.deals
               .filter(withinSearchRadius.bind(this))

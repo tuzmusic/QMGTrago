@@ -19,8 +19,8 @@ import AuthNavigator from "./AuthNavigator";
 import axios from "axios";
 
 let initialRouteName;
-initialRouteName = "List";
 initialRouteName = "Map";
+initialRouteName = "List";
 
 const MapStack = createStackNavigator({
   MapScreen: {
@@ -92,7 +92,7 @@ class AppContainer extends Component<Props> {
 
   componentDidMount() {
     getProductsApi();
-    getLocationAsync();
+    this.props.getLocationAsync();
   }
 
   render() {
