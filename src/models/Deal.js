@@ -1,10 +1,20 @@
 // @flow
 import type { Location } from "../redux/reducers/locationReducer";
 type unitOfDistance = "mi" | "km" | "nm";
-
+type Info = { id: number, name: string, slug: string };
+type ImageInfo = {
+  id: number,
+  date_created: string,
+  date_modified: string,
+  src: string,
+  name: string,
+  alt: string
+};
 export default class Deal {
   id: number;
   name: string;
+  slug: string;
+  permalink: string;
   headline: string;
   fullPrice: number;
   salePrice: number;
@@ -14,7 +24,32 @@ export default class Deal {
   location: Location;
   // reviews: Review[]
 
-  constructor(obj: Object) {
+  dateCreated: string;
+  dateModified: string;
+  status: string;
+  featured: boolean;
+  catalogVisibility: string;
+  descriptionHTML: string;
+  shortDescriptionHTML: string;
+  price: number;
+  regularPrice: number;
+  salePrice: number;
+  dateOnSaleFrom: null;
+  dateOnSaleTo: null;
+  onSale: boolean;
+  purchasable: boolean;
+  relatedIds: number[];
+  upsellIds: number[];
+  crossSellIds: number[];
+  categories: Info[];
+  tags: Info[];
+  images: ImageInfo[];
+
+  constructor(obj?: Object) {
+    if (!obj) return;
+    console.log(obj);
+
+    console.log("id", obj.id);
     this.id = obj.id;
     this.name = obj.name;
     this.headline = obj.headline;
@@ -25,6 +60,35 @@ export default class Deal {
     this.address = obj.address;
     this.location = obj.location;
     // this.reviews = obj.reviews
+  }
+
+  static fromApi(obj: Object): Deal {
+    const deal = new Deal();
+    deal.id = obj.id;
+    deal.name = obj.name;
+    deal.slug = obj.slug;
+    deal.permalink = obj.permalink;
+    deal.dateCreated = obj.date_created;
+    deal.dateModified = obj.date_modified;
+    deal.status = obj.status;
+    deal.featured = obj.featured;
+    deal.catalogVisibility = obj.catalog_visibility;
+    deal.descriptionHTML = obj.description;
+    deal.shortDescriptionHTML = obj.shortDescription;
+    deal.price = Number(obj.price);
+    deal.regularPrice = Number(obj.regular_price);
+    deal.salePrice = Number(obj.sale_price);
+    deal.dateOnSaleFrom = obj.date_on_sale_from;
+    deal.dateOnSaleTo = obj.date_on_sale_to;
+    deal.onSale = obj.on_sale;
+    deal.purchasable = obj.purchasable;
+    deal.relatedIds = obj.related_ids;
+    deal.upsellIds = obj.upsell_ids;
+    deal.crossSellIds = obj.cross_sell_ids;
+    deal.categories = obj.categories;
+    deal.tags = obj.tags;
+    deal.images = obj.images;
+    return deal;
   }
 
   descriptionWithTextSize(size: number): string {
@@ -45,10 +109,6 @@ export default class Deal {
   distanceFrom = (otherDeal: Deal, unit: unitOfDistance = "mi"): number => {
     return distanceBetween(this.location, otherDeal.location);
   };
-
-  static fromApi(json: Object): Deal {
-    return new Deal(json);
-  }
 
   static toApi(deal: Deal): Object {
     return { ...deal };
