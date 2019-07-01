@@ -1,4 +1,3 @@
-// @flow
 import Deal from "../src/models/Deal";
 import apiProducts from "../__mocks__/api/products";
 
@@ -6,7 +5,9 @@ describe("Deal", () => {
   describe("Deal.fromApi", () => {
     it("takes an api product and returns a Deal", () => {
       const apiDeal = apiProducts[0];
-      expect(Deal.fromApi(apiDeal)).toEqual(expectedDeal());
+      const newDeal = Deal.fromApi(apiDeal);
+      const expected = expectedDeal();
+      expect(newDeal).toEqual(expected);
     });
   });
 });
@@ -23,7 +24,7 @@ function expectedDeal(): Deal {
   deal.featured = false;
   deal.catalogVisibility = "visible";
   deal.descriptionHTML =
-    "<p>Pete's Tavern<br />\n129 E 18th St<br />\nNew York, NY 10003</p>\n<p>Weekdaysfrom 4 p.m. to 7 p.m.<br />\n$5 wines and beers</p>\n";
+    "<p>Pete's Tavern<br />\n129 E 18th St<br />\nNew York, NY 10003</p>\n<p>Weekdays from 4 p.m. to 7 p.m.<br />\n$5 wines and beers</p>\n";
   deal.shortDescriptionHTML = "<p>$5 wines and beers</p>\n";
   deal.price = 5;
   deal.regularPrice = 11;
@@ -68,7 +69,9 @@ function expectedDeal(): Deal {
     {
       id: 567,
       date_created: "2019-05-18T17:38:52",
+      date_created_gmt: "2019-05-18T17:38:52",
       date_modified: "2019-05-18T17:38:52",
+      date_modified_gmt: "2019-05-18T17:38:52",
       src:
         "https://tragodeals.com/wp-content/uploads/2019/05/wine-and-beers2.jpg",
       name: "wine and beers2",

@@ -5,7 +5,9 @@ type Info = { id: number, name: string, slug: string };
 type ImageInfo = {
   id: number,
   date_created: string,
+  date_created_gmt: string,
   date_modified: string,
+  date_modified_gmt: string,
   src: string,
   name: string,
   alt: string
@@ -45,22 +47,7 @@ export default class Deal {
   tags: Info[];
   images: ImageInfo[];
 
-  constructor(obj?: Object) {
-    if (!obj) return;
-    console.log(obj);
-
-    console.log("id", obj.id);
-    this.id = obj.id;
-    this.name = obj.name;
-    this.headline = obj.headline;
-    this.fullPrice = obj.fullPrice;
-    this.salePrice = obj.salePrice;
-    this.photoUrls = obj.photoUrls;
-    this.description = obj.description;
-    this.address = obj.address;
-    this.location = obj.location;
-    // this.reviews = obj.reviews
-  }
+  // No constructor needed because we're only ever creating a Deal using Deal.fromApi
 
   static fromApi(obj: Object): Deal {
     const deal = new Deal();
@@ -74,7 +61,7 @@ export default class Deal {
     deal.featured = obj.featured;
     deal.catalogVisibility = obj.catalog_visibility;
     deal.descriptionHTML = obj.description;
-    deal.shortDescriptionHTML = obj.shortDescription;
+    deal.shortDescriptionHTML = obj.short_description;
     deal.price = Number(obj.price);
     deal.regularPrice = Number(obj.regular_price);
     deal.salePrice = Number(obj.sale_price);
