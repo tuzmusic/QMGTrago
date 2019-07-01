@@ -7,6 +7,11 @@ describe("Deal", () => {
       const apiDeal = apiProducts[0];
       const newDeal = Deal.fromApi(apiDeal);
       const expected = expectedDeal();
+      for (let key in expected) {
+        if (typeof key !== String) return;
+        console.log("key:", newDeal[key], expected[key]);
+        expect(newDeal[key]).toEqual(expected[key]);
+      }
       expect(newDeal).toEqual(expected);
     });
   });
