@@ -17,6 +17,19 @@ describe("Deal", () => {
   });
 });
 
+import { setupMockAdapter } from "../__mocks__/axiosMocks";
+import axios from "axios";
+import { ApiUrls } from "../src/constants/constants";
+
+describe("Deals api mock", () => {
+  it("should return the mock deals", async () => {
+    setupMockAdapter({ deals: true });
+    expect((await axios.get(ApiUrls.getProductsAuthorized)).data).toEqual(
+      apiProducts
+    );
+  });
+});
+
 function expectedDeal(): Deal {
   const deal = new Deal();
   deal.id = 566;

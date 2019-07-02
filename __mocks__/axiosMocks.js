@@ -1,10 +1,24 @@
 import axios from "axios";
 import MockAdapter from "axios-mock-adapter";
-import { ApiUrls } from "../../src/constants/constants";
-import { loginResponse, registerResponse, registration } from "./authResponses";
+import { ApiUrls } from "../src/constants/constants";
+import {
+  loginResponse,
+  registerResponse,
+  registration
+} from "./auth/authResponses";
+import mockProducts from "./api/products";
 
-export function setupAuthMockAdapter() {
+export function setupMockAdapter({ deals = false, auth = false }) {
   let mock = new MockAdapter(axios);
+  if (deals) setupDealsMockAdapter(mock);
+  if (auth) setupAuthMockAdapter(mock);
+}
+
+export function setupDealsMockAdapter(mock) {
+  mock.onGet(ApiUrls.getProductsAuthorized).reply(200, mockProducts);
+}
+
+export function setupAuthMockAdapter(mock) {
   mock
     // register
     .onGet(ApiUrls.nonce)

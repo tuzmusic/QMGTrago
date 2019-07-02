@@ -14,7 +14,7 @@ import createSagaMiddleware from "redux-saga";
 import locationSaga from "./src/redux/actions/locationActions";
 import authSaga from "./src/redux/actions/authActions";
 import type { Saga } from "redux-saga";
-import { setupAuthMockAdapter } from "./__mocks__/auth/axiosMocks";
+import { setupMockAdapter } from "./__mocks__/axiosMocks";
 
 const combinedReducer = combineReducers({
   deals: dealsReducer,
@@ -30,7 +30,7 @@ function* rootSaga(): Saga<void> {
 const sagaMiddleware = createSagaMiddleware();
 const store = createStore(combinedReducer, {}, applyMiddleware(sagaMiddleware));
 sagaMiddleware.run(rootSaga);
-// setupAuthMockAdapter();
+setupMockAdapter({ deals: true, auth: true });
 
 export default function App() {
   return (
