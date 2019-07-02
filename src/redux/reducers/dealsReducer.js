@@ -2,7 +2,11 @@
 import mockDeals from "../../../__mocks__/mockDeals";
 import type Deal from "../../models/Deal";
 
-const initialState: DealState = { deals: mockDeals, loadingMessage: "" };
+const initialState: DealState = {
+  deals: mockDeals,
+  loadingMessage: "",
+  error: null
+};
 
 export default function dealsReducer(
   state: DealState = initialState,
@@ -20,8 +24,13 @@ export default function dealsReducer(
   }
 }
 
-type DealState = { +deals: { [key: number]: Deal }, +loadingMessage: string };
-type DealAction =
+export type DealState = {
+  +deals: DealCollection,
+  +loadingMessage: string,
+  +error: ?string
+};
+export type DealCollection = { [number]: Deal };
+export type DealAction =
   | { type: "GET_DEALS_START" }
-  | { type: "GET_DEALS_SUCCESS", deals: { [key: number]: Deal } }
+  | { type: "GET_DEALS_SUCCESS", deals: DealCollection }
   | { type: "GET_DEALS_FAILURE", error: string };

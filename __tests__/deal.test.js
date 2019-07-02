@@ -12,7 +12,7 @@ describe("Deal", () => {
         if (typeof expected[key] === "function") continue;
         expect(expected[key]).toEqual(newDeal[key]);
       }
-      expect(newDeal).toMatchObject(expected);
+      // expect(newDeal).toMatchObject(expected);
     });
   });
 });

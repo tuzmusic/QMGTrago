@@ -1,5 +1,6 @@
 // @flow
 import type { Location } from "../redux/reducers/locationReducer";
+import type { DealCollection } from "../redux/reducers/dealsReducer";
 type unitOfDistance = "mi" | "km" | "nm";
 type Info = { id: number, name: string, slug: string };
 type ImageInfo = {
@@ -117,6 +118,12 @@ export default class Deal {
 
   static toApi(deal: Deal): Object {
     return { ...deal };
+  }
+
+  static collectionFromArray(array: Object[]) {
+    const deals: DealCollection = {};
+    array.forEach(p => (deals[p.id] = Deal.fromApi(p)));
+    return deals;
   }
 }
 
