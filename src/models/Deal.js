@@ -22,6 +22,7 @@ export default class Deal {
   salePrice: number;
   photoUrls: string[];
   description: string; // almost definitely HTML
+  venue: string;
   address: string;
   location: Location;
   // reviews: Review[]
@@ -75,6 +76,8 @@ export default class Deal {
     deal.status = obj.status;
     deal.featured = obj.featured;
     deal.catalogVisibility = obj.catalog_visibility;
+    deal.venue = obj.venue_fake_api;
+    deal.address = obj.address_fake_api;
     deal.descriptionHTML = obj.description;
     deal.shortDescriptionHTML = obj.short_description;
     deal.price = Number(obj.price);

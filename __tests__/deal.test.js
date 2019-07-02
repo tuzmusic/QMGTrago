@@ -7,12 +7,12 @@ describe("Deal", () => {
       const apiDeal = apiProducts[0];
       const newDeal = Deal.fromApi(apiDeal);
       const expected = expectedDeal();
+
       for (let key in expected) {
-        if (typeof key !== String) return;
-        console.log("key:", newDeal[key], expected[key]);
-        expect(newDeal[key]).toEqual(expected[key]);
+        if (typeof expected[key] === "function") continue;
+        expect(expected[key]).toEqual(newDeal[key]);
       }
-      expect(newDeal).toEqual(expected);
+      expect(newDeal).toMatchObject(expected);
     });
   });
 });
@@ -41,6 +41,8 @@ function expectedDeal(): Deal {
   deal.status = "publish";
   deal.featured = false;
   deal.catalogVisibility = "visible";
+  deal.venue = "Pete's Tavern";
+  deal.address = "129 E 18th St New York, NY 10003";
   deal.descriptionHTML =
     "<p>Pete's Tavern<br />\n129 E 18th St<br />\nNew York, NY 10003</p>\n<p>Weekdays from 4 p.m. to 7 p.m.<br />\n$5 wines and beers</p>\n";
   deal.shortDescriptionHTML = "<p>$5 wines and beers</p>\n";
