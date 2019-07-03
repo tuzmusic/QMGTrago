@@ -101,7 +101,6 @@ class LoginView extends Component<Props, State> {
       }
       await setTimeout(() => {
         this.props.navigation.navigate("Main");
-        this.props.getLocationAsync();
       }, 2000);
     }
   }

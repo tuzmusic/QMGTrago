@@ -18,10 +18,11 @@ type Props = {
 
 const DealCellView = (props: Props) => {
   const deal = props.deal;
-  const distanceString = props.location
-    ? pluralize("mile", deal.distanceFromLocation(props.location), true) +
-      " away"
-    : "";
+  const distanceString =
+    props.location && deal.location
+      ? pluralize("mile", deal.distanceFromLocation(props.location), true) +
+        " away"
+      : "";
   return (
     <TouchableOpacity style={styles.cellContainer} onPress={props.onTextPress}>
       <View style={styles.leftSection}>

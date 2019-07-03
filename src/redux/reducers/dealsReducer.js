@@ -4,6 +4,7 @@ import type Deal from "../../models/Deal";
 
 const initialState: DealState = {
   deals: mockDeals,
+  deals: {},
   loadingMessage: "",
   error: null
 };

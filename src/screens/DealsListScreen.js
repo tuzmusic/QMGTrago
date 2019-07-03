@@ -57,6 +57,7 @@ class DealsListScreen extends Component<Props> {
 }
 
 function closestFirst(a: Deal, b: Deal): number {
+  if (!a.location || !b.location) return 0;
   return a.distanceFromLocation(this.props.location) >
     b.distanceFromLocation(this.props.location)
     ? 1
@@ -64,6 +65,7 @@ function closestFirst(a: Deal, b: Deal): number {
 }
 
 function withinSearchRadius(deal: Deal): boolean {
+  if (!deal.location) return true;
   return (
     deal.distanceFromLocation(this.props.location) <= this.props.searchRadius
   );
