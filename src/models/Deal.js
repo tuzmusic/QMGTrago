@@ -94,6 +94,13 @@ export default class Deal {
     deal.categories = obj.categories;
     deal.tags = obj.tags;
     deal.images = obj.images;
+
+    deal.address = obj.meta_data
+      .find(o => {
+        return o.key === "unit_product";
+      })
+      .value.trim();
+
     return deal;
   }
 

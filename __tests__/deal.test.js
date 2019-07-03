@@ -7,9 +7,9 @@ describe("Deal", () => {
       const apiDeal = apiProducts[0];
       const newDeal = Deal.fromApi(apiDeal);
       const expected = expectedDeal();
-
       for (let key in expected) {
         if (typeof expected[key] === "function") continue;
+        if (expected[key] !== newDeal[key]) console.log("failure at key:", key);
         expect(expected[key]).toEqual(newDeal[key]);
       }
       // expect(newDeal).toMatchObject(expected);
@@ -32,6 +32,8 @@ describe("Deals api mock", () => {
 
 function expectedDeal(): Deal {
   const deal = new Deal();
+  /*  
+ // #region old api
   deal.id = 566;
   deal.name = "Wines and beers";
   deal.slug = "wines-and-beers";
@@ -98,6 +100,63 @@ function expectedDeal(): Deal {
       alt: ""
     }
   ];
+  // #endregion
+   */
+  // #region new api
+  deal.id = 2132;
+  deal.name = "The Mermaid Inn - Cocktails";
+  deal.slug = "the-mermaid-inn-cocktails";
+  deal.permalink = "https://tragodeals.com/product/the-mermaid-inn-cocktails/";
+  deal.address = "570 Amsterdam Ave New York, NY 10024";
+  deal.dateCreated = "2019-07-02T20:34:21";
+  deal.dateModified = "2019-07-02T21:45:25";
+  deal.status = "publish";
+  deal.featured = false;
+  deal.catalogVisibility = "visible";
+  deal.shortDescriptionHTML =
+    "<p>Cocktails &#8211; From 5 p.m. to 7 p.m.</p>\n";
+  deal.price = 8.5;
+  deal.regularPrice = 25;
+  deal.salePrice = 8.5;
+  deal.dateOnSaleFrom = null;
+  deal.dateOnSaleTo = null;
+  deal.onSale = true;
+  deal.purchasable = true;
+  deal.relatedIds = [2126, 2102, 2107, 2119, 2122];
+  deal.upsellIds = [];
+  deal.crossSellIds = [];
+  deal.categories = [
+    {
+      id: 177,
+      name: "Manhattan",
+      slug: "manhattan"
+    },
+    {
+      id: 179,
+      name: "Upper Manhattan",
+      slug: "upper-manhattan"
+    }
+  ];
+  deal.tags = [
+    {
+      id: 183,
+      name: "cocktail",
+      slug: "cocktail"
+    }
+  ];
+  deal.images = [
+    {
+      id: 2106,
+      date_created: "2019-06-22T18:23:02",
+      date_created_gmt: "2019-06-22T18:23:02",
+      date_modified: "2019-06-22T18:23:02",
+      date_modified_gmt: "2019-06-22T18:23:02",
+      src: "https://tragodeals.com/wp-content/uploads/2019/06/cocktail2.jpg",
+      name: "cocktail2",
+      alt: ""
+    }
+  ];
 
+  // #endregion
   return deal;
 }

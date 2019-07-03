@@ -24,7 +24,7 @@ export function* getDealsSaga(): Saga<void> {
   try {
     const rawDeals: Object[] = yield call(getDealsApi);
     const deals: DealCollection = Deal.collectionFromArray(rawDeals);
-    console.log("getDealsSaga", Object.keys(deals).length, "deals");
+    // console.log("getDealsSaga", Object.keys(deals).length, "deals");
     yield put({ type: "GET_DEALS_SUCCESS", deals });
   } catch (error) {
     console.log("getDealsSaga", "error:", error);
