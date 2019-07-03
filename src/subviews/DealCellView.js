@@ -33,7 +33,8 @@ const DealCellView = (props: Props) => {
           )}
         </View>
         <CellTextRow>
-          <HTML html={deal.descriptionWithStyle(text.html)} />
+          {deal.address}
+          {/* <HTML html={deal.descriptionWithStyle(text.html)} /> */}
         </CellTextRow>
       </View>
     </TouchableOpacity>
