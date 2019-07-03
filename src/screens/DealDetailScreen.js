@@ -9,7 +9,7 @@ import {
   Platform,
   Text
 } from "react-native";
-import { Image, Avatar, Button } from "react-native-elements";
+import { Image, Avatar, Button, Divider } from "react-native-elements";
 import { MaterialIndicator } from "react-native-indicators";
 import HTML from "react-native-render-html";
 import CellTextRow from "../subviews/CellTextRow";
@@ -72,12 +72,9 @@ class DealDetailScreen extends Component<Object> {
   }
 
   render() {
-    // if (!this.props.deal) return null;
-    // const { deal, users } = this.props;
     const deal = this.deal;
-    // const user = users[deal.userID];
     return (
-      <ScrollView>
+      <View style={styles.container}>
         <View style={styles.imageContainer}>
           <DealImage deal={deal} />
         </View>
@@ -91,11 +88,22 @@ class DealDetailScreen extends Component<Object> {
               {deal.address}
             </CellTextRow>
           </TouchableOpacity>
-          <CellTextRow>
-            <HTML html={deal.shortDescriptionHTML} />
-          </CellTextRow>
+          <View style={[styles.centered, styles.info]}>
+            <CellTextRow style={text.shortDescription}>
+              {deal.shortDescription}
+            </CellTextRow>
+            <View style={styles.rowContainer}>
+              <CellTextRow style={text.fullPrice}>
+                {deal.regularPrice$}
+              </CellTextRow>
+              <Text>{"      "}</Text>
+              <CellTextRow style={text.salePrice}>
+                {deal.salePrice$}
+              </CellTextRow>
+            </View>
+          </View>
         </View>
-      </ScrollView>
+      </View>
     );
   }
 }
@@ -111,56 +119,44 @@ const text = {
   address: {
     fontSize: baseSize
   },
-  content: {
-    fontSize: baseSize
-  },
-  website: {
-    fontSize: baseSize
-  },
   link: {
     color: "blue",
     textDecorationLine: "underline"
   },
-  price: {
+  salePrice: {
     fontSize: baseSize + 4,
-    textAlign: "center",
-    width: "100%"
+    color: "green",
+    fontWeight: "bold"
+  },
+  fullPrice: {
+    fontSize: baseSize + 4,
+    color: "red",
+    textDecorationLine: "line-through"
+  },
+  shortDescription: {
+    fontSize: baseSize + 2
   }
 };
 
 const styles = {
-  buttonContainer: {
-    padding: 10,
-    width: "100%",
-    alignItems: "center"
-  },
-  infoCell: {
-    flex: 2
-  },
-  iconCell: {
-    flex: 1,
-    flexDirection: "row",
-    justifyContent: "center",
-    padding: 10,
-    width: "100%"
-  },
-  icon: {
-    marginLeft: 25,
-    marginRight: 25,
-    marginTop: 5,
-    marginBottom: 5
-  },
+  container: { display: "flex", flex: 1 },
+  info: { marginTop: 25 },
   rowContainer: {
-    flex: 1,
-    flexDirection: "row",
-    alignItems: "center"
+    flexDirection: "row"
   },
   imageContainer: {
+    flex: 1,
     backgroundColor: "lightgrey"
   },
-  textContainer: { alignItems: "flex-start", padding: 15 },
+  textContainer: {
+    justifyContent: "center",
+    alignItems: "center",
+    padding: 15,
+    // borderWidth: 1,
+    flex: 1
+  },
   image: {
-    height: 350,
+    height: "100%",
     width: null
   },
   bordered: {
@@ -169,6 +165,7 @@ const styles = {
   },
   centered: {
     justifyContent: "center",
-    alignItems: "center"
+    alignItems: "center",
+    width: "100%"
   }
 };

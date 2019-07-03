@@ -9,11 +9,8 @@ describe("Deal", () => {
       const expected = expectedDeal();
       for (let key in expected) {
         if (typeof expected[key] === "function") continue;
-        if (
-          expected[key] !== newDeal[key] &&
-          typeof expected[key] !== "object "
-        )
-          console.log("faiure at key:", key);
+        if (expected[key] !== newDeal[key] && typeof expected[key] !== "object")
+          console.log("faiure at key:", key, typeof expected[key]);
         expect(expected[key]).toEqual(newDeal[key]);
       }
       // expect(newDeal).toMatchObject(expected);
@@ -54,6 +51,9 @@ function expectedDeal(): Deal {
   deal.price = 8.5;
   deal.regularPrice = 25;
   deal.salePrice = 8.5;
+  deal.price$ = "$8.50";
+  deal.regularPrice$ = "$25.00";
+  deal.salePrice$ = "$8.50";
   deal.dateOnSaleFrom = null;
   deal.dateOnSaleTo = null;
   deal.onSale = true;

@@ -41,6 +41,9 @@ export default class Deal {
   price: number;
   regularPrice: number;
   salePrice: number;
+  price$: string;
+  regularPrice$: string;
+  salePrice$: string;
   dateOnSaleFrom: null;
   dateOnSaleTo: null;
   onSale: boolean;
@@ -99,6 +102,9 @@ export default class Deal {
     deal.price = Number(obj.price);
     deal.regularPrice = Number(obj.regular_price);
     deal.salePrice = Number(obj.sale_price);
+    deal.price$ = `$${deal.price.toFixed(2)}`;
+    deal.regularPrice$ = `$${deal.regularPrice.toFixed(2)}`;
+    deal.salePrice$ = `$${deal.salePrice.toFixed(2)}`;
     deal.dateOnSaleFrom = obj.date_on_sale_from;
     deal.dateOnSaleTo = obj.date_on_sale_to;
     deal.onSale = obj.on_sale;
