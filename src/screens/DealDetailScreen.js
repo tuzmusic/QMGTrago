@@ -1,5 +1,6 @@
 // @flow
 import React, { Component } from "react";
+import { connect } from "react-redux";
 import {
   ScrollView,
   View,
@@ -9,16 +10,11 @@ import {
   Text
 } from "react-native";
 import { Image, Avatar, Button } from "react-native-elements";
-import { connect } from "react-redux";
-// import {
-//   getImageURLForDeal,
-//   deleteDeal
-// } from "../redux/actions/dealActions";
 import { MaterialIndicator } from "react-native-indicators";
+import HTML from "react-native-render-html";
+// import HtmlText from "react-native-htmltext";
 import CellTextRow from "../subviews/CellTextRow";
 import type Deal from "../models/Deal";
-
-const Spinner = <MaterialIndicator color={"blue"} />;
 
 function openURL(url) {
   Linking.canOpenURL(url)
@@ -38,27 +34,14 @@ function openMap(address) {
   openURL(baseURL + address);
 }
 
-const DealWebsite = ({ deal }) => {
-  if (deal.website) {
-    return (
-      <TouchableOpacity onPress={() => Linking.openURL(deal.website)}>
-        <CellTextRow style={[text.address, text.link]}>
-          {deal.website}
-        </CellTextRow>
-      </TouchableOpacity>
-    );
-  }
-  return null;
-};
-
 const DealImage = ({ deal }) => {
-  if (deal.images.length) {
-    // debugger;
+  const image = deal.images[0];
+  if (image) {
     return (
       <Image
         style={[styles.image, { resizeMode: "cover" }]}
-        source={{ uri: deal.images[0].src }}
-        PlaceholderContent={Spinner}
+        source={{ uri: image.src }}
+        PlaceholderContent={<MaterialIndicator color={"blue"} />}
       />
     );
   } else {
@@ -68,38 +51,6 @@ const DealImage = ({ deal }) => {
       </View>
     );
   }
-};
-
-const ContactIcon = props => {
-  return (
-    <Avatar
-      rounded
-      size="medium"
-      activeOpacity={0.5}
-      icon={props.icon}
-      onPress={props.onPress}
-      containerStyle={styles.icon}
-    />
-  );
-};
-
-const ContactButtons = ({ deal }) => {
-  return (
-    <View style={[styles.iconCell]}>
-      {deal.contactEmail ? (
-        <ContactIcon
-          icon={{ name: "email-outline", type: "material-community" }}
-          onPress={() => openURL(`mailto:${deal.contactEmail}`)}
-        />
-      ) : null}
-      {deal.contactPhone ? (
-        <ContactIcon
-          icon={{ name: "phone", type: "feather" }}
-          onPress={() => openURL(`tel:${deal.contactPhone}`)}
-        />
-      ) : null}
-    </View>
-  );
 };
 
 class DealDetailScreen extends Component<Object> {
@@ -115,16 +66,6 @@ class DealDetailScreen extends Component<Object> {
     super(props);
     this.deal = this.props.navigation.getParam("deal");
   }
-
-  // async componentDidMount() {
-  //   if (!this.props.deal.imageURL) {
-  //     try {
-  //       await this.props.getImageURLForDeal(this.props.deal);
-  //     } catch (error) {
-  //       console.warn(error);
-  //     }
-  //   }
-  // }
 
   async onDelete() {
     this.props.navigation.navigate("ListScreen");
@@ -151,25 +92,16 @@ class DealDetailScreen extends Component<Object> {
               {deal.address}
             </CellTextRow>
           </TouchableOpacity>
-
-          {/* <View style={styles.buttonContainer}>
-            <Button
-              title="Delete Listing"
-              containerStyle={{ width: "100%" }}
-              buttonStyle={{ backgroundColor: "red" }}
-              onPress={this.onDelete.bind(this)}
-            />
-          </View> */}
+          <CellTextRow>
+            <HTML html={deal.shortDescriptionHTML} />
+          </CellTextRow>
         </View>
       </ScrollView>
     );
   }
 }
 
-export default connect(
-  null
-  // { getImageURLForDeal, deleteDeal }
-)(DealDetailScreen);
+export default connect()(DealDetailScreen);
 
 const baseSize = 17;
 const text = {

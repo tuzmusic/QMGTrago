@@ -16,8 +16,7 @@ export default function dealsReducer(
       return { ...state, loadingMessage: "Getting Location..." };
     case "USER_LOCATION_SUCCESS":
     case "SET_CURRENT_REGION":
-      console.log("set current region", action.region);
-
+      // console.log("set current region", action.region);
       return { ...state, currentRegion: action.region, loadingMessage: "" };
     case "USER_LOCATION_FAILURE":
       return { ...state, error: action.error, loadingMessage: "" };
