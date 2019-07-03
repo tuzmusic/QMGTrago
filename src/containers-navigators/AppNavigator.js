@@ -31,7 +31,10 @@ const MapStack = createStackNavigator({
     }
   },
   DetailScreen: {
-    screen: DealDetailScreen
+    screen: DealDetailScreen,
+    navigationOptions: {
+      title: "Deal"
+    }
   }
 });
 
@@ -43,7 +46,10 @@ const ListStack = createStackNavigator({
     }
   },
   DetailScreen: {
-    screen: DealDetailScreen
+    screen: DealDetailScreen,
+    navigationOptions: {
+      title: "Deal"
+    }
   }
 });
 

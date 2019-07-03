@@ -1,10 +1,9 @@
 // @flow
 import type { Location } from "../redux/reducers/locationReducer";
 import type Deal from "../models/Deal";
-import React, { Component } from "react";
-import { View, TouchableOpacity, Text } from "react-native";
+import React from "react";
+import { View, TouchableOpacity } from "react-native";
 import { connect } from "react-redux";
-import HTML from "react-native-render-html";
 import CellTextRow from "../subviews/CellTextRow";
 import pluralize from "pluralize";
 

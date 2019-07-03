@@ -47,7 +47,8 @@ export class AutoFillMapSearch extends React.Component<Props, State> {
       // const { data, error_message } = await axios.get(url);
       if (error_message) throw Error(error_message);
       this.setState({
-        addressPredictions: predictions || data.predictions,
+        // addressPredictions: predictions || data.predictions,
+        addressPredictions: predictions,
         showPredictions: true
       });
     } catch (err) {
@@ -71,8 +72,8 @@ export class AutoFillMapSearch extends React.Component<Props, State> {
       const { result, error_message } = await res.json();
       // Axios is commented out until I can figure out how to get my axios-mock-adapter to let other things through
       // const { data, error_message } = await axios.get(url);
-      const location =
-        result.geometry.location || data.result.geometry.location;
+      const location = result.geometry.location;
+      // const location = result.geometry.location || data.result.geometry.location;
       console.log(location);
 
       this.props.setCurrentRegion({

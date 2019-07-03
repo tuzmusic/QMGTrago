@@ -1,17 +1,9 @@
 // @flow
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import {
-  ScrollView,
-  View,
-  Linking,
-  TouchableOpacity,
-  Platform,
-  Text
-} from "react-native";
-import { Image, Avatar, Button, Divider } from "react-native-elements";
+import { View, Linking, TouchableOpacity, Text } from "react-native";
+import { Image } from "react-native-elements";
 import { MaterialIndicator } from "react-native-indicators";
-import HTML from "react-native-render-html";
 import CellTextRow from "../subviews/CellTextRow";
 import type Deal from "../models/Deal";
 
@@ -53,12 +45,6 @@ const DealImage = ({ deal }) => {
 };
 
 class DealDetailScreen extends Component<Object> {
-  static navigationOptions = ({ navigation }) => {
-    return {
-      title: navigation.getParam("title")
-    };
-  };
-
   deal: Deal;
 
   constructor(props) {

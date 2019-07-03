@@ -1,10 +1,8 @@
 // @flow
 import type { Location } from "../redux/reducers/locationReducer";
 import type Deal from "../models/Deal";
-import React, { Component } from "react";
+import React from "react";
 import { Marker, Callout } from "react-native-maps";
-import { View, Button, Text, Platform, TextInput } from "react-native";
-import { Image } from "react-native-elements";
 
 import DealCellView from "../subviews/DealCellView";
 

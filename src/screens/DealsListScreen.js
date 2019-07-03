@@ -2,7 +2,7 @@
 import type Deal from "../models/Deal";
 import type { Location } from "../redux/reducers/locationReducer";
 import React, { Component } from "react";
-import { ScrollView, View, Text } from "react-native";
+import { ScrollView } from "react-native";
 import { connect } from "react-redux";
 import FilterInput from "../subviews/FilterInput";
 import DealsListContainer from "../containers-navigators/DealsListContainer";
@@ -26,10 +26,10 @@ class DealsListScreen extends Component<Props> {
   }
 
   componentDidMount = () => {
-    setTimeout(() => {
-      this.onSelectSearchRadius(5000);
-      this.onDealClick(this.props.deals[this.props.deals.length - 1]);
-    }, 1000);
+    // setTimeout(() => {
+    //   this.onSelectSearchRadius(5000);
+    //   this.onDealClick(this.props.deals[this.props.deals.length - 1]);
+    // }, 1000);
   };
 
   onSelectSearchRadius(radius: number) {
