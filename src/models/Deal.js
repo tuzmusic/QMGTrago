@@ -1,6 +1,8 @@
 // @flow
 import type { Location } from "../redux/reducers/locationReducer";
 import type { DealCollection } from "../redux/reducers/dealsReducer";
+import he from "he";
+
 type unitOfDistance = "mi" | "km" | "nm";
 type Info = { id: number, name: string, slug: string };
 type ImageInfo = {
@@ -22,7 +24,8 @@ export default class Deal {
   fullPrice: number;
   salePrice: number;
   photoUrls: string[];
-  description: string; // almost definitely HTML
+  description: string;
+  shortDescription: string;
   venue: string;
   address: string;
   location: Location;
@@ -90,6 +93,9 @@ export default class Deal {
     deal.address = obj.address_fake_api;
     deal.descriptionHTML = obj.description;
     deal.shortDescriptionHTML = obj.short_description;
+    deal.shortDescription = he.decode(
+      obj.short_description.replace(/<[^>]*>?/gm, "").trim()
+    );
     deal.price = Number(obj.price);
     deal.regularPrice = Number(obj.regular_price);
     deal.salePrice = Number(obj.sale_price);

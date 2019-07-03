@@ -9,6 +9,11 @@ describe("Deal", () => {
       const expected = expectedDeal();
       for (let key in expected) {
         if (typeof expected[key] === "function") continue;
+        if (
+          expected[key] !== newDeal[key] &&
+          typeof expected[key] !== "object "
+        )
+          console.log("faiure at key:", key);
         expect(expected[key]).toEqual(newDeal[key]);
       }
       // expect(newDeal).toMatchObject(expected);
@@ -31,7 +36,7 @@ describe("Deals api mock", () => {
 
 function expectedDeal(): Deal {
   const deal = new Deal();
- 
+
   // #region new api
   deal.id = 2132;
   deal.name = "The Mermaid Inn - Cocktails";
@@ -45,6 +50,7 @@ function expectedDeal(): Deal {
   deal.catalogVisibility = "visible";
   deal.shortDescriptionHTML =
     "<p>Cocktails &#8211; From 5 p.m. to 7 p.m.</p>\n";
+  deal.shortDescription = "Cocktails – From 5 p.m. to 7 p.m.";
   deal.price = 8.5;
   deal.regularPrice = 25;
   deal.salePrice = 8.5;

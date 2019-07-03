@@ -12,7 +12,6 @@ import {
 import { Image, Avatar, Button } from "react-native-elements";
 import { MaterialIndicator } from "react-native-indicators";
 import HTML from "react-native-render-html";
-// import HtmlText from "react-native-htmltext";
 import CellTextRow from "../subviews/CellTextRow";
 import type Deal from "../models/Deal";
 
