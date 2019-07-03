@@ -31,7 +31,7 @@ export default class Deal {
   shortDescription: string;
   venue: string;
   address: string;
-  location: Location;
+  location: ?Location;
   // reviews: Review[]
 
   dateCreated: string;
@@ -84,7 +84,7 @@ export default class Deal {
     // this.reviews = obj.reviews;
   }
 
-  static fromApi(obj: Object): Deal {
+  static async fromApi(obj: Object): Promise<Deal> {
     const deal = new Deal();
     deal.id = obj.id;
     deal.name = obj.name;
@@ -126,8 +126,10 @@ export default class Deal {
       .value.trim();
 
     if (deal.address) {
-      // deal.location = Deal.getLocationForAddress(deal.address);
+      const location = await Deal.getLocationForAddress(deal.address);
+      deal.location = location;
     }
+    console.log(deal.location);
 
     return deal;
   }
@@ -141,8 +143,11 @@ export default class Deal {
       const details = await fetch(ApiUrls.mapsDetails(predictions[0].place_id));
       const { result, ...detailsData } = await details.json();
       if (detailsData.error_message) throw Error(searchData.error_message);
-      const location: Location = result.geometry.location;
-      return location;
+      const location = result.geometry.location;
+      return {
+        latitude: location.lat,
+        longitude: location.lng
+      };
     } catch (error) {
       console.log("Error getting location for address in deal:", error);
     }

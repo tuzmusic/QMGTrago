@@ -15,7 +15,7 @@ export const ApiUrls = {
   mapsSearch: address =>
     `https://maps.googleapis.com/maps/api/place/autocomplete/json?key=${GoogleMapsApiKey}&input=${address}`,
   mapsDetails: placeId =>
-    `https://maps.googleapis.com/maps/api/place/details/json?key=${GoogleMapsApiKey}&placeid=${prediction.placeId}&fields=geometry`
+    `https://maps.googleapis.com/maps/api/place/details/json?key=${GoogleMapsApiKey}&placeid=${placeId}&fields=geometry`
 };
 
 // These don't seem to work...
