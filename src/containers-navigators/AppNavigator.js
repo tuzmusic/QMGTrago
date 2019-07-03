@@ -13,6 +13,7 @@ import DealsListScreen from "../screens/DealsListScreen";
 import DealDetailScreen from "../screens/DealDetailScreen";
 import TabBarIcon from "../components/TabBarIcon";
 import { getLocationAsync } from "../redux/actions/locationActions";
+import { getDeals } from "../redux/actions/dealActions";
 import LoadingIndicator from "../components/LoadingIndicator";
 import LoginScreen from "../screens/LoginScreen";
 import AuthNavigator from "./AuthNavigator";
@@ -73,24 +74,37 @@ const TabNavigator = createBottomTabNavigator(
   { initialRouteName }
 );
 
+class TabContainer extends Component<Object> {
+  static router = TabNavigator.router;
+  componentDidMount() {
+    this.props.getLocationAsync();
+    this.props.getDeals();
+  }
+  render() {
+    return <TabNavigator navigation={this.props.navigation} />;
+  }
+}
 const SwitchNavigator = createSwitchNavigator({
   // Auth: AuthNavigator,
-  Main: TabNavigator
+  Main: connect(
+    null,
+    { getLocationAsync, getDeals }
+  )(TabContainer)
 });
 
 const AppNavigator = createAppContainer(SwitchNavigator);
 
-type Props = {
+type AppProps = {
   navigation: Object,
   getLocationAsync: () => void,
   loadingMessage: string
 };
 
-class AppContainer extends Component<Props> {
+class AppContainer extends Component<AppProps> {
   static router = TabNavigator.router;
 
   componentDidMount() {
-    this.props.getLocationAsync();
+    // this.props.getLocationAsync();
   }
 
   render() {
