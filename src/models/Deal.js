@@ -1,6 +1,8 @@
 // @flow
 import type { Location } from "../redux/reducers/locationReducer";
 import type { DealCollection } from "../redux/reducers/dealsReducer";
+import { GoogleMapsApiKey } from "../../secrets";
+import { ApiUrls } from "../constants/constants";
 import he from "he";
 
 type unitOfDistance = "mi" | "km" | "nm";
@@ -15,6 +17,7 @@ type ImageInfo = {
   name: string,
   alt: string
 };
+
 export default class Deal {
   id: number;
   name: string;
@@ -122,7 +125,27 @@ export default class Deal {
       })
       .value.trim();
 
+    if (deal.address) {
+      // deal.location = Deal.getLocationForAddress(deal.address);
+    }
+
     return deal;
+  }
+
+  static async getLocationForAddress(address: string): Promise<?Location> {
+    try {
+      const search = await fetch(ApiUrls.mapsSearch(address));
+      const { predictions, ...searchData } = await search.json();
+      if (searchData.error_message) throw Error(searchData.error_message);
+      if (!predictions.length) throw Error("No places found for " + address);
+      const details = await fetch(ApiUrls.mapsDetails(predictions[0].place_id));
+      const { result, ...detailsData } = await details.json();
+      if (detailsData.error_message) throw Error(searchData.error_message);
+      const location: Location = result.geometry.location;
+      return location;
+    } catch (error) {
+      console.log("Error getting location for address in deal:", error);
+    }
   }
 
   descriptionWithTextSize(size: number): string {

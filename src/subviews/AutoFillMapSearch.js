@@ -9,6 +9,7 @@ import { connect } from "react-redux";
 import { setCurrentRegion } from "../redux/actions/locationActions";
 import axios from "axios";
 import type { AxiosPromise, $AxiosXHR } from "axios";
+import { ApiUrls } from "../constants/constants";
 
 type State = {
   address: string,
@@ -39,7 +40,8 @@ export class AutoFillMapSearch extends React.Component<Props, State> {
     showPredictions: false
   };
   async handleAddressChange() {
-    const url = `https://maps.googleapis.com/maps/api/place/autocomplete/json?key=${GoogleMapsApiKey}&input=${this.state.address}`;
+    // const url = `https://maps.googleapis.com/maps/api/place/autocomplete/json?key=${GoogleMapsApiKey}&input=${this.state.address}`;
+    const url = ApiUrls.mapsSearch(this.state.address);
     try {
       const res = await fetch(url);
       const { predictions, error_message } = await res.json();
@@ -66,7 +68,8 @@ export class AutoFillMapSearch extends React.Component<Props, State> {
     this.textInput && this.textInput.blur();
 
     this.setState({ address: prediction.description, showPredictions: false });
-    const url = `https://maps.googleapis.com/maps/api/place/details/json?key=${GoogleMapsApiKey}&placeid=${prediction.place_id}&fields=geometry`;
+    // const url = `https://maps.googleapis.com/maps/api/place/details/json?key=${GoogleMapsApiKey}&placeid=${prediction.place_id}&fields=geometry`;
+    const url = ApiUrls.mapsDetails(prediction.place_id);
     try {
       const res = await fetch(url);
       const { result, error_message } = await res.json();
