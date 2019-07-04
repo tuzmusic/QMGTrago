@@ -13,6 +13,8 @@ export async function registerWithApi({
   username,
   password
 }: AuthParams) {
+  return MockResponses.registerResponse.success;
+
   const nonce = (await axios.get(ApiUrls.nonce)).data.nonce;
   if (!nonce) throw Error("Could not get nonce");
   const params = {
@@ -26,9 +28,11 @@ export async function registerWithApi({
   return res.data;
 }
 
+import * as MockResponses from "../../../__mocks__/auth/authResponses";
+
 export async function loginWithApi(creds: AuthParams) {
+  return MockResponses.loginResponse.apiResponse;
   const res = await axios.get(ApiUrls.login, { params: creds });
-  // console.log("login response:", res.data);
   return res.data;
 }
 
@@ -40,7 +44,6 @@ export async function logoutWithApi() {
 export function* loginSaga({ creds }: { creds: AuthParams }): Saga<void> {
   try {
     const { error, ...user } = yield call(loginWithApi, creds);
-
     if (error) {
       yield put({ type: "LOGIN_FAILURE", error });
     } else {
@@ -52,7 +55,6 @@ export function* loginSaga({ creds }: { creds: AuthParams }): Saga<void> {
       });
     }
   } catch (error) {
-    // console.log("login error:", error.message);
     yield put({ type: "LOGIN_FAILURE", error: error.message });
   }
 }
@@ -69,6 +71,8 @@ export function* logoutSaga(): Saga<void> {
 export function* registerSaga({ info }: { info: AuthParams }): Saga<void> {
   try {
     let { error, cookie, user_id } = yield call(registerWithApi, info);
+    error = null;
+    (cookie = ""), (user_id = 1);
     yield put(
       error
         ? { type: "REGISTRATION_FAILURE", error }
