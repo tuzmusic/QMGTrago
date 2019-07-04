@@ -18,6 +18,7 @@ import LoadingIndicator from "../components/LoadingIndicator";
 import LoginScreen from "../screens/LoginScreen";
 import AuthNavigator from "./AuthNavigator";
 import axios from "axios";
+import UserScreen from "../screens/UserScreen";
 
 let initialRouteName;
 initialRouteName = "List";
@@ -72,10 +73,22 @@ ListStack.navigationOptions = {
   )
 };
 
+UserScreen.navigationOptions = {
+  tabBarLabel: "Me",
+  tabBarIcon: ({ focused }) => (
+    <TabBarIcon
+      focused={focused}
+      name={focused ? "user-circle" : "user-circle-o"}
+      library={"FontAwesome"}
+    />
+  )
+};
+
 const TabNavigator = createBottomTabNavigator(
   {
     Map: MapStack,
-    List: ListStack
+    List: ListStack,
+    User: UserScreen
   },
   { initialRouteName }
 );
@@ -91,7 +104,7 @@ class TabContainer extends Component<Object> {
   }
 }
 const SwitchNavigator = createSwitchNavigator({
-  // Auth: AuthNavigator,
+  Auth: AuthNavigator,
   Main: connect(
     ({ location }) => ({ location: location.currentRegion }),
     { getLocationAsync, getDeals }

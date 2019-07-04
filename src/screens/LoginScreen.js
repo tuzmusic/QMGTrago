@@ -45,7 +45,7 @@ class LoginView extends Component<Props, State> {
         this.handleLogin({ username: "testuser1", password: "123123" });
       }, 500);
     };
-    // automate();
+    automate();
   }
 
   async handleLogin({ username, password }: AuthParams) {
