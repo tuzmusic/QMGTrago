@@ -37,6 +37,13 @@ class DealsListScreen extends Component<Props> {
   }
 
   render() {
+    if (this.props.deals.length)
+      console.log(
+        "rendering list screen with",
+        this.props.deals.length,
+        "deals"
+      );
+
     return (
       <ScrollView>
         <FilterInput

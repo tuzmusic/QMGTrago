@@ -129,7 +129,7 @@ export default class Deal {
       const location = await Deal.getLocationForAddress(deal.address);
       deal.location = location;
     }
-    console.log(deal.location);
+    // console.log(deal.location);
 
     return deal;
   }
@@ -144,6 +144,8 @@ export default class Deal {
       const { result, ...detailsData } = await details.json();
       if (detailsData.error_message) throw Error(searchData.error_message);
       const location = result.geometry.location;
+      console.log(`lat: ${location.lat}, long: ${location.lng}`);
+
       return {
         latitude: location.lat,
         longitude: location.lng
@@ -176,9 +178,12 @@ export default class Deal {
     return { ...deal };
   }
 
-  static collectionFromArray(array: Object[]) {
+  static async collectionFromArray(array: Object[]) {
     const deals: DealCollection = {};
-    array.forEach(p => (deals[p.id] = Deal.fromApi(p)));
+    await array.forEach(async p => {
+      deals[p.id] = await Deal.fromApi(p);
+    });
+    console.log("converted:", Object.keys(deals).length);
     return deals;
   }
 }

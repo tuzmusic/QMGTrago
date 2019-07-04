@@ -82,9 +82,12 @@ const TabNavigator = createBottomTabNavigator(
 
 class TabContainer extends Component<Object> {
   static router = TabNavigator.router;
-  componentDidMount() {
-    this.props.getLocationAsync();
-    this.props.getDeals();
+  async componentDidMount() {
+    console.log("getting location");
+    await this.props.getLocationAsync();
+    console.log("location:", this.props.location);
+    console.log("getting deals");
+    await this.props.getDeals();
   }
   render() {
     return <TabNavigator navigation={this.props.navigation} />;
@@ -93,7 +96,7 @@ class TabContainer extends Component<Object> {
 const SwitchNavigator = createSwitchNavigator({
   // Auth: AuthNavigator,
   Main: connect(
-    null,
+    ({ location }) => ({ location: location.currentRegion }),
     { getLocationAsync, getDeals }
   )(TabContainer)
 });
@@ -123,10 +126,7 @@ class AppContainer extends Component<AppProps> {
   }
 }
 
-export default connect(
-  ({ location, deals, auth }) => ({
-    loadingMessage:
-      auth.loadingMessage || location.loadingMessage || deals.loadingMessage
-  }),
-  { getLocationAsync }
-)(AppContainer);
+export default connect(({ location, deals, auth }) => ({
+  loadingMessage:
+    auth.loadingMessage || location.loadingMessage || deals.loadingMessage
+}))(AppContainer);
