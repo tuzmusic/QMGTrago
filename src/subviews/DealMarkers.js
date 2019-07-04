@@ -5,6 +5,7 @@ import React from "react";
 import { Marker, Callout } from "react-native-maps";
 
 import DealCellView from "../subviews/DealCellView";
+import DealDetailScreen from "../screens/DealDetailScreen";
 
 import CellTextRow from "./CellTextRow";
 import { connect } from "react-redux";
@@ -35,7 +36,8 @@ const DealMarkers = (props: Props) => {
           onPress={props.onCalloutPress.bind(null, deal)}
           style={styles.callout}
         >
-          <DealCellView deal={deal} showDistance={false} />
+          {/* <DealCellView deal={deal} showDistance={false} /> */}
+          <DealDetailScreen deal={deal} />
           <CellTextRow style={text.distance}>{distanceString}</CellTextRow>
         </Callout>
       </Marker>

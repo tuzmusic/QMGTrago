@@ -20,8 +20,8 @@ import AuthNavigator from "./AuthNavigator";
 import axios from "axios";
 
 let initialRouteName;
-initialRouteName = "Map";
 initialRouteName = "List";
+initialRouteName = "Map";
 
 const MapStack = createStackNavigator({
   MapScreen: {

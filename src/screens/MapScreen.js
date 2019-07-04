@@ -32,18 +32,16 @@ const LocationButton = ({ onPress }) => {
     </Callout>
   );
 };
-
+const NewYork: Location = {
+  latitude: 40.74410640000001,
+  longitude: -73.98741129999999,
+  showMarker: false
+};
 const GoToMockDealsButton = props => {
   return (
     <Callout style={[styles.locationButtonCallout, { right: 50 }]}>
       <Button
-        onPress={() =>
-          props.setCurrentRegion({
-            latitude: 40.74410640000001,
-            longitude: -73.98741129999999,
-            showMarker: false
-          })
-        }
+        onPress={() => props.setCurrentRegion(NewYork)}
         title={"New York"}
       />
     </Callout>
@@ -66,6 +64,12 @@ class MapScreen extends Component<Props, State> {
   };
 
   state = { region: null };
+
+  componentDidMount() {
+    setTimeout(() => {
+      this.props.setCurrentRegion(NewYork); // isn't working?
+    }, 1000);
+  }
 
   onMarkerPress = deal => {
     // this is for reorienting the map. not working yet.

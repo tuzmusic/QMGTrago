@@ -4,56 +4,52 @@ import { connect } from "react-redux";
 import { View, Linking, TouchableOpacity, Text } from "react-native";
 import { Image } from "react-native-elements";
 import { MaterialIndicator } from "react-native-indicators";
-import DealDetailInfoView from "../subviews/DealDetailInfoView";
 import CellTextRow from "../subviews/CellTextRow";
 import type Deal from "../models/Deal";
 
-const DealImage = ({ deal }) => {
-  const image = deal.images[0];
-  if (image) {
-    return (
-      <Image
-        style={[styles.image, { resizeMode: "cover" }]}
-        source={{ uri: image.src }}
-        PlaceholderContent={<MaterialIndicator color={"blue"} />}
-      />
-    );
-  } else {
-    return (
-      <View style={[styles.centered, styles.image]}>
-        <Text>No Image Provided</Text>
-      </View>
-    );
-  }
-};
-
-class DealDetailScreen extends Component<Object> {
-  deal: Deal;
-
-  constructor(props) {
-    super(props);
-    this.deal = this.props.deal || this.props.navigation.getParam("deal");
-  }
-
-  async onDelete() {
-    this.props.navigation.navigate("ListScreen");
-    this.props.deleteDeal(this.props.deal);
-  }
-
-  render() {
-    const deal = this.deal;
-    return (
-      <View style={styles.container}>
-        <View style={styles.imageContainer}>
-          <DealImage deal={deal} />
-        </View>
-        <DealDetailInfoView deal={deal} />
-      </View>
-    );
-  }
+function openURL(url) {
+  Linking.canOpenURL(url)
+    .then(supported => {
+      if (!supported) {
+        console.log("Can't handle url: " + url);
+      } else {
+        return Linking.openURL(url);
+      }
+    })
+    .catch(err => console.error("An error occurred", err));
 }
 
-export default connect()(DealDetailScreen);
+function openMap(address) {
+  let baseURL = "https://www.google.com/maps/search/?api=1&query=";
+  // if (Platform.OS === 'ios') baseURL = "http://maps.apple.com/?q="
+  openURL(baseURL + address);
+}
+const DealDetailInfoView = ({ deal }: { deal: Deal }) => {
+  return (
+    <View style={styles.textContainer}>
+      {/* Name */}
+      <CellTextRow style={text.name}>{deal.name}</CellTextRow>
+      {/* Address */}
+      <TouchableOpacity onPress={openMap.bind(null, deal.address)}>
+        <CellTextRow style={[text.address, text.link]}>
+          {deal.address}
+        </CellTextRow>
+      </TouchableOpacity>
+      <View style={[styles.centered, styles.info]}>
+        <CellTextRow style={text.shortDescription}>
+          {deal.shortDescription}
+        </CellTextRow>
+        <View style={styles.rowContainer}>
+          <CellTextRow style={text.fullPrice}>{deal.regularPrice$}</CellTextRow>
+          <Text>{"      "}</Text>
+          <CellTextRow style={text.salePrice}>{deal.salePrice$}</CellTextRow>
+        </View>
+      </View>
+    </View>
+  );
+};
+
+export default DealDetailInfoView;
 
 const baseSize = 17;
 const text = {
