@@ -13,9 +13,23 @@ export function getDeals(): DealAction {
 export async function getDealsApi(): Promise<Object[] | Error> {
   const res = await axios.get(ApiUrls.getProductsAuthorized);
   console.log("2. API got", res.data.length, "deals (from getDealsApi)");
-  const deals = await Deal.collectionFromArray(res.data);
+
+  // Simply convert all objects to Deals
+  const deals = await Deal.collectionFromApiArray(res.data);
   const count = Object.keys(deals).length;
   console.log("3. converted", count, "deals (from getDealsApi)");
+
+  // Get locations for each deal if needed
+  for (const id in deals) {
+    const deal = deals[id];
+    if (!deal.location && deal.address) {
+      deal.location = await Deal.getLocationForAddress(deal.address);
+      console.log(
+        `lat: ${deal.location.latitude}, long: ${deal.location.longitude}`
+      );
+    }
+  }
+
   return deals;
   // return res.data;
 }

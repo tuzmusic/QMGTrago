@@ -17,7 +17,7 @@ import type {
 
 setupMockAdapter({ deals: true });
 
-const expectedDeals: DealCollection = Deal.collectionFromArray(products);
+const expectedDeals: DealCollection = Deal.collectionFromApiArray(products);
 // products.forEach(p => (expectedDeals[p.id] = Deal.fromApi(p)));
 const startAction: DealAction = { type: "GET_DEALS_START" };
 const successAction: DealAction = {

@@ -175,13 +175,13 @@ export default class Deal {
     return { ...deal };
   }
 
-  static collectionFromArray(array: Object[]) {
+  static collectionFromApiArray(array: Object[]) {
     const deals: DealCollection = {};
     array.forEach(p => {
       deals[p.id] = Deal.fromApi(p);
     });
     const count = Object.keys(deals).length;
-    console.log("2a. converted", count, "in Deal.collectionFromArray");
+    console.log("2a. converted", count, "in Deal.collectionFromApiArray");
     return deals;
   }
 }
