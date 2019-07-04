@@ -13,7 +13,8 @@ export default function dealsReducer(
 ): LocationState {
   switch (action.type) {
     case "USER_LOCATION_START":
-      return { ...state, loadingMessage: "Getting Location..." };
+      // return { ...state, loadingMessage: "Getting Location..." };
+      return { ...state, loadingMessage: "" };
     case "USER_LOCATION_SUCCESS":
     case "SET_CURRENT_REGION":
       // console.log("set current region", action.region);
