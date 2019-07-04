@@ -140,7 +140,7 @@ const styles = {
     height: 40
   },
   locationButtonCallout: {
-    borderRadius: 50,
+    borderRadius: 10,
     opacity: 0.7,
     backgroundColor: "lightgrey",
     bottom: 0,
