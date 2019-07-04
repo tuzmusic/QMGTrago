@@ -34,10 +34,10 @@ export function* getLocationSaga(): Saga<void> {
 
 async function getUserLocation(): Promise<LocationType | void> {
   let { status } = await Permissions.askAsync(Permissions.LOCATION);
-  if (status !== "granted") {
+  if (status !== "granted")
     return console.warn("Permission to access location was denied");
-  }
-  let location = await Location.getCurrentPositionAsync({});
+
+  let location = await Location.getCurrentPositionAsync();
   let { latitude, longitude } = location.coords;
   let region = { latitude, longitude, accuracy: 0.05 };
   return { ...region, ...calculateRegion(region) };

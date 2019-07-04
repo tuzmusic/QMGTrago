@@ -83,10 +83,7 @@ const TabNavigator = createBottomTabNavigator(
 class TabContainer extends Component<Object> {
   static router = TabNavigator.router;
   async componentDidMount() {
-    console.log("getting location");
     await this.props.getLocationAsync();
-    console.log("location:", this.props.location);
-    console.log("getting deals");
     await this.props.getDeals();
   }
   render() {

@@ -10,39 +10,21 @@ export function getDeals(): DealAction {
   return { type: "GET_DEALS_START" };
 }
 
-export async function getDealsApi(): Promise<Object[] | Error> {
+export async function getDealsApi(): Promise<DealCollection> {
   const res = await axios.get(ApiUrls.getProductsAuthorized);
-  console.log("2. API got", res.data.length, "deals (from getDealsApi)");
-
-  // Simply convert all objects to Deals
-  const deals = await Deal.collectionFromApiArray(res.data);
-  const count = Object.keys(deals).length;
-  console.log("3. converted", count, "deals (from getDealsApi)");
-
-  // Get locations for each deal if needed
+  const deals: DealCollection = await Deal.collectionFromApiArray(res.data);
   for (const id in deals) {
     const deal = deals[id];
-    if (!deal.location && deal.address) {
-      deal.location = await Deal.getLocationForAddress(deal.address);
-      console.log(
-        `lat: ${deal.location.latitude}, long: ${deal.location.longitude}`
-      );
-    }
+    if (!deal.location && deal.address) await deal.setLocation();
   }
-
   return deals;
-  // return res.data;
 }
 
 export function* getDealsSaga(): Saga<void> {
   try {
-    console.log("1. calling API (from getDealsSaga)");
     const deals: DealCollection = yield call(getDealsApi);
-    const count = Object.keys(deals).length;
-    console.log("4. dispatching", count, "deals (from getDealsSaga)");
     yield put({ type: "GET_DEALS_SUCCESS", deals });
   } catch (error) {
-    console.warn("getDealsSaga", "error:", error);
     yield put({ type: "GET_DEALS_FAILURE", error });
   }
 }
