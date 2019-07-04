@@ -24,14 +24,21 @@ function openMap(address) {
   // if (Platform.OS === 'ios') baseURL = "http://maps.apple.com/?q="
   openURL(baseURL + address);
 }
-const DealDetailInfoView = ({ deal }: { deal: Deal }) => {
+
+const DealDetailInfoView = ({
+  deal,
+  ...props
+}: {
+  deal: Deal,
+  containerStyle?: Object
+}) => {
   return (
-    <View style={styles.textContainer}>
-      {/* Name */}
-      <CellTextRow style={text.name}>{deal.name}</CellTextRow>
-      {/* Address */}
+    <View style={[styles.textContainer, props.containerStyle]}>
+      <CellTextRow style={[text.name, styles.centered]}>
+        {deal.name}
+      </CellTextRow>
       <TouchableOpacity onPress={openMap.bind(null, deal.address)}>
-        <CellTextRow style={[text.address, text.link]}>
+        <CellTextRow style={[text.address, styles.centered, text.link]}>
           {deal.address}
         </CellTextRow>
       </TouchableOpacity>
@@ -93,7 +100,6 @@ const styles = {
     justifyContent: "center",
     alignItems: "center",
     padding: 15,
-    // borderWidth: 1,
     flex: 1
   },
   image: {
@@ -107,6 +113,7 @@ const styles = {
   centered: {
     justifyContent: "center",
     alignItems: "center",
+    textAlign: "center",
     width: "100%"
   }
 };

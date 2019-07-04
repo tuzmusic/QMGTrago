@@ -5,8 +5,8 @@ import React from "react";
 import { Marker, Callout } from "react-native-maps";
 
 import DealCellView from "../subviews/DealCellView";
-import DealDetailScreen from "../screens/DealDetailScreen";
-
+import DealDetailInfoView from "../subviews/DealDetailInfoView";
+import { Text } from "react-native-elements";
 import CellTextRow from "./CellTextRow";
 import { connect } from "react-redux";
 import { setCurrentRegion } from "../redux/actions/locationActions";
@@ -36,9 +36,8 @@ const DealMarkers = (props: Props) => {
           onPress={props.onCalloutPress.bind(null, deal)}
           style={styles.callout}
         >
-          {/* <DealCellView deal={deal} showDistance={false} /> */}
-          <DealDetailScreen deal={deal} />
-          <CellTextRow style={text.distance}>{distanceString}</CellTextRow>
+          <DealDetailInfoView deal={deal} />
+          <Text style={styles.distance}>{distanceString}</Text>
         </Callout>
       </Marker>
     );
@@ -50,54 +49,16 @@ export default connect(({ location }) => ({
 }))(DealMarkers);
 
 const baseSize = 15;
-const text = {
-  title: {
-    fontWeight: "bold",
-    fontSize: baseSize + 1
-  },
-  address: {
-    fontSize: baseSize
+
+const styles = {
+  callout: {
+    maxWidth: 250,
+    marginVertical: 10,
+    marginHorizontal: 20
   },
   distance: {
     fontSize: baseSize,
     textAlign: "center",
-    marginTop: 10
-  },
-  caption: {
-    textAlign: "center"
-  },
-  price: {
-    fontSize: baseSize,
-    color: "green"
-  }
-};
-
-const styles = {
-  callout: {
-    maxWidth: 250
-  },
-  rightSection: {
-    justifyContent: "flex-start",
-    alignItems: "flex-end"
-  },
-  leftSection: {},
-  cellContainer: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    padding: 7,
-    borderBottomWidth: 0.5,
-    borderBottomColor: "lightgrey"
-  },
-  textContainer: {
-    flex: 5,
-    marginRight: 10
-  },
-  imageContainer: {
-    flex: 2,
-    padding: 7
-  },
-  image: {
-    height: 100,
-    width: 100
+    marginTop: 25
   }
 };
