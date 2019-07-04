@@ -84,7 +84,7 @@ export default class Deal {
     // this.reviews = obj.reviews;
   }
 
-  static async fromApi(obj: Object): Promise<Deal> {
+  static fromApi(obj: Object): Deal {
     const deal = new Deal();
     deal.id = obj.id;
     deal.name = obj.name;
@@ -125,11 +125,8 @@ export default class Deal {
       })
       .value.trim();
 
-    if (deal.address) {
-      const location = await Deal.getLocationForAddress(deal.address);
-      deal.location = location;
-    }
-    // console.log(deal.location);
+    // if (!deal.location && deal.address)
+    //   deal.location = await Deal.getLocationForAddress(deal.address);
 
     return deal;
   }
@@ -144,7 +141,7 @@ export default class Deal {
       const { result, ...detailsData } = await details.json();
       if (detailsData.error_message) throw Error(searchData.error_message);
       const location = result.geometry.location;
-      console.log(`lat: ${location.lat}, long: ${location.lng}`);
+      // console.log(`lat: ${location.lat}, long: ${location.lng}`);
 
       return {
         latitude: location.lat,
@@ -178,12 +175,13 @@ export default class Deal {
     return { ...deal };
   }
 
-  static async collectionFromArray(array: Object[]) {
+  static collectionFromArray(array: Object[]) {
     const deals: DealCollection = {};
-    await array.forEach(async p => {
-      deals[p.id] = await Deal.fromApi(p);
+    array.forEach(p => {
+      deals[p.id] = Deal.fromApi(p);
     });
-    console.log("converted:", Object.keys(deals).length);
+    const count = Object.keys(deals).length;
+    console.log("2a. converted", count, "in Deal.collectionFromArray");
     return deals;
   }
 }

@@ -11,49 +11,21 @@ export function getDeals(): DealAction {
 }
 
 export async function getDealsApi(): Promise<Object[] | Error> {
-  try {
-    const res = await axios.get(ApiUrls.getProductsAuthorized);
-    console.log("2. API got", res.data.length, "deals (from getDealsApi)");
-    const deals = await Deal.collectionFromArray(res.data);
-    console.log(
-      "3. converted",
-      Object.keys(deals).length,
-      "deals with Deal.fromApi (from getDealsApi)"
-    );
-    return deals;
-    // return res.data;
-  } catch (error) {
-    console.warn("get products failed. is axios mock adapter running?");
-    return error;
-  }
+  const res = await axios.get(ApiUrls.getProductsAuthorized);
+  console.log("2. API got", res.data.length, "deals (from getDealsApi)");
+  const deals = await Deal.collectionFromArray(res.data);
+  const count = Object.keys(deals).length;
+  console.log("3. converted", count, "deals (from getDealsApi)");
+  return deals;
+  // return res.data;
 }
 
 export function* getDealsSaga(): Saga<void> {
   try {
-    // const rawDeals: Object[] = yield call(getDealsApi);
-
-    // console.log(
-    //   "3. converting",
-    //   rawDeals.length,
-    //   "deals with Deal.fromApi (from getDealsSaga)"
-    // );
-    // const deals: DealCollection = yield call(
-    //   Deal.collectionFromArray,
-    //   rawDeals
-    // );
-    // console.log(
-    //   "4. dispatching",
-    //   Object.keys(deals).length,
-    //   "deals (from getDealsSaga)"
-    // );
     console.log("1. calling API (from getDealsSaga)");
-
     const deals: DealCollection = yield call(getDealsApi);
-    console.log(
-      "4. dispatching",
-      Object.keys(deals).length,
-      "deals (from getDealsSaga)"
-    );
+    const count = Object.keys(deals).length;
+    console.log("4. dispatching", count, "deals (from getDealsSaga)");
     yield put({ type: "GET_DEALS_SUCCESS", deals });
   } catch (error) {
     console.warn("getDealsSaga", "error:", error);
