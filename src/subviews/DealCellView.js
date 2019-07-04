@@ -19,22 +19,18 @@ const DealCellView = (props: Props) => {
   const deal = props.deal;
   const distanceString =
     props.location && deal.location
-      ? pluralize("mile", deal.distanceFromLocation(props.location), true) +
-        " away"
+      ? deal.distanceFromLocation(props.location) + " mi."
       : "";
   return (
     <TouchableOpacity style={styles.cellContainer} onPress={props.onTextPress}>
       <View style={styles.leftSection}>
-        <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
-          <CellTextRow style={text.title}>{deal.name}</CellTextRow>
-          {props.showDistance && (
-            <CellTextRow style={text.distance}>{distanceString}</CellTextRow>
-          )}
-        </View>
-        <CellTextRow>
-          {deal.address}
-          {/* <HTML html={deal.descriptionWithStyle(text.html)} /> */}
-        </CellTextRow>
+        <CellTextRow style={text.title}>{deal.name}</CellTextRow>
+        <CellTextRow>{deal.address}</CellTextRow>
+      </View>
+      <View style={styles.rightSection}>
+        {props.showDistance && (
+          <CellTextRow style={text.distance}>{distanceString}</CellTextRow>
+        )}
       </View>
     </TouchableOpacity>
   );

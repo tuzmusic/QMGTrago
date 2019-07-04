@@ -25,11 +25,15 @@ class DealsListScreen extends Component<Props> {
     });
   }
 
-  componentDidMount = () => {
+  automate() {
+    this.onSelectSearchRadius(5000);
     setTimeout(() => {
-      this.onSelectSearchRadius(5000);
       //   this.onDealClick(this.props.deals[this.props.deals.length - 1]);
     }, 1000);
+  }
+
+  componentDidMount = () => {
+    // this.automate()
   };
 
   onSelectSearchRadius(radius: number) {
