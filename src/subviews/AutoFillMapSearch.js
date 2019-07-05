@@ -39,18 +39,13 @@ export class AutoFillMapSearch extends React.Component<Props, State> {
     addressPredictions: [],
     showPredictions: false
   };
-  async handleAddressChange() {
-    // const url = `https://maps.googleapis.com/maps/api/place/autocomplete/json?key=${GoogleMapsApiKey}&input=${this.state.address}`;
+  async handleAddressChange(): AxiosPromise<void> {
     const url = ApiUrls.mapsSearch(this.state.address);
     try {
-      const res = await fetch(url);
-      const { predictions, error_message } = await res.json();
-      // Axios is commented out until I can figure out how to get my axios-mock-adapter to let other things through
-      // const { data, error_message } = await axios.get(url);
+      const { data, error_message } = await axios.get(url);
       if (error_message) throw Error(error_message);
       this.setState({
-        // addressPredictions: predictions || data.predictions,
-        addressPredictions: predictions,
+        addressPredictions: data.predictions,
         showPredictions: true
       });
     } catch (err) {
@@ -64,19 +59,16 @@ export class AutoFillMapSearch extends React.Component<Props, State> {
     );
   };
 
-  async onPredictionSelect(prediction: { [key: string]: string }) {
+  async onPredictionSelect(prediction: {
+    [key: string]: string
+  }): AxiosPromise<void> {
     this.textInput && this.textInput.blur();
 
     this.setState({ address: prediction.description, showPredictions: false });
-    // const url = `https://maps.googleapis.com/maps/api/place/details/json?key=${GoogleMapsApiKey}&placeid=${prediction.place_id}&fields=geometry`;
     const url = ApiUrls.mapsDetails(prediction.place_id);
     try {
-      const res = await fetch(url);
-      const { result, error_message } = await res.json();
-      // Axios is commented out until I can figure out how to get my axios-mock-adapter to let other things through
-      // const { data, error_message } = await axios.get(url);
-      const location = result.geometry.location;
-      // const location = result.geometry.location || data.result.geometry.location;
+      const { data, error_message } = await axios.get(url);
+      const location = data.result.geometry.location;
       console.log(location);
 
       this.props.setCurrentRegion({
