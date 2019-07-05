@@ -74,6 +74,8 @@ export function setupAuthMockAdapter(mock) {
     .reply(200, loginResponse.failure)
     // logout
     .onGet(ApiUrls.logout)
-    .reply(200, loginResponse.logout);
+    .reply(200, loginResponse.logout)
+    .onAny()
+    .passThrough();
   return mock;
 }

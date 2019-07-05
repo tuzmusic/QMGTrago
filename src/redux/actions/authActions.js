@@ -18,6 +18,7 @@ export async function registerWithApi({
   if (!nonce) throw Error("Could not get nonce");
   const params = {
     username,
+
     email,
     nonce,
     display_name: username,
