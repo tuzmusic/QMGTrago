@@ -13,8 +13,7 @@ export async function registerWithApi({
   username,
   password
 }: AuthParams) {
-  return MockResponses.registerResponse.success;
-
+  // return MockResponses.registerResponse.success;
   const nonce = (await axios.get(ApiUrls.nonce)).data.nonce;
   if (!nonce) throw Error("Could not get nonce");
   const params = {
@@ -31,7 +30,7 @@ export async function registerWithApi({
 import * as MockResponses from "../../../__mocks__/auth/authResponses";
 
 export async function loginWithApi(creds: AuthParams) {
-  return MockResponses.loginResponse.apiResponse;
+  // return MockResponses.loginResponse.apiResponse;
   const res = await axios.get(ApiUrls.login, { params: creds });
   return res.data;
 }

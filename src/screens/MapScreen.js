@@ -66,9 +66,9 @@ class MapScreen extends Component<Props, State> {
   state = { region: null };
 
   componentDidMount() {
-    setTimeout(() => {
-      this.props.setCurrentRegion(NewYork); // isn't working?
-    }, 1000);
+    // setTimeout(() => {
+    //   this.props.setCurrentRegion(NewYork); // isn't working?
+    // }, 1000);
   }
 
   onMarkerPress = deal => {
