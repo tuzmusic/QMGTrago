@@ -57,7 +57,7 @@ const authReducer = (
   }
 };
 export default authReducer;
-type AuthAction =
+export type AuthAction =
   | { type: "LOGIN_START" | "LOGOUT_START" | "REGISTRATION_START" }
   | { type: "LOGIN_SUCCESS" | "REGISTRATION_SUCCESS" | "SET_USER", user: User }
   | { type: "LOGOUT_SUCCESS" }
@@ -65,4 +65,7 @@ type AuthAction =
       type: "LOGIN_FAILURE" | "LOGOUT_FAILURE" | "REGISTRATION_FAILURE",
       error: string
     }
-  | { type: "CLEAR_AUTH_ERROR" };
+  | { type: "CLEAR_AUTH_ERROR" }
+  | { type: "SAVE_USER_START", user: User }
+  | { type: "LOAD_USER_START" }
+  | { type: "CLEAR_USER_START" };

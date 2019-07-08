@@ -32,7 +32,7 @@ const sagaMiddleware = createSagaMiddleware();
 const store = createStore(combinedReducer, {}, applyMiddleware(sagaMiddleware));
 sagaMiddleware.run(rootSaga);
 
-// setupMockAdapter({ deals: true, auth: true });
+setupMockAdapter({ deals: true, auth: true });
 
 export default function App() {
   return (

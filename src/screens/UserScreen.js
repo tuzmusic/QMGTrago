@@ -24,8 +24,8 @@ class UserScreen extends Component<Object> {
       <View style={styles.container}>
         <Text style={styles.text}>
           {this.props.user &&
-            "Logged in as " +
-              (this.props.user.username || this.props.user.user.username)}
+            `Logged in as ${this.props.user.username ||
+              this.props.user.user.username}`}
         </Text>
         <Button
           buttonStyle={styles.logout}

@@ -8,7 +8,8 @@ import {
   login,
   register,
   cancelLogin,
-  clearAuthError
+  clearAuthError,
+  saveUser
 } from "../redux/actions/authActions";
 import { getLocationAsync } from "../redux/actions/locationActions";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scrollview";
@@ -16,6 +17,8 @@ import LoginForm from "../subviews/LoginForm";
 import RegisterForm from "../subviews/RegisterForm";
 import { validate } from "email-validator";
 import type { AuthParams } from "../redux/actions/authActions";
+import type User from "../models/User";
+
 type State = {
   loggingIn: boolean,
   registering: boolean,
@@ -28,7 +31,9 @@ type Props = {
   navigation: Object,
   error: string,
   isLoading: boolean,
-  getLocationAsync: () => void
+  user: User,
+  getLocationAsync: () => void,
+  saveUser: User => void
 };
 
 class LoginView extends Component<Props, State> {
@@ -87,22 +92,8 @@ class LoginView extends Component<Props, State> {
     await this.props.register({ username, email, password });
   }
 
-  async componentWillReceiveProps(newProps: Object) {
-    if (newProps.user) {
-      try {
-        await AsyncStorage.setItem(
-          "trago_logged_in_user",
-          JSON.stringify(newProps.user)
-        );
-        console.log(
-          "newly logged in user has been saved as:",
-          await AsyncStorage.getItem("trago_logged_in_user")
-        );
-      } catch (error) {
-        console.warn("Couldn't write user to storage.", error);
-      }
-      this.props.navigation.navigate("Main");
-    }
+  async componentWillReceiveProps({ user }: Object) {
+    if (user) this.props.navigation.navigate("Main");
   }
 
   toggleForm() {
@@ -157,7 +148,7 @@ export default connect(
     user: state.auth.user,
     error: state.auth.error
   }),
-  { login, register, cancelLogin, clearAuthError, getLocationAsync }
+  { login, register, cancelLogin, clearAuthError, getLocationAsync, saveUser }
 )(LoginView);
 
 const styles = {

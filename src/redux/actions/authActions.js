@@ -5,21 +5,36 @@ import { ApiUrls } from "../../constants/constants";
 import User from "../../models/User";
 import type { Saga } from "redux-saga";
 import { AsyncStorage } from "react-native";
+import type { AuthAction } from "../reducers/authReducer";
 import Sugar from "sugar";
 Sugar.extend();
 
-async function saveUser() {}
+export function saveUser(user: User): AuthAction {
+  return { type: "SAVE_USER_START", user };
+}
 
-export function loadUser() {
+export function* saveUserSaga(action: AuthAction): Saga<void> {
+  console.log("user in saveUserSaga", action.user);
+  const userString = JSON.stringify(action.user);
+
+  yield call(AsyncStorage.setItem, "trago_logged_in_user", userString);
+  // yield put(setUser(user));
+}
+
+export function loadUser(): AuthAction {
   return { type: "LOAD_USER_START" };
 }
 
 export function* loadUserSaga(): Saga<void> {
   const user = yield call(AsyncStorage.getItem, "trago_logged_in_user");
+  console.log("user in loadUserSaga", user);
+
   if (user) yield put(setUser(JSON.parse(user)));
 }
 
-async function clearUser() {}
+export function clearUser(): AuthAction {
+  return { type: "CLEAR_USER_START" };
+}
 
 export type AuthParams = { email?: string, username: string, password: string };
 export async function registerWithApi({
@@ -57,12 +72,9 @@ export function* loginSaga({ creds }: { creds: AuthParams }): Saga<void> {
     if (error) {
       yield put({ type: "LOGIN_FAILURE", error });
     } else {
-      const newUser = User.fromApi(user.user);
-      yield put({
-        type: "LOGIN_SUCCESS",
-        // user
-        user: { ...user, user: newUser }
-      });
+      const newUserInfo = { ...user, user: User.fromApi(user.user) };
+      yield put({ type: "LOGIN_SUCCESS", user: newUserInfo });
+      yield put(saveUser(newUserInfo));
     }
   } catch (error) {
     yield put({ type: "LOGIN_FAILURE", error: error.message });
@@ -81,21 +93,21 @@ export function* logoutSaga(): Saga<void> {
 export function* registerSaga({ info }: { info: AuthParams }): Saga<void> {
   try {
     let { error, cookie, user_id } = yield call(registerWithApi, info);
-    error = null;
-    (cookie = ""), (user_id = 1);
-    yield put(
-      error
-        ? { type: "REGISTRATION_FAILURE", error }
-        : {
-            type: "REGISTRATION_SUCCESS",
-            user: {
-              username: info.username,
-              email: info.email,
-              userId: user_id,
-              cookie
-            }
-          }
-    );
+    if (error) {
+      yield put({ type: "REGISTRATION_FAILURE", error });
+    } else {
+      const newUserInfo = {
+        username: info.username,
+        email: info.email,
+        userId: user_id,
+        cookie
+      };
+      yield put({
+        type: "REGISTRATION_SUCCESS",
+        user: newUserInfo
+      });
+      yield put(saveUser(newUserInfo));
+    }
   } catch (error) {
     yield put({ type: "REGISTRATION_FAILURE", error: error.message });
   }
@@ -106,7 +118,8 @@ export default function* authSaga(): Saga<void> {
     yield takeEvery("LOGIN_START", loginSaga),
     yield takeEvery("LOGOUT_START", logoutSaga),
     yield takeEvery("REGISTRATION_START", registerSaga),
-    yield takeEvery("LOAD_USER_START", loadUserSaga)
+    yield takeEvery("LOAD_USER_START", loadUserSaga),
+    yield takeEvery("SAVE_USER_START", saveUserSaga)
   ]);
 }
 
