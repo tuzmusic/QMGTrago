@@ -90,14 +90,14 @@ class LoginView extends Component<Props, State> {
   async componentWillReceiveProps(newProps: Object) {
     if (newProps.user) {
       try {
-        // await AsyncStorage.setItem(
-        //   "trago_logged_in_user",
-        //   JSON.stringify(newProps.user)
-        // );
-        // console.log(
-        // "newly logged in user has been saved as:",
-        // await AsyncStorage.getItem("trago_logged_in_user")
-        // );
+        await AsyncStorage.setItem(
+          "trago_logged_in_user",
+          JSON.stringify(newProps.user)
+        );
+        console.log(
+          "newly logged in user has been saved as:",
+          await AsyncStorage.getItem("trago_logged_in_user")
+        );
       } catch (error) {
         console.warn("Couldn't write user to storage.", error);
       }

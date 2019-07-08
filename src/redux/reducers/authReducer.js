@@ -1,5 +1,4 @@
 // @flow
-import { AsyncStorage } from "react-native";
 import User from "../../models/User";
 type State = {
   +user: ?User,
