@@ -3,7 +3,7 @@ import { createSwitchNavigator } from "react-navigation";
 import LoginScreen from "../screens/LoginScreen";
 import { connect } from "react-redux";
 import { AsyncStorage } from "react-native";
-import { setUser } from "../redux/actions/authActions";
+import { loadUser, setUser } from "../redux/actions/authActions";
 
 const AuthStack = createSwitchNavigator({ Login: LoginScreen });
 
@@ -11,12 +11,8 @@ export class AuthNavigator extends Component {
   static router = AuthStack.router;
 
   async componentDidMount() {
-    const user = await AsyncStorage.getItem("trago_logged_in_user");
-    if (user) {
-      // console.log("User found in storage:", user);
-      this.props.setUser(JSON.parse(user));
-      this.props.navigation.navigate("Main");
-    }
+    await this.props.loadUser();
+    if (this.props.user) this.props.navigation.navigate("Main");
   }
 
   render() {
@@ -30,5 +26,5 @@ const mapStateToProps = state => {
 
 export default connect(
   mapStateToProps,
-  { setUser }
+  { setUser, loadUser }
 )(AuthNavigator);

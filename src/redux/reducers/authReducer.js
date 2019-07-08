@@ -21,7 +21,7 @@ const authReducer = (
   state: State = initialState,
   action: AuthAction
 ): State => {
-  // if (action.type[0] !== "@") console.log("AuthReducer:", action.type);
+  if (action.type[0] !== "@") console.log("AuthReducer:", action.type);
 
   switch (action.type) {
     case "LOGIN_START":

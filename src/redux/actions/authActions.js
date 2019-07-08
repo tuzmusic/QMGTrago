@@ -4,8 +4,22 @@ import { put, call, takeEvery, all } from "redux-saga/effects";
 import { ApiUrls } from "../../constants/constants";
 import User from "../../models/User";
 import type { Saga } from "redux-saga";
+import { AsyncStorage } from "react-native";
 import Sugar from "sugar";
 Sugar.extend();
+
+async function saveUser() {}
+
+export function loadUser() {
+  return { type: "LOAD_USER_START" };
+}
+
+export function* loadUserSaga(): Saga<void> {
+  const user = yield call(AsyncStorage.getItem, "trago_logged_in_user");
+  if (user) yield put(setUser(JSON.parse(user)));
+}
+
+async function clearUser() {}
 
 export type AuthParams = { email?: string, username: string, password: string };
 export async function registerWithApi({
@@ -13,7 +27,6 @@ export async function registerWithApi({
   username,
   password
 }: AuthParams) {
-  // return MockResponses.registerResponse.success;
   const nonce = (await axios.get(ApiUrls.nonce)).data.nonce;
   if (!nonce) throw Error("Could not get nonce");
   const params = {
@@ -28,10 +41,7 @@ export async function registerWithApi({
   return res.data;
 }
 
-import * as MockResponses from "../../../__mocks__/auth/authResponses";
-
 export async function loginWithApi(creds: AuthParams) {
-  // return MockResponses.loginResponse.apiResponse;
   const res = await axios.get(ApiUrls.login, { params: creds });
   return res.data;
 }
@@ -95,7 +105,8 @@ export default function* authSaga(): Saga<void> {
   yield all([
     yield takeEvery("LOGIN_START", loginSaga),
     yield takeEvery("LOGOUT_START", logoutSaga),
-    yield takeEvery("REGISTRATION_START", registerSaga)
+    yield takeEvery("REGISTRATION_START", registerSaga),
+    yield takeEvery("LOAD_USER_START", loadUserSaga)
   ]);
 }
 
