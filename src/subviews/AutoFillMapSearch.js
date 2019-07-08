@@ -39,11 +39,12 @@ export class AutoFillMapSearch extends React.Component<Props, State> {
     addressPredictions: [],
     showPredictions: false
   };
-  async handleAddressChange(): AxiosPromise<void> {
+
+  async handleAddressChange(): Promise<void> {
     const url = ApiUrls.mapsSearch(this.state.address);
     try {
-      const { data, error_message } = await axios.get(url);
-      if (error_message) throw Error(error_message);
+      const { data, ...res } = await axios.get(url);
+      if (res.error_message) throw Error(res.error_message);
       this.setState({
         addressPredictions: data.predictions,
         showPredictions: true
@@ -61,13 +62,14 @@ export class AutoFillMapSearch extends React.Component<Props, State> {
 
   async onPredictionSelect(prediction: {
     [key: string]: string
-  }): AxiosPromise<void> {
+  }): Promise<void> {
     this.textInput && this.textInput.blur();
 
     this.setState({ address: prediction.description, showPredictions: false });
     const url = ApiUrls.mapsDetails(prediction.place_id);
     try {
-      const { data, error_message } = await axios.get(url);
+      const { data, ...res } = await axios.get(url);
+      if (res.error_message) throw Error(res.error_message);
       const location = data.result.geometry.location;
       console.log(location);
 
