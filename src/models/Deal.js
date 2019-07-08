@@ -163,12 +163,13 @@ export default class Deal {
   distanceFromLocation = (
     location: Location,
     unit: unitOfDistance = "mi"
-  ): number => {
-    return distanceBetween(this.location, location);
+  ): ?number => {
+    if (this.location) return distanceBetween(this.location, location);
   };
 
-  distanceFrom = (otherDeal: Deal, unit: unitOfDistance = "mi"): number => {
-    return distanceBetween(this.location, otherDeal.location);
+  distanceFrom = (otherDeal: Deal, unit: unitOfDistance = "mi"): ?number => {
+    if (this.location && otherDeal.location)
+      return distanceBetween(this.location, otherDeal.location);
   };
 
   static toApi(deal: Deal): Object {

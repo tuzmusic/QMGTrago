@@ -71,8 +71,8 @@ function closestFirst(a: Deal, b: Deal): number {
 }
 
 function withinSearchRadius(deal: Deal): boolean {
-  if (!deal.location) return true;
   return (
+    !deal.location ||
     deal.distanceFromLocation(this.props.location) <= this.props.searchRadius
   );
 }
