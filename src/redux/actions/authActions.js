@@ -13,12 +13,14 @@ export function saveUser(user: User): AuthAction {
   return { type: "SAVE_USER_START", user };
 }
 
-export function* saveUserSaga(action: AuthAction): Saga<void> {
-  console.log("user in saveUserSaga", action.user);
+export function* saveUserSaga(action: { user: User }): Saga<void> {
   const userString = JSON.stringify(action.user);
-
-  yield call(AsyncStorage.setItem, "trago_logged_in_user", userString);
-  // yield put(setUser(user));
+  try {
+    yield call(AsyncStorage.setItem, "trago_logged_in_user", userString);
+    yield put({ type: "SAVE_USER_SUCCESS" });
+  } catch (error) {
+    yield put({ type: "SAVE_USER_FAILURE", error: error.message });
+  }
 }
 
 export function loadUser(): AuthAction {
@@ -26,10 +28,17 @@ export function loadUser(): AuthAction {
 }
 
 export function* loadUserSaga(): Saga<void> {
-  const user = yield call(AsyncStorage.getItem, "trago_logged_in_user");
-  console.log("user in loadUserSaga", user);
-
-  if (user) yield put(setUser(JSON.parse(user)));
+  try {
+    const user = yield call(AsyncStorage.getItem, "trago_logged_in_user");
+    if (user) {
+      yield put(setUser(JSON.parse(user)));
+      yield put({ type: "LOAD_USER_SUCCESS" });
+    } else {
+      throw Error("No saved user found");
+    }
+  } catch (error) {
+    yield put({ type: "LOAD_USER_FAILURE", error: error.message });
+  }
 }
 
 export function clearUser(): AuthAction {
@@ -46,7 +55,6 @@ export async function registerWithApi({
   if (!nonce) throw Error("Could not get nonce");
   const params = {
     username,
-
     email,
     nonce,
     display_name: username,
@@ -84,6 +92,7 @@ export function* loginSaga({ creds }: { creds: AuthParams }): Saga<void> {
 export function* logoutSaga(): Saga<void> {
   try {
     // yield call(logoutWithApi);
+    yield call(AsyncStorage.setItem, "trago_logged_in_user", "");
     yield put({ type: "LOGOUT_SUCCESS" });
   } catch (error) {
     yield put({ type: "LOGOUT_FAILURE", error: error.message });
@@ -102,11 +111,12 @@ export function* registerSaga({ info }: { info: AuthParams }): Saga<void> {
         userId: user_id,
         cookie
       };
+      const newUser = new User(newUserInfo);
       yield put({
         type: "REGISTRATION_SUCCESS",
-        user: newUserInfo
+        user: newUser
       });
-      yield put(saveUser(newUserInfo));
+      yield put(saveUser(newUser));
     }
   } catch (error) {
     yield put({ type: "REGISTRATION_FAILURE", error: error.message });

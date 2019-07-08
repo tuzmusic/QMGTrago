@@ -12,13 +12,6 @@ class UserScreen extends Component<Object> {
     if (!newProps.user) this.props.navigation.navigate("Auth");
   }
 
-  async performLogout() {
-    console.log("Logging out");
-
-    await AsyncStorage.setItem("trago_logged_in_user", ""); // this should happen in... authActions?
-    await this.props.logout();
-  }
-
   render() {
     return (
       <View style={styles.container}>
@@ -32,7 +25,7 @@ class UserScreen extends Component<Object> {
           containerStyle={styles.button}
           color="red"
           titleStyle={styles.text}
-          onPress={this.performLogout.bind(this)}
+          onPress={this.props.logout}
           title="Log Out"
           loading={this.props.isLoading}
           disabled={this.props.isLoading}

@@ -38,15 +38,3 @@ export default class User {
     return new User(userObject);
   }
 }
-
-/* 
-type UserObject = {
-  id: number,
-  firstName: string,
-  lastName: string,
-  dateCreated?: string | { raw: string },
-  username: string,
-  email: string
-};
-// type OpenObject = { [key: string]: any };
- */
