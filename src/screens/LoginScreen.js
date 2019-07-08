@@ -30,6 +30,7 @@ type Props = {
   isLoading: boolean,
   getLocationAsync: () => void
 };
+
 class LoginView extends Component<Props, State> {
   state = {
     loggingIn: true,
@@ -64,6 +65,7 @@ class LoginView extends Component<Props, State> {
     } else {
       creds.username = username;
     }
+    console.log(creds);
 
     await this.props.login(creds);
   }
@@ -99,9 +101,7 @@ class LoginView extends Component<Props, State> {
       } catch (error) {
         console.warn("Couldn't write user to storage.", error);
       }
-      await setTimeout(() => {
-        this.props.navigation.navigate("Main");
-      }, 2000);
+      this.props.navigation.navigate("Main");
     }
   }
 

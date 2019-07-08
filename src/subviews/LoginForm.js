@@ -15,8 +15,8 @@ class LoginForm extends Component {
     return (
       <ThemeProvider theme={theme}>
         <Input
-          placeholder="Username or Email"
-          label={this.state.username && "Username or Email"}
+          placeholder="Username"
+          label={this.state.username && "Username"}
           value={this.state.username}
           autoCorrect={false}
           autoCapitalize={"none"}

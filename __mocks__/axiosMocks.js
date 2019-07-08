@@ -9,7 +9,7 @@ import {
 import mockProducts from "./api/products";
 
 export function setupMockAdapter({ deals = false, auth = false }) {
-  let mock = new MockAdapter(axios);
+  let mock = new MockAdapter(axios, { delayResponse: 2000 });
   if (deals) setupDealsMockAdapter(mock);
   if (auth) setupAuthMockAdapter(mock);
 }

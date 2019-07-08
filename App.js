@@ -9,7 +9,6 @@ import { Provider } from "react-redux";
 import dealsReducer from "./src/redux/reducers/dealsReducer";
 import locationReducer from "./src/redux/reducers/locationReducer";
 import authReducer from "./src/redux/reducers/authReducer";
-// import authSaga from "./src/redux/actions/authActions";
 import createSagaMiddleware from "redux-saga";
 import locationSaga from "./src/redux/actions/locationActions";
 import authSaga from "./src/redux/actions/authActions";
