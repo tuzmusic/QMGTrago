@@ -8,11 +8,11 @@ class RegisterForm extends Component {
     username: "",
     email: "",
     password: "",
-    passwordConfirmation: "",
-    username: "testuser1",
-    email: "api1@trago.com",
-    password: "123123",
-    passwordConfirmation: "123123"
+    passwordConfirmation: ""
+    // username: "testuser1",
+    // email: "api1@trago.com",
+    // password: "123123",
+    // passwordConfirmation: "123123"
   };
 
   render() {
