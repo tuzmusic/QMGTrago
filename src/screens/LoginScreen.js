@@ -118,10 +118,10 @@ class LoginView extends Component<Props, State> {
     return (
       <KeyboardAwareScrollView contentContainerStyle={styles.superContainer}>
         <View style={styles.container}>
-          {/*  <Image
-            source={require("../../assets/images/proz-reviews-logo.png")}
+          <Image
+            source={require("../../assets/TragoiLogoGrande1.png")}
             style={styles.image}
-          /> */}
+          />
           {this.state.errors.map((e, i) => (
             <Text style={styles.errorText} key={i}>
               {e}
@@ -162,11 +162,11 @@ export default connect(
 
 const styles = {
   image: {
-    height: 200,
-    width: 200,
-    marginBottom: 40
+    height: 100,
+    width: 300,
+    resizeMode: "contain",
+    marginBottom: 20
   },
-
   errorText: {
     color: "red",
     fontSize: 16
@@ -184,21 +184,5 @@ const styles = {
   superContainer: {
     flex: 1,
     justifyContent: "center"
-  },
-  image: {
-    height: 200,
-    width: 200,
-    marginBottom: 40
-  },
-  modalContainer: {
-    flex: 1,
-    justifyContent: "space-between",
-    alignItems: "center",
-    margin: 40
-  },
-  modal: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center"
   }
 };
