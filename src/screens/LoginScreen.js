@@ -70,7 +70,6 @@ class LoginView extends Component<Props, State> {
     } else {
       creds.username = username;
     }
-    console.log(creds);
 
     await this.props.login(creds);
   }

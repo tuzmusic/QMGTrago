@@ -7,7 +7,7 @@
     "platforms": ["ios", "android", "web"],
     "version": "0.5.1",
     "orientation": "portrait",
-    "icon": "./assets/icon.png",
+    "icon": "./assets/trago-icon-1024.png",
     "splash": {
       "image": "./assets/splash-trago.png",
       "resizeMode": "contain",

@@ -71,8 +71,6 @@ export class AutoFillMapSearch extends React.Component<Props, State> {
       const { data, ...res } = await axios.get(url);
       if (res.error_message) throw Error(res.error_message);
       const location = data.result.geometry.location;
-      console.log(location);
-
       this.props.setCurrentRegion({
         latitude: location.lat,
         longitude: location.lng,

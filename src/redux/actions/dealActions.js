@@ -14,7 +14,7 @@ export async function getDealsApi(): Promise<DealCollection> {
   const res = await axios.get(ApiUrls.getProductsAuthorized);
   const deals: DealCollection = await Deal.collectionFromApiArray(res.data);
   for (const id in deals) {
-    const deal = deals[id];
+    const deal = deals[Number(id)];
     if (!deal.location && deal.address) await deal.setLocation();
   }
   return deals;

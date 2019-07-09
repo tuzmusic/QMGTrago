@@ -9,9 +9,11 @@ import {
 import mockProducts from "./api/products";
 
 export function setupMockAdapter({ deals = false, auth = false }) {
-  let mock = new MockAdapter(axios, { delayResponse: 2000 });
+  let mock = new MockAdapter(axios, { delayResponse: 1000 });
+  console.log("WARNING: Using mock api - not connecting to the internet!");
   if (deals) setupDealsMockAdapter(mock);
   if (auth) setupAuthMockAdapter(mock);
+  mock.onAny().passThrough();
 }
 
 export function setupDealsMockAdapter(mock) {
@@ -74,8 +76,6 @@ export function setupAuthMockAdapter(mock) {
     .reply(200, loginResponse.failure)
     // logout
     .onGet(ApiUrls.logout)
-    .reply(200, loginResponse.logout)
-    .onAny()
-    .passThrough();
+    .reply(200, loginResponse.logout);
   return mock;
 }
