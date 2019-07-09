@@ -109,7 +109,9 @@ class MapScreen extends Component<Props, State> {
             beforeOnPress={this.beforePressPrediction.bind(this)}
           />
         </Callout>
-        <GoToMockDealsButton setCurrentRegion={this.props.setCurrentRegion} />
+        {__DEV__ && (
+          <GoToMockDealsButton setCurrentRegion={this.props.setCurrentRegion} />
+        )}
         <LocationButton onPress={this.props.getLocationAsync} />
       </View>
     );
