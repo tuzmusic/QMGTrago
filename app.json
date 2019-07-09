@@ -13,12 +13,17 @@
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
+    "primaryColor": "#ffffff",
     "updates": {
       "fallbackToCacheTimeout": 0
     },
     "assetBundlePatterns": ["**/*"],
     "ios": {
+      "bundleIdentifier": "com.tragodeals.TragoMobile",
       "supportsTablet": true
+    },
+    "android": {
+      "package": "com.tragodeals.TragoMobile"
     },
     "description": "v0.5.1\n- Login and registration are working, with the website\n- Logo on Login screen\n- Autologin possible once already logged in\n\nRemaining bugs:\n- Map doesn't move when selecting a marker (so marker may not be fully visible)\n- Text sometimes overflows outside of a marker"
   }
