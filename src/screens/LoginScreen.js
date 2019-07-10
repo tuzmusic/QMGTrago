@@ -106,7 +106,13 @@ class LoginView extends Component<Props, State> {
 
   render() {
     return (
-      <KeyboardAwareScrollView contentContainerStyle={styles.superContainer}>
+      <KeyboardAwareScrollView
+        contentContainerStyle={styles.superContainer}
+        // these don't appear to work
+        scrollEnabled={true}
+        enableAutomaticScroll={true}
+        extraScrollHeight={100}
+      >
         <View style={styles.container}>
           <Image
             source={require("../../assets/TragoiLogoGrande1.png")}

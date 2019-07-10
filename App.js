@@ -16,6 +16,8 @@ import dealsSaga from "./src/redux/actions/dealActions";
 import type { Saga } from "redux-saga";
 import { setupMockAdapter } from "./__mocks__/axiosMocks";
 
+declare var __DEV__: boolean;
+
 const combinedReducer = combineReducers({
   deals: dealsReducer,
   location: locationReducer,
@@ -33,6 +35,7 @@ const store = createStore(combinedReducer, {}, applyMiddleware(sagaMiddleware));
 sagaMiddleware.run(rootSaga);
 
 if (__DEV__) setupMockAdapter({ deals: true, auth: true });
+
 export default function App() {
   console.log(__DEV__ ? "development" : "production", "mode");
 

@@ -15,6 +15,8 @@ import DealMarkers from "../subviews/DealMarkers";
 import type { Location } from "../redux/reducers/locationReducer";
 import type Deal from "../models/Deal";
 
+declare var __DEV__: boolean;
+
 const CurrentRegionMarker = ({ currentRegion }) => {
   return currentRegion && currentRegion.showMarker ? (
     <Marker coordinate={currentRegion} pinColor={"green"} />
@@ -64,12 +66,6 @@ class MapScreen extends Component<Props, State> {
   };
 
   state = { region: null };
-
-  componentDidMount() {
-    // setTimeout(() => {
-    //   this.props.setCurrentRegion(NewYork); // isn't working?
-    // }, 1000);
-  }
 
   onMarkerPress = deal => {
     // this is for reorienting the map. not working yet.
