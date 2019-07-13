@@ -34,16 +34,17 @@ const LocationButton = ({ onPress }) => {
     </Callout>
   );
 };
-const NewYork: Location = {
-  latitude: 40.74410640000001,
-  longitude: -73.98741129999999,
-  showMarker: false
-};
 const GoToMockDealsButton = props => {
   return (
-    <Callout style={[styles.locationButtonCallout, { right: 50 }]}>
+    <Callout style={[styles.locationButtonCallout, { right: 50, width: null }]}>
       <Button
-        onPress={() => props.setCurrentRegion(NewYork)}
+        onPress={() =>
+          props.setCurrentRegion({
+            latitude: 40.74410640000001,
+            longitude: -73.98741129999999,
+            showMarker: false
+          })
+        }
         title={"New York"}
       />
     </Callout>
@@ -138,17 +139,20 @@ const styles = {
     height: 40
   },
   locationButtonCallout: {
-    borderRadius: 10,
-    opacity: 0.7,
-    backgroundColor: "lightgrey",
+    opacity: 0.9,
+    backgroundColor: "transparent",
     bottom: 0,
     right: 0,
-    margin: 10
+    height: 40,
+    width: 40,
+    margin: 15
   },
   locationButton: {
-    backgroundColor: "transparent",
-    padding: 12
+    backgroundColor: "white",
+    borderRadius: 50,
+    padding: 10
   },
+
   container: {
     flex: 1,
     flexDirection: "column",
