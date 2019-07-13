@@ -4,11 +4,7 @@
     "slug": "QMGTrago",
     "privacy": "public",
     "sdkVersion": "33.0.0",
-    "platforms": [
-      "ios",
-      "android",
-      "web"
-    ],
+    "platforms": ["ios", "android"],
     "version": "0.5.2",
     "orientation": "portrait",
     "icon": "./assets/trago-icon-1024.png",
@@ -21,9 +17,7 @@
     "updates": {
       "fallbackToCacheTimeout": 0
     },
-    "assetBundlePatterns": [
-      "**/*"
-    ],
+    "assetBundlePatterns": ["**/*"],
     "ios": {
       "bundleIdentifier": "com.tragodeals.TragoMobile",
       "supportsTablet": true

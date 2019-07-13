@@ -1,7 +1,12 @@
 // @flow
 import React, { Component } from "react";
 import { Image, Overlay } from "react-native-elements";
-import { View, Text, TouchableOpacity, AsyncStorage } from "react-native";
+import {
+  View,
+  Text,
+  TouchableOpacity,
+  KeyboardAvoidingView
+} from "react-native";
 import { DotIndicator } from "react-native-indicators";
 import { connect } from "react-redux";
 import {
@@ -106,12 +111,10 @@ class LoginView extends Component<Props, State> {
 
   render() {
     return (
-      <KeyboardAwareScrollView
-        contentContainerStyle={styles.superContainer}
-        // these don't appear to work
-        scrollEnabled={true}
-        enableAutomaticScroll={true}
-        extraScrollHeight={100}
+      <KeyboardAvoidingView
+        style={styles.superContainer}
+        enabled
+        behavior="height"
       >
         <View style={styles.container}>
           <Image
@@ -142,7 +145,7 @@ class LoginView extends Component<Props, State> {
             />
           )}
         </View>
-      </KeyboardAwareScrollView>
+      </KeyboardAvoidingView>
     );
   }
 }
