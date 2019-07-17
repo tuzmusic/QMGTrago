@@ -1,4 +1,10 @@
 {
   "javascript.format.enable": false,
-  "javascript.validate.enable": false
+  "javascript.validate.enable": false,
+  "search.useGlobalIgnoreFiles": true,
+  "search.exclude": {
+    "**/flow-typed/**": true,
+    "**/node_modules": false,
+    "**/node_modules/**": true
+  }
 }
