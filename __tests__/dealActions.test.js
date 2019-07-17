@@ -28,16 +28,26 @@ const failureAction: DealAction = {
   type: "GET_DEALS_FAILURE",
   error: "Bad stuff happened"
 };
-const initialState: DealState = { deals: {}, loadingMessage: "", error: null };, wishlist:[]
+const initialState: DealState = {
+  deals: {},
+  loadingMessage: "",
+  error: null,
+  wishlist: [],
+  wishlistFailureId: null
+};
 const successState: DealState = {
   deals: expectedDeals,
   loadingMessage: "",
-  error: null, wishlist:[]
+  error: null,
+  wishlist: [],
+  wishlistFailureId: null
 };
 const failureState: DealState = {
   deals: {},
   loadingMessage: "",
-  error: "Bad stuff happened", wishlist:[]
+  error: "Bad stuff happened",
+  wishlist: [],
+  wishlistFailureId: null
 };
 
 describe("getDeals", () => {
