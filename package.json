@@ -54,6 +54,7 @@
     "babel-jest": "^24.8.0",
     "babel-preset-expo": "^5.0.0",
     "babel-preset-react-native": "^4.0.1",
+    "cheerio": "^1.0.0-rc.3",
     "enzyme": "^3.9.0",
     "enzyme-adapter-react-16": "^1.12.1",
     "fetch-mock": "^7.3.3",
