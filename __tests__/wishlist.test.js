@@ -1,6 +1,9 @@
 // @flow
-import dealsReducer, { initialState } from "../src/redux/reducers/dealsReducer";
-import type { DealState } from "../src/redux/reducers/dealsReducer";
+import dealsReducer, {
+  initialState,
+  DealActionTypes as Types
+} from "../src/redux/reducers/dealsReducer";
+import * as Type from "../src/redux/reducers/dealsReducer";
 import axios from "axios";
 import MockAdapter from "axios-mock-adapter";
 import { WishlistUrls } from "../src/constants/constants";
@@ -14,11 +17,15 @@ import {
 } from "../src/redux/actions/wishlistActions";
 import mockDeals from "../__mocks__/mockDeals";
 import Deal from "../src/models/Deal";
+import SagaTester from "redux-saga-tester";
 
 describe("Wishlist actions - Reducer", () => {
   describe("start actions", () => {
     it("start action optimistically adds a deal id to the wishlist in state", () => {
-      const startAction = { type: "ADD_TO_WISHLIST_START", id: 2129 };
+      const startAction: Type.AddToWishlistStartAction = {
+        type: Types.addToWishlistStart,
+        id: 2129
+      };
       expect(dealsReducer(initialState, startAction).wishlist).toContain(2129);
     });
     it("start action optimistically removes a deal id from the wishlist in state", () => {
@@ -116,6 +123,6 @@ describe("Wishlist redux actions", () => {
   });
 
   describe("addToWishlistSaga", () => {
-    // const startAction = {type: }
+    const startAction = { type: Types.addToWishlistStart, id: deal.id };
   });
 });

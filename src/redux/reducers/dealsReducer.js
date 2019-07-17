@@ -10,34 +10,45 @@ export const initialState: DealState = {
   wishlistFailureId: null
 };
 
+export const DealActionTypes = {
+  addToWishlistStart: "ADD_TO_WISHLIST_START",
+  removeFromWishlistStart: "REMOVE_FROM_WISHLIST_START",
+  addToWishlistFailure: "ADD_TO_WISHLIST_FAILURE",
+  removeFromWishlistFailure: "REMOVE_FROM_WISHLIST_FAILURE",
+  getDealsStart: "GET_DEALS_START",
+  wishlistSuccess: "WISHLIST_SUCCESS",
+  getDealsSuccess: "GET_DEALS_SUCCESS",
+  getDealsFailure: "GET_DEALS_FAILURE"
+};
+
 export default function dealsReducer(
   state: DealState = initialState,
   action: DealAction
 ): DealState {
   let wishlist; // local wishlist for manipulation
   switch (action.type) {
-    case "GET_DEALS_START":
+    case DealActionTypes.getDealsStart:
       return { ...state, loadingMessage: "Loading Deals..." };
-    case "GET_DEALS_SUCCESS":
+    case DealActionTypes.getDealsSuccess:
       return { ...state, deals: action.deals, loadingMessage: "" };
-    case "GET_DEALS_FAILURE":
+    case DealActionTypes.getDealsFailure:
       return { ...state, error: action.error, loadingMessage: "" };
-    case "ADD_TO_WISHLIST_START":
+    case DealActionTypes.addToWishlistStart:
       return { ...state, wishlist: state.wishlist.concat(action.id) };
-    case "REMOVE_FROM_WISHLIST_START":
+    case DealActionTypes.removeFromWishlistStart:
       wishlist = [...state.wishlist];
       wishlist.splice(action.removal.index, 1);
       return { ...state, wishlist };
-    case "ADD_TO_WISHLIST_FAILURE":
+    case DealActionTypes.addToWishlistFailure:
       wishlist = [...state.wishlist];
       wishlist.splice(wishlist.indexOf(action.id), 1);
       return { ...state, wishlistFailureId: action.id, wishlist };
-    case "REMOVE_FROM_WISHLIST_FAILURE":
+    case DealActionTypes.removeFromWishlistFailure:
       const { id, index } = action.removal;
       wishlist = [...state.wishlist];
       wishlist.splice(index, 0, id);
       return { ...state, wishlistFailureId: -id, wishlist };
-    case "WISHLIST_SUCCESS":
+    case DealActionTypes.wishlistSuccess:
     default:
       return state;
   }
@@ -52,16 +63,37 @@ export type DealState = {
 };
 export type DealCollection = { [number]: Deal };
 export type DealAction =
-  | { type: "ADD_TO_WISHLIST_START", id: number }
-  | {
-      type: "REMOVE_FROM_WISHLIST_START",
-      removal: { id: number, index: number }
-    }
-  | { type: "ADD_TO_WISHLIST_FAILURE", id: number }
-  | {
-      type: "REMOVE_FROM_WISHLIST_FAILURE",
-      removal: { id: number, index: number }
-    }
-  | { type: "GET_DEALS_START" | "WISHLIST_SUCCESS" }
-  | { type: "GET_DEALS_SUCCESS", deals: DealCollection }
-  | { type: "GET_DEALS_FAILURE", error: string };
+  | AddToWishlistStartAction
+  | RemoveFromWishlistStartAction
+  | AddToWishlistFailureAction
+  | RemoveFromWishlistFailureAction
+  | GetDealsStartAction
+  | WishlistSuccessAction
+  | GetDealsSuccessAction
+  | GetDealsFailureAction;
+export type AddToWishlistStartAction = {
+  type: "ADD_TO_WISHLIST_START",
+  id: number
+};
+export type RemoveFromWishlistStartAction = {
+  type: "REMOVE_FROM_WISHLIST_START",
+  removal: { id: number, index: number }
+};
+export type AddToWishlistFailureAction = {
+  type: "ADD_TO_WISHLIST_FAILURE",
+  id: number
+};
+export type RemoveFromWishlistFailureAction = {
+  type: "REMOVE_FROM_WISHLIST_FAILURE",
+  removal: { id: number, index: number }
+};
+export type GetDealsStartAction = { type: "GET_DEALS_START" };
+export type WishlistSuccessAction = { type: "WISHLIST_SUCCESS" };
+export type GetDealsSuccessAction = {
+  type: "GET_DEALS_SUCCESS",
+  deals: DealCollection
+};
+export type GetDealsFailureAction = {
+  type: "GET_DEALS_FAILURE",
+  error: string
+};
