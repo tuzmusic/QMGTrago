@@ -18,6 +18,16 @@ export const ApiUrls = {
     `https://maps.googleapis.com/maps/api/place/details/json?key=${GoogleMapsApiKey}&placeid=${placeId}&fields=geometry`
 };
 
+export const WishlistUrls = {
+  add(id) {
+    baseUrl + "?add_to_wishlist=", id;
+  },
+  remove(id) {
+    baseUrl + "?remove_from_wishlist=", id;
+  },
+  getWishlist: baseUrl + "wishlist-2"
+};
+
 // These don't seem to work...
 String.prototype.authorized = () => {
   // debugger;

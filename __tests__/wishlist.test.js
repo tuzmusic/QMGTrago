@@ -2,6 +2,11 @@
 import User from "../src/models/User";
 import dealsReducer, { initialState } from "../src/redux/reducers/dealsReducer";
 import type { DealState } from "../src/redux/reducers/dealsReducer";
+import axios from "axios";
+import MockAdapter from "axios-mock-adapter";
+import { WishlistUrls } from "../src/constants/constants";
+import * as fs from "fs";
+import * as path from "path";
 
 describe("Wishlist actions - Reducer", () => {
   describe("start actions", () => {
@@ -58,5 +63,19 @@ describe("Wishlist actions - Reducer", () => {
     });
 
     xit("somehow handles overlapping failures and successes. ", () => {});
+  });
+});
+
+fdescribe("Wishlist redux actions", () => {
+  const mock = new MockAdapter(axios);
+
+  it("mocks from the HTML file", async () => {
+    const thePath = path.resolve(__dirname, "../__mocks__/wishlist-2.html");
+    const mockHtml = fs.readFileSync(thePath);
+    mock.onGet(WishlistUrls.get).reply(200, mockHtml.toString(), {
+      "content-type": "text/html"
+    });
+    const res = await axios(WishlistUrls.get);
+    console.log(res.data);
   });
 });
