@@ -10,28 +10,32 @@ import mockDeals from "../__mocks__/mockDeals";
 import products from "../__mocks__/api/products";
 import Deal from "../src/models/Deal";
 
-const list1 = products.map(d => Deal.fromApi(d));
-const list2 = [...list1];
-const lastDeal = list2.pop();
+const fullList = products.map(d => Deal.fromApi(d));
+const shorterList = [...fullList];
+const lastDeal = shorterList.pop();
 
 const stateWithFullList: WishlistState = {
   ...initialState,
-  currentWishlist: list1
+  currentWishlist: fullList
 };
 const stateWithShorterList: WishlistState = {
   ...stateWithFullList,
-  currentWishlist: list2
+  currentWishlist: shorterList
 };
 const optimisticAddState: WishlistState = {
   ...stateWithFullList,
-  previousWishlist: list2
+  previousWishlist: shorterList
+};
+const optimisticRemoveState: WishlistState = {
+  ...stateWithShorterList,
+  previousWishlist: fullList
 };
 
 describe("wishlistReducer", () => {
   describe("GET_WISHLIST actions", () => {
     const getSuccessAction: Ac.GetWishlistSuccessAction = {
       type: t.GET_WISHLIST_SUCCESS,
-      wishlist: list1
+      wishlist: fullList
     };
     const getFailureAction: Ac.GetWishlistFailureAction = {
       type: t.GET_WISHLIST_FAILURE,
@@ -94,21 +98,66 @@ describe("wishlistReducer", () => {
         type: t.ADD_TO_WISHLIST_FAILURE,
         error: Error("Something went wrong")
       };
-      const failureResult: WishlistState = reducer(
+      const addfailureResult: WishlistState = reducer(
         optimisticAddState,
         addFailureAction
       );
 
       it("reverts currentWishlist to the previous wishlist", () => {
-        expect(failureResult.currentWishlist).toEqual(list2);
+        expect(addfailureResult.currentWishlist).toEqual(shorterList);
       });
 
       it("clears previousWishlist", () => {
-        expect(failureResult.previousWishlist).toBe(null);
+        expect(addfailureResult.previousWishlist).toBeNull();
       });
 
       it("reports an error", () => {
-        expect(failureResult.error).toEqual("Something went wrong");
+        expect(addfailureResult.error).toEqual("Something went wrong");
+      });
+    });
+  });
+
+  describe("REMOVE_FROM_WISHLIST actions", () => {
+    describe("start action", () => {
+      const removeStart: Ac.RemoveFromWishlistStartAction = {
+        type: t.REMOVE_FROM_WISHLIST_START,
+        deal: lastDeal
+      };
+      const removeStartResult = reducer(stateWithFullList, removeStart);
+      it("should remove the deal from the wishlist", () => {
+        expect(removeStartResult.currentWishlist).not.toContain(lastDeal);
+      });
+      it("should store the current wish list in previousWishlist", () => {
+        expect(removeStartResult.previousWishlist).toEqual(fullList);
+      });
+    });
+    describe("success action", () => {
+      const removeSuccess: Ac.RemoveFromWishlistSuccessAction = {
+        type: t.REMOVE_FROM_WISHLIST_SUCCESS
+      };
+      const removeSuccessResult = reducer(optimisticRemoveState, removeSuccess);
+      it("should simply clear the previousWishlist. since it's no longer needed. right?", () => {
+        expect(removeSuccessResult).toEqual({
+          ...optimisticRemoveState,
+          previousWishlist: null
+        });
+      });
+    });
+    describe("failure action", () => {
+      const removeFailure: Ac.RemoveFromWishlistFailureAction = {
+        type: t.REMOVE_FROM_WISHLIST_FAILURE,
+        error: Error("Something went wrong")
+      };
+      const removeFailureResult = reducer(optimisticRemoveState, removeFailure);
+
+      it("reverts the [optimistic] currentWishlist to the previous wishlist", () => {
+        expect(removeFailureResult.currentWishlist).toEqual(fullList);
+      });
+      it("clears previousWishlist", () => {
+        expect(removeFailureResult.previousWishlist).toBeNull();
+      });
+      it("reports an error", () => {
+        expect(removeFailureResult.error).toEqual("Something went wrong");
       });
     });
   });

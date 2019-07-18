@@ -48,13 +48,23 @@ export default function wishlistReducer(
         previousWishlist: state.currentWishlist
       };
     case types.ADD_TO_WISHLIST_SUCCESS:
+    case types.REMOVE_FROM_WISHLIST_SUCCESS:
       return { ...state, previousWishlist: null };
     case types.ADD_TO_WISHLIST_FAILURE:
+    case types.REMOVE_FROM_WISHLIST_FAILURE:
       return {
         ...state,
         currentWishlist: state.previousWishlist,
         previousWishlist: null,
         error: action.error.message
+      };
+    case types.REMOVE_FROM_WISHLIST_START:
+      const wishlist = [...state.currentWishlist];
+      wishlist.splice(wishlist.indexOf(action.deal), 1);
+      return {
+        ...state,
+        currentWishlist: wishlist,
+        previousWishlist: state.currentWishlist
       };
 
     default:
@@ -66,7 +76,13 @@ export type WishlistAction =
   | GetWishlistStartAction
   | GetWishlistSuccessAction
   | GetWishlistFailureAction
-  | AddToWishlistStartAction;
+  | AddToWishlistStartAction
+  | AddToWishlistSuccessAction
+  | AddToWishlistFailureAction
+  | RemoveFromWishlistStartAction
+  | RemoveFromWishlistSuccessAction
+  | RemoveFromWishlistFailureAction;
+
 export type GetWishlistStartAction = {
   type: types.GET_WISHLIST_START
 };
@@ -87,5 +103,16 @@ export type AddToWishlistSuccessAction = {
 };
 export type AddToWishlistFailureAction = {
   type: types.ADD_TO_WISHLIST_FAILURE,
+  error: Error
+};
+export type RemoveFromWishlistStartAction = {
+  type: types.REMOVE_FROM_WISHLIST_START,
+  deal: Deal
+};
+export type RemoveFromWishlistSuccessAction = {
+  type: types.REMOVE_FROM_WISHLIST_SUCCESS
+};
+export type RemoveFromWishlistFailureAction = {
+  type: types.REMOVE_FROM_WISHLIST_FAILURE,
   error: Error
 };
