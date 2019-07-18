@@ -69,7 +69,7 @@ describe("getDeals", () => {
   xdescribe("getDealsSaga", () => {
     it("dispatches a success action with the fetched deals", async () => {
       const dispatched = await recordSaga(getDealsSaga, startAction);
-      console.log(dispatched);
+      console.log("dispatched from getDealsSaga", dispatched);
 
       expect(dispatched).toContainEqual(successAction);
     });

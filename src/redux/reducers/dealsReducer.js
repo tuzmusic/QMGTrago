@@ -25,6 +25,7 @@ export default function dealsReducer(
   state: DealState = initialState,
   action: DealAction
 ): DealState {
+  // if (!action.type.startsWith("@@")) console.log(action.type);
   let wishlist; // local wishlist for manipulation
   switch (action.type) {
     case DealActionTypes.getDealsStart:

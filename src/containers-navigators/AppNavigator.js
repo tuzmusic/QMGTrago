@@ -14,6 +14,7 @@ import DealDetailScreen from "../screens/DealDetailScreen";
 import TabBarIcon from "../components/TabBarIcon";
 import { getLocationAsync } from "../redux/actions/locationActions";
 import { getDeals } from "../redux/actions/dealActions";
+import { addToWishlist } from "../redux/actions/wishlistActions";
 import LoadingIndicator from "../components/LoadingIndicator";
 import LoginScreen from "../screens/LoginScreen";
 import AuthNavigator from "./AuthNavigator";
@@ -96,6 +97,7 @@ const TabNavigator = createBottomTabNavigator(
 class TabContainer extends Component<Object> {
   static router = TabNavigator.router;
   async componentDidMount() {
+    // this.props.addToWishlist();
     await this.props.getLocationAsync();
     await this.props.getDeals();
   }
@@ -107,7 +109,7 @@ const SwitchNavigator = createSwitchNavigator({
   Auth: AuthNavigator,
   Main: connect(
     ({ location }) => ({ location: location.currentRegion }),
-    { getLocationAsync, getDeals }
+    { getLocationAsync, getDeals, addToWishlist }
   )(TabContainer)
 });
 

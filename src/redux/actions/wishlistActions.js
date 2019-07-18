@@ -21,16 +21,21 @@ export function removeFromWishlist(deal: Deal, wishlist: number[]): DealAction {
     removal: { id: deal.id, index: wishlist.indexOf(deal.id) }
   };
 }
+
 export async function addToWishlistApi(id: number) {
-  console.log("addToWishlistApi HELLO CAN ANYBODY HEAR ME");
-  const res = await axios.get(WishlistUrls.add(id));
-  console.log(res);
-}
-export function* addToWishlistSaga({ id }: { id: number }): Saga<void> {
-  console.log("addToWishlistSaga HELLO CAN ANYBODY HEAR ME");
   try {
+    const res = await axios.get(WishlistUrls.add(id));
+  } catch (error) {
+    const err = error;
+    // debugger;
+  }
+}
+
+export function* addToWishlistSaga({ id }: { id: number }): Saga<void> {
+  try {
+    // console.log("addToWishlistSaga HELLO CAN ANYBODY HEAR ME");
     const res = yield call(addToWishlistApi, id);
-    console.log(res); // don't actually need this response
+    // console.log(res); // don't actually need this response
 
     const wishlist = yield call(getCurrentWishlist);
     console.log("WISHLIST", wishlist);
@@ -49,9 +54,9 @@ export function* removeFromWishlistSaga(): Saga<void> {}
 
 export async function getCurrentWishlist(): Promise<number[]> {
   const res = await axios.get(WishlistUrls.getWishlist);
-  console.log(res.data.includes("WISHLIST-2.HTML"));
+  // console.log(res.data.includes("WISHLIST-2.HTML"));
 
-  const $ = cheerio.load(res.data);
+  const $ = cheerio.load(res.data); // problem is here
   const tags = $(".button.yith-wcqv-button");
   const idStrings: string[] = [];
   tags.each((i, tag) => {
