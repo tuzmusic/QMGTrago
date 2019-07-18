@@ -1,15 +1,15 @@
 import type Deal from "../../models/Deal";
 
 export const WishlistActionTypes = {
-  addToWishlistStart: "ADD_TO_WISHLIST_START",
-  addToWishlistSuccess: "ADD_TO_WISHLIST_SUCCESS",
-  addToWishlistFailure: "ADD_TO_WISHLIST_FAILURE",
-  removeFromWishlistStart: "REMOVE_FROM_WISHLIST_START",
-  removeFromWishlistSuccess: "REMOVE_FROM_WISHLIST_SUCCESS",
-  removeFromWishlistFailure: "REMOVE_FROM_WISHLIST_FAILURE",
-  getWishlistStart: "GET_WISHLIST_START",
-  getWishlistSuccess: "GET_WISHLIST_SUCCESS",
-  getWishlistFailure: "GET_WISHLIST_FAILURE"
+  ADD_TO_WISHLIST_START: "ADD_TO_WISHLIST_START",
+  ADD_TO_WISHLIST_SUCCESS: "ADD_TO_WISHLIST_SUCCESS",
+  ADD_TO_WISHLIST_FAILURE: "ADD_TO_WISHLIST_FAILURE",
+  REMOVE_FROM_WISHLIST_START: "REMOVE_FROM_WISHLIST_START",
+  REMOVE_FROM_WISHLIST_SUCCESS: "REMOVE_FROM_WISHLIST_SUCCESS",
+  REMOVE_FROM_WISHLIST_FAILURE: "REMOVE_FROM_WISHLIST_FAILURE",
+  GET_WISHLIST_START: "GET_WISHLIST_START",
+  GET_WISHLIST_SUCCESS: "GET_WISHLIST_SUCCESS",
+  GET_WISHLIST_FAILURE: "GET_WISHLIST_FAILURE"
 };
 
 export type WishlistState = {
@@ -31,23 +31,23 @@ export default function wishlistReducer(
   // if (!action.type.startsWith("@@")) console.log(action.type);
 
   switch (action.type) {
-    case Types.getWishlistSuccess:
+    case Types.GET_WISHLIST_SUCCESS:
       return {
         ...state,
         currentWishlist: action.wishlist,
         previousWishlist: null,
         error: null
       };
-    case Types.getWishlistFailure:
+    case Types.GET_WISHLIST_FAILURE:
       if (state.currentWishlist) return state;
       return { ...state, error: action.error.message };
-    case Types.addToWishlistStart:
+    case Types.ADD_TO_WISHLIST_START:
       return {
         ...state,
         currentWishlist: state.currentWishlist.concat(action.deal),
         previousWishlist: state.currentWishlist
       };
-    case Types.addToWishlistSuccess:
+    case Types.ADD_TO_WISHLIST_SUCCESS:
       return { ...state, previousWishlist: null };
     default:
       return state;
@@ -58,22 +58,22 @@ export type WishlistAction =
   | GetWishlistStartAction
   | GetWishlistSuccessAction
   | GetWishlistFailureAction
-  | AddWishlistStartAction;
+  | AddToWishlistStartAction;
 export type GetWishlistStartAction = {
-  type: Types.getWishlistStart
+  type: Types.GET_WISHLIST_START
 };
 export type GetWishlistSuccessAction = {
-  type: Types.getWishlistSuccess,
+  type: Types.GET_WISHLIST_SUCCESS,
   wishlist: Deal[]
 };
 export type GetWishlistFailureAction = {
-  type: Types.getWishlistFailure,
+  type: Types.GET_WISHLIST_FAILURE,
   error: string
 };
-export type AddWishlistStartAction = {
-  type: Types.addToWishlistStart,
+export type AddToWishlistStartAction = {
+  type: Types.ADD_TO_WISHLIST_START,
   deal: Deal
 };
-export type AddWishlistSuccessAction = {
-  type: Types.addToWishlistSuccess
+export type AddToWishlistSuccessAction = {
+  type: Types.ADD_TO_WISHLIST_SUCCESS
 };

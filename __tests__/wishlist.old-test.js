@@ -28,7 +28,7 @@ describe("Wishlist actions - Reducer", () => {
   describe("start actions", () => {
     it("start action optimistically adds a deal id to the wishlist in state", () => {
       const startAction: Action.AddToWishlistStartAction = {
-        type: Types.addToWishlistStart,
+        type: Types.ADD_TO_WISHLIST_START,
         id: 2129
       };
       expect(dealsReducer(initialState, startAction).wishlist).toContain(2129);
@@ -158,14 +158,14 @@ describe("Wishlist redux actions", () => {
 
   fdescribe("addToWishlistSaga", () => {
     const startAction: Action.AddToWishlistStartAction = {
-      type: Types.addToWishlistStart,
+      type: Types.ADD_TO_WISHLIST_START,
       id: deal.id
     };
     const successAction: Action.WishlistSuccessAction = {
-      type: Types.wishlistSuccess
+      type: Types.WISHLIST_SUCCESS
     };
     const failureAction: Action.AddToWishlistFailureAction = {
-      type: Types.addToWishlistFailure,
+      type: Types.ADD_TO_WISHLIST_FAILURE,
       id: deal.id,
       error: Error("Something went wrong")
     };

@@ -11,14 +11,14 @@ export const initialState: DealState = {
 };
 
 export const DealActionTypes = {
-  addToWishlistStart: "ADD_TO_WISHLIST_START",
-  removeFromWishlistStart: "REMOVE_FROM_WISHLIST_START",
-  addToWishlistFailure: "ADD_TO_WISHLIST_FAILURE",
-  removeFromWishlistFailure: "REMOVE_FROM_WISHLIST_FAILURE",
-  getDealsStart: "GET_DEALS_START",
-  wishlistSuccess: "WISHLIST_SUCCESS",
-  getDealsSuccess: "GET_DEALS_SUCCESS",
-  getDealsFailure: "GET_DEALS_FAILURE"
+  ADD_TO_WISHLIST_START: "ADD_TO_WISHLIST_START",
+  REMOVE_FROM_WISHLIST_START: "REMOVE_FROM_WISHLIST_START",
+  ADD_TO_WISHLIST_FAILURE: "ADD_TO_WISHLIST_FAILURE",
+  REMOVE_FROM_WISHLIST_FAILURE: "REMOVE_FROM_WISHLIST_FAILURE",
+  GET_DEALS_START: "GET_DEALS_START",
+  WISHLIST_SUCCESS: "WISHLIST_SUCCESS",
+  GET_DEALS_SUCCESS: "GET_DEALS_SUCCESS",
+  GET_DEALS_FAILURE: "GET_DEALS_FAILURE"
 };
 
 export default function dealsReducer(
@@ -28,19 +28,19 @@ export default function dealsReducer(
   // if (!action.type.startsWith("@@")) console.log(action.type);
   let wishlist; // local wishlist for manipulation
   switch (action.type) {
-    case DealActionTypes.getDealsStart:
+    case DealActionTypes.GET_DEALS_START:
       return { ...state, loadingMessage: "Loading Deals..." };
-    case DealActionTypes.getDealsSuccess:
+    case DealActionTypes.GET_DEALS_SUCCESS:
       return { ...state, deals: action.deals, loadingMessage: "" };
-    case DealActionTypes.getDealsFailure:
+    case DealActionTypes.GET_DEALS_FAILURE:
       return { ...state, error: action.error, loadingMessage: "" };
-    case DealActionTypes.addToWishlistStart:
+    case DealActionTypes.ADD_TO_WISHLIST_START:
       return { ...state, wishlist: state.wishlist.concat(action.id) };
-    case DealActionTypes.removeFromWishlistStart:
+    case DealActionTypes.REMOVE_FROM_WISHLIST_START:
       wishlist = [...state.wishlist];
       wishlist.splice(action.removal.index, 1);
       return { ...state, wishlist };
-    case DealActionTypes.addToWishlistFailure:
+    case DealActionTypes.ADD_TO_WISHLIST_FAILURE:
       wishlist = [...state.wishlist];
       wishlist.splice(wishlist.indexOf(action.id), 1);
       return {
@@ -49,7 +49,7 @@ export default function dealsReducer(
         wishlist,
         error: action.error.message
       };
-    case DealActionTypes.removeFromWishlistFailure:
+    case DealActionTypes.REMOVE_FROM_WISHLIST_FAILURE:
       const { id, index } = action.removal;
       wishlist = [...state.wishlist];
       wishlist.splice(index, 0, id);
@@ -59,7 +59,7 @@ export default function dealsReducer(
         wishlist,
         error: action.error.message
       };
-    case DealActionTypes.wishlistSuccess:
+    case DealActionTypes.WISHLIST_SUCCESS:
     default:
       return state;
   }

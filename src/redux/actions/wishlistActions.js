@@ -41,9 +41,9 @@ export function* addToWishlistSaga({ id }: { id: number }): Saga<void> {
     console.log("WISHLIST", wishlist);
 
     if (wishlist.contains(id)) {
-      yield put({ type: DealActionTypes.wishlistSuccess });
+      yield put({ type: DealActionTypes.WISHLIST_SUCCESS });
     } else {
-      yield put({ type: DealActionTypes.addToWishlistFailure, id });
+      yield put({ type: DealActionTypes.ADD_TO_WISHLIST_FAILURE, id });
     }
   } catch (error) {
     console.log("ERROR", error);
@@ -68,9 +68,9 @@ export async function getCurrentWishlist(): Promise<number[]> {
 
 export default function* wishlistSaga(): Saga<void> {
   yield all([
-    yield takeEvery(DealActionTypes.addToWishlistStart, addToWishlistSaga),
+    yield takeEvery(DealActionTypes.ADD_TO_WISHLIST_START, addToWishlistSaga),
     yield takeEvery(
-      DealActionTypes.removeFromWishlistStart,
+      DealActionTypes.REMOVE_FROM_WISHLIST_START,
       removeFromWishlistSaga
     )
   ]);

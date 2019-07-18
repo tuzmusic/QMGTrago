@@ -19,16 +19,16 @@ const stateWithList: WishlistState = {
 describe("wishlistReducer", () => {
   describe("GET_WISHLIST actions", () => {
     const getSuccessAction: Action.GetWishlistSuccessAction = {
-      type: Types.getWishlistSuccess,
+      type: Types.GET_WISHLIST_SUCCESS,
       wishlist: list1
     };
     const getFailureAction: Action.GetWishlistFailureAction = {
-      type: Types.getWishlistFailure,
+      type: Types.GET_WISHLIST_FAILURE,
       error: Error("Something went wrong")
     };
     test("start action does nothing", () => {
       const startAction: Action.GetWishlistStartAction = {
-        type: Types.getWishlistStart
+        type: Types.GET_WISHLIST_START
       };
       expect({ type: Types.gws });
     });
@@ -62,8 +62,8 @@ describe("wishlistReducer", () => {
     };
     describe("start action", () => {
       it("should update the currentWishlist and previousWishlist", () => {
-        const addStart: Action.AddWishlistStartAction = {
-          type: Types.addToWishlistStart,
+        const addStart: Action.AddToWishlistStartAction = {
+          type: Types.ADD_TO_WISHLIST_START,
           deal: lastDeal
         };
         expect(reducer(stateWithList2, addStart)).toEqual(optimisticAddState);
@@ -71,8 +71,8 @@ describe("wishlistReducer", () => {
     });
     describe("success action", () => {
       it("should simply clear the previousWishlist. since it's no longer needed. right?", () => {
-        const addSuccessAction: Action.AddWishlistSuccessAction = {
-          type: Types.addToWishlistSuccess
+        const addSuccessAction: Action.AddToWishlistSuccessAction = {
+          type: Types.ADD_TO_WISHLIST_SUCCESS
         };
         expect(reducer(optimisticAddState, addSuccessAction)).toEqual({
           ...optimisticAddState,
