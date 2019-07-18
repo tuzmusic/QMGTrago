@@ -10,7 +10,7 @@
   },
   "jest": {
     "preset": "react-native",
-    "verbose": false
+    "verbose": true
   },
   "dependencies": {
     "@expo/samples": "2.1.1",
