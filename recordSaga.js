@@ -3,16 +3,10 @@ export default async function recordSaga(saga, initialAction) {
   const dispatched = [];
 
   await runSaga(
-    {
-      dispatch: action => {
-        dispatched.push(action);
-        // console.log(dispatched);
-      }
-    },
+    { dispatch: action => dispatched.push(action) },
     saga,
     initialAction
   ).done;
-  console.log(dispatched);
 
   return dispatched;
 }

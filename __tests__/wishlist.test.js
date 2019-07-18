@@ -1,16 +1,17 @@
+// #region IMPORTS
 // @flow
 import dealsReducer, {
   initialState,
   DealActionTypes as Types
 } from "../src/redux/reducers/dealsReducer";
-import * as Type from "../src/redux/reducers/dealsReducer";
+import * as Action from "../src/redux/reducers/dealsReducer";
 import axios from "axios";
 import MockAdapter from "axios-mock-adapter";
 import { WishlistUrls } from "../src/constants/constants";
 import * as fs from "fs";
 import * as path from "path";
 import cheerio from "cheerio";
-import {
+import wishlistSaga, {
   getCurrentWishlist,
   addToWishlist,
   removeFromWishlist
@@ -18,18 +19,20 @@ import {
 import mockDeals from "../__mocks__/mockDeals";
 import Deal from "../src/models/Deal";
 import SagaTester from "redux-saga-tester";
+import recordSaga from "../recordSaga";
+// #endregion
 
 describe("Wishlist actions - Reducer", () => {
   describe("start actions", () => {
     it("start action optimistically adds a deal id to the wishlist in state", () => {
-      const startAction: Type.AddToWishlistStartAction = {
+      const startAction: Action.AddToWishlistStartAction = {
         type: Types.addToWishlistStart,
         id: 2129
       };
       expect(dealsReducer(initialState, startAction).wishlist).toContain(2129);
     });
     it("start action optimistically removes a deal id from the wishlist in state", () => {
-      const startAction = {
+      const startAction: Action.RemoveFromWishlistStartAction = {
         type: "REMOVE_FROM_WISHLIST_START",
         removal: { id: 2129, index: 0 }
       };
@@ -48,7 +51,11 @@ describe("Wishlist actions - Reducer", () => {
     const originalWishlist = [1, 2, 3, 4];
 
     it("stores the failed ID as a positive number on a failed add, and restores the pre-optimistic wishlist", () => {
-      const addFail = { type: "ADD_TO_WISHLIST_FAILURE", id: 10 };
+      const addFail: Action.AddToWishlistFailureAction = {
+        type: "ADD_TO_WISHLIST_FAILURE",
+        id: 10,
+        error: Error("Something went wrong")
+      };
       const optimisticAddState = {
         ...initialState,
         wishlist: [1, 2, 3, 4, 10]
@@ -56,14 +63,16 @@ describe("Wishlist actions - Reducer", () => {
       expect(dealsReducer(optimisticAddState, addFail)).toEqual({
         ...initialState,
         wishlist: originalWishlist,
-        wishlistFailureId: 10
+        wishlistFailureId: 10,
+        error: "Something went wrong"
       });
     });
 
     it("stores the failed ID as a negative number on a failed remove, and restores the pre-optimistic wishlist", () => {
-      const removeFail = {
+      const removeFail: Action.RemoveFromWishlistFailureAction = {
         type: "REMOVE_FROM_WISHLIST_FAILURE",
-        removal: { id: 2, index: 1 }
+        removal: { id: 2, index: 1 },
+        error: Error("Something went wrong")
       };
       const optimisticRemoveState = {
         ...initialState,
@@ -72,7 +81,26 @@ describe("Wishlist actions - Reducer", () => {
       expect(dealsReducer(optimisticRemoveState, removeFail)).toEqual({
         ...initialState,
         wishlist: originalWishlist,
-        wishlistFailureId: -2
+        wishlistFailureId: -2,
+        error: "Something went wrong"
+      });
+    });
+
+    it("includes some other error information if there is any", () => {
+      const addFail: Action.AddToWishlistFailureAction = {
+        type: "ADD_TO_WISHLIST_FAILURE",
+        id: 10,
+        error: Error("Everything is the worst")
+      };
+      const optimisticAddState = {
+        ...initialState,
+        wishlist: [1, 2, 3, 4, 10]
+      };
+      expect(dealsReducer(optimisticAddState, addFail)).toEqual({
+        ...initialState,
+        wishlist: originalWishlist,
+        wishlistFailureId: 10,
+        error: "Everything is the worst"
       });
     });
 
@@ -81,18 +109,22 @@ describe("Wishlist actions - Reducer", () => {
 });
 
 describe("Wishlist redux actions", () => {
-  let deal;
+  const deal = new Deal(mockDeals[0]);
+  const mock = new MockAdapter(axios);
 
-  beforeAll(() => {
-    // Set up mock response for getWishlist
-    const mock = new MockAdapter(axios);
-    const thePath = path.resolve(__dirname, "../__mocks__/wishlist-2.html");
-    const mockHtml = fs.readFileSync(thePath);
-    mock.onGet(WishlistUrls.get).reply(200, mockHtml.toString(), {
-      "content-type": "text/html"
-    });
-
-    deal = new Deal(mockDeals[0]);
+  beforeEach(() => {
+    // Set up mock response for getWishlist and addToWishlist
+    const path1 = path.resolve(__dirname, "../__mocks__/wishlist-2.html");
+    const path2 = path.resolve(__dirname, "../__mocks__/add_to_wishlist.html");
+    mock
+      .onGet(WishlistUrls.add(deal.id))
+      .reply(200, fs.readFileSync(path2).toString(), {
+        "content-type": "text/html"
+      })
+      .onGet(WishlistUrls.get)
+      .reply(200, fs.readFileSync(path1).toString(), {
+        "content-type": "text/html"
+      });
   });
 
   describe("helper functions and action creators", () => {
@@ -123,6 +155,28 @@ describe("Wishlist redux actions", () => {
   });
 
   describe("addToWishlistSaga", () => {
-    const startAction = { type: Types.addToWishlistStart, id: deal.id };
+    const startAction: Action.AddToWishlistStartAction = {
+      type: Types.addToWishlistStart,
+      id: deal.id
+    };
+    const successAction: Action.WishlistSuccessAction = {
+      type: Types.wishlistSuccess
+    };
+    const failureAction: Action.AddToWishlistFailureAction = {
+      type: Types.addToWishlistFailure,
+      id: deal.id,
+      error: Error("Something went wrong")
+    };
+
+    it("dispatches a success action on success", async () => {
+      const dispatched = await recordSaga(wishlistSaga, startAction);
+      expect(dispatched).toContainEqual(successAction);
+    });
+    xit("dispatches a failure action on failure", async () => {
+      mock.onGet(WishlistUrls.add(deal.id)).networkErrorOnce();
+
+      const dispatched = await recordSaga(wishlistSaga, startAction);
+      expect(dispatched).toContainEqual(failureAction);
+    });
   });
 });

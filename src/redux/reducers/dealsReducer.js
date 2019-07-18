@@ -42,12 +42,22 @@ export default function dealsReducer(
     case DealActionTypes.addToWishlistFailure:
       wishlist = [...state.wishlist];
       wishlist.splice(wishlist.indexOf(action.id), 1);
-      return { ...state, wishlistFailureId: action.id, wishlist };
+      return {
+        ...state,
+        wishlistFailureId: action.id,
+        wishlist,
+        error: action.error.message
+      };
     case DealActionTypes.removeFromWishlistFailure:
       const { id, index } = action.removal;
       wishlist = [...state.wishlist];
       wishlist.splice(index, 0, id);
-      return { ...state, wishlistFailureId: -id, wishlist };
+      return {
+        ...state,
+        wishlistFailureId: -id,
+        wishlist,
+        error: action.error.message
+      };
     case DealActionTypes.wishlistSuccess:
     default:
       return state;
@@ -81,11 +91,13 @@ export type RemoveFromWishlistStartAction = {
 };
 export type AddToWishlistFailureAction = {
   type: "ADD_TO_WISHLIST_FAILURE",
-  id: number
+  id: number,
+  error: Error
 };
 export type RemoveFromWishlistFailureAction = {
   type: "REMOVE_FROM_WISHLIST_FAILURE",
-  removal: { id: number, index: number }
+  removal: { id: number, index: number },
+  error: Error
 };
 export type GetDealsStartAction = { type: "GET_DEALS_START" };
 export type WishlistSuccessAction = { type: "WISHLIST_SUCCESS" };
