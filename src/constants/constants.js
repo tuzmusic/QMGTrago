@@ -20,10 +20,10 @@ export const ApiUrls = {
 
 export const WishlistUrls = {
   add(id) {
-    baseUrl + "?add_to_wishlist=", id;
+    return baseUrl + "?add_to_wishlist=" + id;
   },
   remove(id) {
-    baseUrl + "?remove_from_wishlist=", id;
+    return baseUrl + "?remove_from_wishlist=" + id;
   },
   getWishlist: baseUrl + "wishlist-2"
 };
