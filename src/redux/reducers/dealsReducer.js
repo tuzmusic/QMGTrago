@@ -21,6 +21,8 @@ export const DealActionTypes = {
   GET_DEALS_FAILURE: "GET_DEALS_FAILURE"
 };
 
+const types = DealActionTypes;
+
 export default function dealsReducer(
   state: DealState = initialState,
   action: DealAction
@@ -28,19 +30,19 @@ export default function dealsReducer(
   // if (!action.type.startsWith("@@")) console.log(action.type);
   let wishlist; // local wishlist for manipulation
   switch (action.type) {
-    case DealActionTypes.GET_DEALS_START:
+    case types.GET_DEALS_START:
       return { ...state, loadingMessage: "Loading Deals..." };
-    case DealActionTypes.GET_DEALS_SUCCESS:
+    case types.GET_DEALS_SUCCESS:
       return { ...state, deals: action.deals, loadingMessage: "" };
-    case DealActionTypes.GET_DEALS_FAILURE:
+    case types.GET_DEALS_FAILURE:
       return { ...state, error: action.error, loadingMessage: "" };
-    case DealActionTypes.ADD_TO_WISHLIST_START:
+    /* case types.ADD_TO_WISHLIST_START:
       return { ...state, wishlist: state.wishlist.concat(action.id) };
-    case DealActionTypes.REMOVE_FROM_WISHLIST_START:
+    case types.REMOVE_FROM_WISHLIST_START:
       wishlist = [...state.wishlist];
       wishlist.splice(action.removal.index, 1);
       return { ...state, wishlist };
-    case DealActionTypes.ADD_TO_WISHLIST_FAILURE:
+    case types.ADD_TO_WISHLIST_FAILURE:
       wishlist = [...state.wishlist];
       wishlist.splice(wishlist.indexOf(action.id), 1);
       return {
@@ -49,7 +51,7 @@ export default function dealsReducer(
         wishlist,
         error: action.error.message
       };
-    case DealActionTypes.REMOVE_FROM_WISHLIST_FAILURE:
+    case types.REMOVE_FROM_WISHLIST_FAILURE:
       const { id, index } = action.removal;
       wishlist = [...state.wishlist];
       wishlist.splice(index, 0, id);
@@ -59,7 +61,7 @@ export default function dealsReducer(
         wishlist,
         error: action.error.message
       };
-    case DealActionTypes.WISHLIST_SUCCESS:
+    case types.WISHLIST_SUCCESS: */
     default:
       return state;
   }

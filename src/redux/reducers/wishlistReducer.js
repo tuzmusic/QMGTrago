@@ -31,49 +31,61 @@ export default function wishlistReducer(
   // if (!action.type.startsWith("@@")) console.log(action.type);
 
   switch (action.type) {
-    case Types.GET_WISHLIST_SUCCESS:
+    case types.GET_WISHLIST_SUCCESS:
       return {
         ...state,
         currentWishlist: action.wishlist,
         previousWishlist: null,
         error: null
       };
-    case Types.GET_WISHLIST_FAILURE:
+    case types.GET_WISHLIST_FAILURE:
       if (state.currentWishlist) return state;
       return { ...state, error: action.error.message };
-    case Types.ADD_TO_WISHLIST_START:
+    case types.ADD_TO_WISHLIST_START:
       return {
         ...state,
         currentWishlist: state.currentWishlist.concat(action.deal),
         previousWishlist: state.currentWishlist
       };
-    case Types.ADD_TO_WISHLIST_SUCCESS:
+    case types.ADD_TO_WISHLIST_SUCCESS:
       return { ...state, previousWishlist: null };
+    case types.ADD_TO_WISHLIST_FAILURE:
+      return {
+        ...state,
+        currentWishlist: state.previousWishlist,
+        previousWishlist: null,
+        error: action.error.message
+      };
+
     default:
       return state;
   }
 }
-const Types = WishlistActionTypes;
+const types = WishlistActionTypes;
 export type WishlistAction =
   | GetWishlistStartAction
   | GetWishlistSuccessAction
   | GetWishlistFailureAction
   | AddToWishlistStartAction;
 export type GetWishlistStartAction = {
-  type: Types.GET_WISHLIST_START
+  type: types.GET_WISHLIST_START
 };
 export type GetWishlistSuccessAction = {
-  type: Types.GET_WISHLIST_SUCCESS,
+  type: types.GET_WISHLIST_SUCCESS,
   wishlist: Deal[]
 };
 export type GetWishlistFailureAction = {
-  type: Types.GET_WISHLIST_FAILURE,
-  error: string
+  type: types.GET_WISHLIST_FAILURE,
+  error: Error
 };
 export type AddToWishlistStartAction = {
-  type: Types.ADD_TO_WISHLIST_START,
+  type: types.ADD_TO_WISHLIST_START,
   deal: Deal
 };
 export type AddToWishlistSuccessAction = {
-  type: Types.ADD_TO_WISHLIST_SUCCESS
+  type: types.ADD_TO_WISHLIST_SUCCESS
+};
+export type AddToWishlistFailureAction = {
+  type: types.ADD_TO_WISHLIST_FAILURE,
+  error: Error
 };
