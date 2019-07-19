@@ -22,8 +22,8 @@ import axios from "axios";
 import UserScreen from "../screens/UserScreen";
 
 let initialRouteName;
-initialRouteName = "Map";
 initialRouteName = "List";
+initialRouteName = "Map";
 
 const MapStack = createStackNavigator({
   MapScreen: {

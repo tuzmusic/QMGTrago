@@ -15,14 +15,14 @@ export const WishlistActionTypes = {
 };
 
 export type WishlistState = {
-  +deals: DealCollection,
+  +deals: ?DealCollection,
   +previousWishlist: ?(Deal[]),
   +currentWishlist: ?(Deal[]),
   +error: ?string
 };
 
 export const initialState: WishlistState = {
-  deals: {},
+  deals: null,
   previousWishlist: null,
   currentWishlist: null,
   error: null
@@ -39,10 +39,9 @@ export default function wishlistReducer(
       return { ...state, deals: action.deals };
     case types.GET_WISHLIST_SUCCESS:
       console.log(action);
-      const currentWishlist: Deal[] = action.wishlistIds.map(
-        d => state.deals[d]
-      );
-
+      const currentWishlist: Deal[] = !state.deals
+        ? []
+        : action.wishlistIds.map(d => state.deals[d]);
       return {
         ...state,
         currentWishlist,
