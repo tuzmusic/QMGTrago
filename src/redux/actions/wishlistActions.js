@@ -9,20 +9,16 @@ import cheerio from "cheerio";
 import { WishlistActionTypes as Types } from "../reducers/wishlistReducer";
 import * as Actions from "../reducers/wishlistReducer";
 
-/* export function addToWishlist(deal: Deal): DealAction {
-  return {
-    type: "ADD_TO_WISHLIST_START",
-    id: deal.id
-  };
+export function addToWishlist(deal: Deal): Actions.AddToWishlistStartAction {
+  return { type: Types.ADD_TO_WISHLIST_START, deal };
 }
 
-export function removeFromWishlist(deal: Deal, wishlist: number[]): DealAction {
-  return {
-    type: "REMOVE_FROM_WISHLIST_START",
-    removal: { id: deal.id, index: wishlist.indexOf(deal.id) }
-  };
+export function removeFromWishlist(
+  deal: Deal
+): Actions.RemoveFromWishlistStartAction {
+  return { type: Types.REMOVE_FROM_WISHLIST_START, deal };
 }
-
+/* 
 export async function addToWishlistApi(id: number) {
   try {
     const res = await axios.get(WishlistUrls.add(id));
@@ -55,7 +51,7 @@ export function* removeFromWishlistSaga(): Saga<void> {} */
 
 export async function getCurrentWishlist(): Promise<number[]> {
   const { data } = await axios.get(WishlistUrls.getWishlist);
-
+  if (data.includes("No products were added to the wishlist")) return [];
   const tags: string[] = data.match(/data-product_id="(\d+)"/g);
   const idStrings = tags.map(t => t.match(/\d+/));
   const wishlistIds = idStrings.map(n => Number(n));

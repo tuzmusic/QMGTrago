@@ -19,6 +19,7 @@ import reducer, {
 } from "../src/redux/reducers/wishlistReducer";
 import products from "../__mocks__/api/products";
 import Deal from "../src/models/Deal";
+import User from "../src/models/Deal";
 import type { DealCollection } from "../src/redux/reducers/dealsReducer";
 import wishlistSaga, {
   getWishlist,
@@ -33,7 +34,7 @@ import { WishlistUrls } from "../src/constants/constants";
 
 // #endregion
 
-// #region PREP
+// #region SETUP
 const fullList: Deal[] = products.map(d => Deal.fromApi(d));
 const fullListIds: number[] = fullList.map(d => d.id);
 const deals: DealCollection = Deal.collectionFromApiArray(products);
@@ -60,10 +61,30 @@ const optimisticRemoveState: WishlistState = {
 // #endregion
 
 describe("wishlistReducer", () => {
-  describe("GET_DEALS_SUCCESS", () => {
-    it("gets the deals", () => {
+  describe("getting required info", () => {
+    it("needs to receive the deals", () => {
       const dealAction = { type: "GET_DEALS_SUCCESS", deals };
       expect(reducer(emptyState, dealAction)).toEqual(initialState);
+    });
+    it("needs to receive the user", () => {
+      const user = new User({
+        id: 1,
+        firstName: "asdf",
+        lastName: "asdf",
+        dateCreated: Date.now(),
+        username: "asdf",
+        email: "asdf@sdjkl.com"
+      });
+      const userState = { ...emptyState, user };
+      expect(reducer(emptyState, { type: "LOGIN_SUCCESS", user })).toEqual(
+        userState
+      );
+      expect(
+        reducer(emptyState, { type: "REGISTRATION_SUCCESS", user })
+      ).toEqual(userState);
+      expect(reducer(emptyState, { type: "SET_USER", user })).toEqual(
+        userState
+      );
     });
   });
   describe("GET_WISHLIST actions", () => {

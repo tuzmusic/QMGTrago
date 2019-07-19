@@ -1,6 +1,7 @@
 // @flow
 import type Deal from "../../models/Deal";
 import type { DealCollection } from "./dealsReducer";
+import User from "../../models/User";
 export const WishlistActionTypes = {
   ADD_TO_WISHLIST_START: "ADD_TO_WISHLIST_START",
   ADD_TO_WISHLIST_SUCCESS: "ADD_TO_WISHLIST_SUCCESS",
@@ -36,8 +37,12 @@ export default function wishlistReducer(
   switch (action.type) {
     case "GET_DEALS_SUCCESS":
       return { ...state, deals: action.deals };
+    case "LOGIN_SUCCESS":
+    case "REGISTRATION_SUCCESS":
+    case "SET_USER":
+      return { ...state, user: action.user };
     case types.GET_WISHLIST_SUCCESS:
-      console.log(action);
+      // console.log(action);
 
       const currentWishlist: Deal[] = action.wishlistIds.map(
         d => state.deals[d]
@@ -95,6 +100,7 @@ export type WishlistAction =
   | RemoveFromWishlistStartAction
   | RemoveFromWishlistSuccessAction
   | RemoveFromWishlistFailureAction
+  | UserSuccessAction
   | { type: "GET_DEALS_SUCCESS", deals: DealCollection };
 
 export type GetWishlistStartAction = {
@@ -129,4 +135,8 @@ export type RemoveFromWishlistSuccessAction = {
 export type RemoveFromWishlistFailureAction = {
   type: "REMOVE_FROM_WISHLIST_FAILURE",
   error: Error
+};
+export type UserSuccessAction = {
+  type: "LOGIN_SUCCESS" | "REGISTRATION_SUCCESS" | "SET_USER",
+  user: User
 };
