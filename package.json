@@ -42,7 +42,9 @@
     "redux": "^4.0.1",
     "redux-saga": "^1.0.2",
     "redux-test-utils": "^0.3.0",
-    "sugar": "^2.0.6"
+    "stream": "^0.0.2",
+    "sugar": "^2.0.6",
+    "util": "^0.12.1"
   },
   "devDependencies": {
     "@babel/core": "^7.4.5",
