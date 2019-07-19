@@ -10,7 +10,6 @@ import { Text } from "react-native-elements";
 import CellTextRow from "./CellTextRow";
 import { connect } from "react-redux";
 import { setCurrentRegion } from "../redux/actions/locationActions";
-import { addToWishlist } from "../redux/actions/wishlistActions";
 import pluralize from "pluralize";
 type Props = {
   deals: { [key: string]: Deal },
@@ -33,8 +32,7 @@ const DealMarkers = (props: Props) => {
         onPress={props.onMarkerPress.bind(null, deal)}
       >
         <Callout
-          // onPress={props.onCalloutPress.bind(null, deal)}
-          onPress={props.addToWishlist.bind(null, deal)}
+          onPress={props.onCalloutPress.bind(null, deal)}
           style={styles.callout}
         >
           <DealDetailInfoView deal={deal} />
@@ -45,12 +43,9 @@ const DealMarkers = (props: Props) => {
   });
 };
 
-export default connect(
-  ({ location }) => ({
-    location: location.currentRegion
-  }),
-  { addToWishlist }
-)(DealMarkers);
+export default connect(({ location }) => ({
+  location: location.currentRegion
+}))(DealMarkers);
 
 const baseSize = 15;
 
