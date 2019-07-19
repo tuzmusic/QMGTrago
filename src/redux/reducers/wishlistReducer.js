@@ -37,6 +37,8 @@ export default function wishlistReducer(
     case "GET_DEALS_SUCCESS":
       return { ...state, deals: action.deals };
     case types.GET_WISHLIST_SUCCESS:
+      console.log(action);
+
       const currentWishlist: Deal[] = action.wishlistIds.map(
         d => state.deals[d]
       );

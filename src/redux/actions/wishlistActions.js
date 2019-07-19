@@ -54,18 +54,10 @@ export function* addToWishlistSaga({ id }: { id: number }): Saga<void> {
 export function* removeFromWishlistSaga(): Saga<void> {} */
 
 export async function getCurrentWishlist(): Promise<number[]> {
-  console.log("hello from getCurrent");
+  const { data } = await axios.get(WishlistUrls.getWishlist);
 
-  const res = await axios.get(WishlistUrls.getWishlist);
-  // console.log(res.data.includes("WISHLIST-2.HTML"));
-  const load = cheerio.load;
-  debugger;
-  const $ = cheerio.load(res.data); // problem is here
-  const tags = $(".button.yith-wcqv-button");
-  const idStrings: string[] = [];
-  tags.each((i, tag) => {
-    idStrings.push(tag.attribs["data-product_id"]);
-  });
+  const tags: string[] = data.match(/data-product_id="(\d+)"/g);
+  const idStrings = tags.map(t => t.match(/\d+/));
   const wishlistIds = idStrings.map(n => Number(n));
   return wishlistIds;
 }
