@@ -1,7 +1,7 @@
 // @flow
 import { WCKey, WCSecret, GoogleMapsApiKey } from "../../secrets";
-import Deal from "../models/Deal";
-import User from "../models/User";
+import type Deal from "../models/Deal";
+import type User from "../models/User";
 export const baseUrl = "https://tragodeals.com/";
 export const wcSlug = "wp-json/wc/v3/";
 export const apiSlug = "2J73N8Bn8N5Yw8V/";

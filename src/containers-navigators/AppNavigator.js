@@ -96,11 +96,16 @@ const TabNavigator = createBottomTabNavigator(
 
 class TabContainer extends Component<Object> {
   static router = TabNavigator.router;
-  async componentDidMount() {
-    await this.props.getLocationAsync();
-    await this.props.getDeals();
-    await this.props.getWishlist(this.props.user);
+  componentDidMount() {
+    this.props.getLocationAsync();
+    this.props.getDeals();
   }
+
+  componentDidUpdate = (prevProps, prevState) => {
+    if (this.props.deals.length && !this.props.wishlist)
+      this.props.getWishlist(this.props.user);
+  };
+
   render() {
     return <TabNavigator navigation={this.props.navigation} />;
   }
@@ -109,9 +114,11 @@ class TabContainer extends Component<Object> {
 const SwitchNavigator = createSwitchNavigator({
   Auth: AuthNavigator,
   Main: connect(
-    ({ auth, location }) => ({
+    ({ auth, deals, location, wishlist }) => ({
       user: auth.user.user,
-      location: location.currentRegion
+      deals: Object.entries(deals.deals),
+      location: location.currentRegion,
+      wishlist: wishlist.currentWishlist
     }),
     { getLocationAsync, getDeals, getWishlist }
   )(TabContainer)
