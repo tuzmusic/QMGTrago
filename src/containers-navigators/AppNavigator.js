@@ -8,7 +8,7 @@ import {
   createStackNavigator,
   createBottomTabNavigator
 } from "react-navigation";
-import MapScreen from "../screens/MapScreen";
+import MapViewScreen from "../screens/MapScreen";
 import DealsListScreen from "../screens/DealsListScreen";
 import DealDetailScreen from "../screens/DealDetailScreen";
 import TabBarIcon from "../components/TabBarIcon";
@@ -27,44 +27,26 @@ initialRouteName = "List";
 initialRouteName = "Map";
 initialRouteName = "Favorites";
 
-const MapStack = createStackNavigator({
-  MapScreen: {
-    screen: MapScreen,
-    navigationOptions: {
-      title: "Deals Near You"
-    }
-  },
-  DetailScreen: {
-    screen: DealDetailScreen,
-    navigationOptions: {
-      title: "Deal"
-    }
-  }
-});
+const MapScreen = {
+  screen: MapViewScreen,
+  navigationOptions: { title: "Deals Near You" }
+};
+const ListScreen = {
+  screen: DealsListScreen,
+  navigationOptions: { title: "Deals Near You" }
+};
+const FavesScreen = {
+  screen: FavoritesScreen,
+  navigationOptions: { title: "Favorites" }
+};
+const DetailScreen = {
+  screen: DealDetailScreen,
+  navigationOptions: { title: "Deal" }
+};
 
-const ListStack = createStackNavigator({
-  ListScreen: {
-    screen: DealsListScreen,
-    navigationOptions: {
-      title: "Deals Near You"
-    }
-  },
-  DetailScreen: {
-    screen: DealDetailScreen,
-    navigationOptions: {
-      title: "Deal"
-    }
-  }
-});
-
-const FavoritesStack = createStackNavigator({
-  FavesScreen: {
-    screen: FavoritesScreen,
-    navigationOptions: {
-      title: "Favorites"
-    }
-  }
-});
+const MapStack = createStackNavigator({ MapScreen, DetailScreen });
+const ListStack = createStackNavigator({ ListScreen, DetailScreen });
+const FavoritesStack = createStackNavigator({ FavesScreen, DetailScreen });
 
 MapStack.navigationOptions = {
   tabBarIcon: ({ focused }) => (
