@@ -75,18 +75,6 @@ describe("wishlistReducer", () => {
       const dealAction = { type: "GET_DEALS_SUCCESS", deals };
       expect(reducer(emptyState, dealAction)).toEqual(initialState);
     });
-    it("needs to receive the user", () => {
-      const userState = { ...emptyState, user };
-      expect(reducer(emptyState, { type: "LOGIN_SUCCESS", user })).toEqual(
-        userState
-      );
-      expect(
-        reducer(emptyState, { type: "REGISTRATION_SUCCESS", user })
-      ).toEqual(userState);
-      expect(reducer(emptyState, { type: "SET_USER", user })).toEqual(
-        userState
-      );
-    });
   });
   describe("GET_WISHLIST actions", () => {
     describe("start", () => {

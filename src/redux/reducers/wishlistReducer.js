@@ -37,10 +37,6 @@ export default function wishlistReducer(
   switch (action.type) {
     case "GET_DEALS_SUCCESS":
       return { ...state, deals: action.deals };
-    case "LOGIN_SUCCESS":
-    case "REGISTRATION_SUCCESS":
-    case "SET_USER":
-      return { ...state, user: action.user };
     case types.GET_WISHLIST_SUCCESS:
       console.log(action);
       const currentWishlist: Deal[] = action.wishlistIds.map(
