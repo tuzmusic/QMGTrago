@@ -12,11 +12,7 @@ import * as fs from "fs";
 import * as path from "path";
 import cheerio from "cheerio";
 import wishlistSaga, {
-  getCurrentWishlist,
-  addToWishlist,
-  addToWishlistSaga,
-  addToWishlistApi,
-  removeFromWishlist
+  getCurrentWishlist
 } from "../src/redux/actions/wishlistActions";
 import mockDeals from "../__mocks__/mockDeals";
 import Deal from "../src/models/Deal";
@@ -46,6 +42,12 @@ describe("Wishlist redux actions", () => {
       it("loads the current user's wishlist and returns the ids", async () => {
         expect(await getCurrentWishlist()).toEqual([2094, 2122, 2129]);
       });
+    });
+  });
+
+  fdescribe("just searching the text", () => {
+    it("gets the wishlist ids using regular expressions", async () => {
+      expect(await getCurrentWishlist()).toEqual([2094, 2122, 2129]);
     });
   });
 });

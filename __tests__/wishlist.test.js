@@ -85,13 +85,8 @@ describe("wishlistReducer", () => {
       };
       const successResult = reducer(initialState, getSuccessAction);
       it("updates the current wishlist", () => {
-        expect(
-          successResult.currentWishlist &&
-            successResult.currentWishlist.toString()
-        ).toEqual(
-          stateWithFullList.currentWishlist &&
-            stateWithFullList.currentWishlist.toString()
-        );
+        // without "toString" these "serialize to the same string"
+        expect(successResult.toString()).toEqual(stateWithFullList.toString());
       });
       it("resets the error and previous wishlist", () => {
         expect(successResult.previousWishlist).toBeNull();

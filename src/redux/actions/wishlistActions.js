@@ -58,20 +58,23 @@ export async function getCurrentWishlist(): Promise<number[]> {
 
   const res = await axios.get(WishlistUrls.getWishlist);
   // console.log(res.data.includes("WISHLIST-2.HTML"));
-
+  const load = cheerio.load;
+  debugger;
   const $ = cheerio.load(res.data); // problem is here
   const tags = $(".button.yith-wcqv-button");
   const idStrings: string[] = [];
   tags.each((i, tag) => {
     idStrings.push(tag.attribs["data-product_id"]);
   });
-  const wishlist = idStrings.map(n => Number(n));
-  return wishlist;
+  const wishlistIds = idStrings.map(n => Number(n));
+  return wishlistIds;
 }
 
 export function* getWishlistSaga(): Saga<void> {
   try {
-    const wishlist = yield call(getCurrentWishlist);
+    const wishlistIds = yield call(getCurrentWishlist);
+    console.log("hello from after calling getCurrent", wishlistIds);
+    yield put({ type: Types.GET_WISHLIST_SUCCESS, wishlistIds });
   } catch (error) {
     console.log("error:", error);
   }
