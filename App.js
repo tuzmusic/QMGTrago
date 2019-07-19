@@ -16,13 +16,15 @@ import dealsSaga from "./src/redux/actions/dealActions";
 import wishlistSaga from "./src/redux/actions/wishlistActions";
 import type { Saga } from "redux-saga";
 import { setupMockAdapter } from "./__mocks__/axiosMocks";
+import wishlistReducer from "./src/redux/reducers/wishlistReducer";
 
 declare var __DEV__: boolean;
 
 const combinedReducer = combineReducers({
   deals: dealsReducer,
   location: locationReducer,
-  auth: authReducer
+  auth: authReducer,
+  wishlist: wishlistReducer
 });
 
 function* rootSaga(): Saga<void> {

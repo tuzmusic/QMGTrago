@@ -1,5 +1,7 @@
+// @flow
 import { WCKey, WCSecret, GoogleMapsApiKey } from "../../secrets";
-
+import Deal from "../models/Deal";
+import User from "../models/User";
 export const baseUrl = "https://tragodeals.com/";
 export const wcSlug = "wp-json/wc/v3/";
 export const apiSlug = "2J73N8Bn8N5Yw8V/";
@@ -12,36 +14,21 @@ export const ApiUrls = {
   logout: baseUrl + "wp-json/auth/logout",
   getProducts: baseUrl + wcSlug + "products", // + wcApiCreds
   getProductsAuthorized: baseUrl + wcSlug + "products" + wcApiCreds,
-  mapsSearch: address =>
+  mapsSearch: (address: string) =>
     `https://maps.googleapis.com/maps/api/place/autocomplete/json?key=${GoogleMapsApiKey}&input=${address}`,
-  mapsDetails: placeId =>
+  mapsDetails: (placeId: string) =>
     `https://maps.googleapis.com/maps/api/place/details/json?key=${GoogleMapsApiKey}&placeid=${placeId}&fields=geometry`
 };
 
 export const WishlistUrls = {
-  add(id) {
-    return baseUrl + "?add_to_wishlist=" + id;
+  add(deal: Deal, user: User) {
+    // return baseUrl + "?add_to_wishlist=" + id;
+    return `${baseUrl}?add_to_wishlist=${deal.id}&user_id=${user.id}`;
   },
-  remove(id) {
-    return baseUrl + "?remove_from_wishlist=" + id;
+  remove(deal: Deal, user: User) {
+    return `${baseUrl}?remove_from_wishlist=${deal.id}&user_id=${user.id}`;
   },
-  getWishlist: baseUrl + "wishlist-2"
-};
-
-// These don't seem to work...
-String.prototype.authorized = () => {
-  // debugger;
-  return this + wcApiCreds;
-};
-
-export const ApiRequests = {
-  getProducts: {
-    method: "get",
-    url: ApiUrls.getProducts,
-    params: { consumer_key: WCKey, consumer_secret: WCSecret }
+  getWishlist(user: User) {
+    return `${baseUrl}wishlist-2/?user_id=${user.id}`;
   }
-};
-
-export const WcApiRequestParams = {
-  params: { consumer_key: WCKey, consumer_secret: WCSecret }
 };

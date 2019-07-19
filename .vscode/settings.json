@@ -1,11 +1,11 @@
 {
   "javascript.format.enable": false,
-  "javascript.validate.enable": false,
   "search.useGlobalIgnoreFiles": true,
   "search.exclude": {
     ".DS_Store": true,
     "**/flow-typed/**": true,
     "**/node_modules": false,
     "**/node_modules/**": true
-  }
+  },
+  "javascript.validate.enable": false
 }

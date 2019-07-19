@@ -32,7 +32,7 @@ export default function wishlistReducer(
   state: WishlistState = initialState,
   action: WishlistAction
 ): WishlistState {
-  // if (!action.type.startsWith("@@")) console.log(action.type);
+  if (!action.type.startsWith("@@")) console.log(action.type);
 
   switch (action.type) {
     case "GET_DEALS_SUCCESS":
@@ -42,8 +42,7 @@ export default function wishlistReducer(
     case "SET_USER":
       return { ...state, user: action.user };
     case types.GET_WISHLIST_SUCCESS:
-      // console.log(action);
-
+      console.log(action);
       const currentWishlist: Deal[] = action.wishlistIds.map(
         d => state.deals[d]
       );
@@ -104,7 +103,8 @@ export type WishlistAction =
   | { type: "GET_DEALS_SUCCESS", deals: DealCollection };
 
 export type GetWishlistStartAction = {
-  type: "GET_WISHLIST_START"
+  type: "GET_WISHLIST_START",
+  user: User
 };
 export type GetWishlistSuccessAction = {
   type: "GET_WISHLIST_SUCCESS",
@@ -116,7 +116,8 @@ export type GetWishlistFailureAction = {
 };
 export type AddToWishlistStartAction = {
   type: "ADD_TO_WISHLIST_START",
-  deal: Deal
+  deal: Deal,
+  user: User
 };
 export type AddToWishlistSuccessAction = {
   type: "ADD_TO_WISHLIST_SUCCESS"
@@ -127,7 +128,8 @@ export type AddToWishlistFailureAction = {
 };
 export type RemoveFromWishlistStartAction = {
   type: "REMOVE_FROM_WISHLIST_START",
-  deal: Deal
+  deal: Deal,
+  user: User
 };
 export type RemoveFromWishlistSuccessAction = {
   type: "REMOVE_FROM_WISHLIST_SUCCESS"
