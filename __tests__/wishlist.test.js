@@ -1,18 +1,40 @@
 // @flow
-
-import type { WishlistState } from "../src/redux/reducers/wishlistReducer";
+// #region IMPORTS
+import type {
+  WishlistState,
+  GetWishlistStartAction,
+  GetWishlistSuccessAction,
+  GetWishlistFailureAction,
+  AddToWishlistStartAction,
+  AddToWishlistSuccessAction,
+  AddToWishlistFailureAction,
+  RemoveFromWishlistStartAction,
+  RemoveFromWishlistSuccessAction,
+  RemoveFromWishlistFailureAction
+} from "../src/redux/reducers/wishlistReducer";
 import * as Ac from "../src/redux/reducers/wishlistReducer";
 import reducer, {
-  initialState,
+  initialState as emptyState,
   WishlistActionTypes as t
 } from "../src/redux/reducers/wishlistReducer";
 import mockDeals from "../__mocks__/mockDeals";
 import products from "../__mocks__/api/products";
 import Deal from "../src/models/Deal";
+import type { DealCollection } from "../src/redux/reducers/dealsReducer";
+import wishlistSaga, {
+  getWishlist,
+  getWishlistSaga
+} from "../src/redux/actions/wishlistActions";
+import recordSaga from "../recordSaga";
 
-const fullList = products.map(d => Deal.fromApi(d));
+// #endregion
+
+// #region PREP
+const fullList: Deal[] = products.map(d => Deal.fromApi(d));
+const deals: DealCollection = Deal.collectionFromApiArray(products);
 const shorterList = [...fullList];
 const lastDeal = shorterList.pop();
+const initialState: WishlistState = { ...emptyState, deals };
 
 const stateWithFullList: WishlistState = {
   ...initialState,
@@ -30,32 +52,47 @@ const optimisticRemoveState: WishlistState = {
   ...stateWithShorterList,
   previousWishlist: fullList
 };
+// #endregion
 
 describe("wishlistReducer", () => {
-  describe("GET_WISHLIST actions", () => {
-    const getSuccessAction: Ac.GetWishlistSuccessAction = {
-      type: t.GET_WISHLIST_SUCCESS,
-      wishlist: fullList
-    };
-    const getFailureAction: Ac.GetWishlistFailureAction = {
-      type: t.GET_WISHLIST_FAILURE,
-      error: Error("Something went wrong")
-    };
-    test("start action does nothing", () => {
-      const startAction: Ac.GetWishlistStartAction = {
-        type: t.GET_WISHLIST_START
-      };
-      expect(reducer(stateWithFullList, startAction)).toEqual(
-        stateWithFullList
-      );
+  fdescribe("GET_WISHLIST actions", () => {
+    describe("start", () => {
+      test("start action does nothing", () => {
+        const startAction: GetWishlistStartAction = {
+          type: t.GET_WISHLIST_START
+        };
+        expect(reducer(stateWithFullList, startAction)).toEqual(
+          stateWithFullList
+        );
+      });
     });
-    test("success updates the current wishlist, and resets the error and previous wishlist", () => {
-      expect(reducer(initialState, getSuccessAction)).toEqual(
-        stateWithFullList
-      );
+
+    describe("success", () => {
+      const getSuccessAction: GetWishlistSuccessAction = {
+        type: t.GET_WISHLIST_SUCCESS,
+        wishlistIds: fullList.map(d => d.id)
+      };
+      const successResult = reducer(initialState, getSuccessAction);
+      it("updates the current wishlist", () => {
+        expect(
+          successResult.currentWishlist &&
+            successResult.currentWishlist.toString()
+        ).toEqual(
+          stateWithFullList.currentWishlist &&
+            stateWithFullList.currentWishlist.toString()
+        );
+      });
+      it("resets the error and previous wishlist", () => {
+        expect(successResult.previousWishlist).toBeNull();
+        expect(successResult.error).toBeNull();
+      });
     });
 
     describe("failure", () => {
+      const getFailureAction: GetWishlistFailureAction = {
+        type: t.GET_WISHLIST_FAILURE,
+        error: Error("Something went wrong")
+      };
       test("if state already has a wishlist, failure simply returns the state", () => {
         expect(reducer(stateWithFullList, getFailureAction)).toEqual(
           stateWithFullList
@@ -73,7 +110,7 @@ describe("wishlistReducer", () => {
   describe("ADD_TO_WISHLIST actions", () => {
     describe("start action", () => {
       it("should update the currentWishlist and previousWishlist", () => {
-        const addStart: Ac.AddToWishlistStartAction = {
+        const addStart: AddToWishlistStartAction = {
           type: t.ADD_TO_WISHLIST_START,
           deal: lastDeal
         };
@@ -84,7 +121,7 @@ describe("wishlistReducer", () => {
     });
     describe("success action", () => {
       it("should simply clear the previousWishlist. since it's no longer needed. right?", () => {
-        const addSuccessAction: Ac.AddToWishlistSuccessAction = {
+        const addSuccessAction: AddToWishlistSuccessAction = {
           type: t.ADD_TO_WISHLIST_SUCCESS
         };
         expect(reducer(optimisticAddState, addSuccessAction)).toEqual({
@@ -94,7 +131,7 @@ describe("wishlistReducer", () => {
       });
     });
     describe("failure action", () => {
-      const addFailureAction: Ac.AddToWishlistFailureAction = {
+      const addFailureAction: AddToWishlistFailureAction = {
         type: t.ADD_TO_WISHLIST_FAILURE,
         error: Error("Something went wrong")
       };
@@ -119,7 +156,7 @@ describe("wishlistReducer", () => {
 
   describe("REMOVE_FROM_WISHLIST actions", () => {
     describe("start action", () => {
-      const removeStart: Ac.RemoveFromWishlistStartAction = {
+      const removeStart: RemoveFromWishlistStartAction = {
         type: t.REMOVE_FROM_WISHLIST_START,
         deal: lastDeal
       };
@@ -132,7 +169,7 @@ describe("wishlistReducer", () => {
       });
     });
     describe("success action", () => {
-      const removeSuccess: Ac.RemoveFromWishlistSuccessAction = {
+      const removeSuccess: RemoveFromWishlistSuccessAction = {
         type: t.REMOVE_FROM_WISHLIST_SUCCESS
       };
       const removeSuccessResult = reducer(optimisticRemoveState, removeSuccess);
@@ -144,7 +181,7 @@ describe("wishlistReducer", () => {
       });
     });
     describe("failure action", () => {
-      const removeFailure: Ac.RemoveFromWishlistFailureAction = {
+      const removeFailure: RemoveFromWishlistFailureAction = {
         type: t.REMOVE_FROM_WISHLIST_FAILURE,
         error: Error("Something went wrong")
       };
@@ -158,6 +195,35 @@ describe("wishlistReducer", () => {
       });
       it("reports an error", () => {
         expect(removeFailureResult.error).toEqual("Something went wrong");
+      });
+    });
+  });
+});
+
+describe("getWishlist Actions/Saga", () => {
+  const startAction: GetWishlistStartAction = { type: t.GET_WISHLIST_START };
+  it("is called by wishlistSaga", async () => {
+    const getWishlist = jest.fn().mockImplementation(() => []);
+    const dispatched = await recordSaga(getWishlistSaga, startAction);
+    console.log(dispatched);
+  });
+  describe("action creator", () => {
+    it("returns a start action", () => {
+      expect(getWishlist()).toEqual(startAction);
+    });
+  });
+  describe("getWishlistSaga", () => {
+    describe("success response", () => {
+      const successResponse: GetWishlistSuccessAction = {
+        type: t.GET_WISHLIST_SUCCESS,
+        wishlist: fullList
+      };
+
+      // NOT SURE IF THIS IS THE RIGHT WAY TO TEST A SAGA
+      it("returns the current wishlist", async () => {
+        expect((await getWishlistSaga()).wishlist).toEqual(
+          successResponse.wishlist
+        );
       });
     });
   });

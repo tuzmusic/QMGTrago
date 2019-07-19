@@ -6,9 +6,10 @@ import { call, put, select, takeEvery, all } from "redux-saga/effects";
 import Deal from "../../models/Deal";
 import type { DealAction } from "../reducers/dealsReducer";
 import cheerio from "cheerio";
-import { DealActionTypes } from "../reducers/dealsReducer";
+import { WishlistActionTypes as Types } from "../reducers/wishlistReducer";
+import * as Actions from "../reducers/wishlistReducer";
 
-export function addToWishlist(deal: Deal): DealAction {
+/* export function addToWishlist(deal: Deal): DealAction {
   return {
     type: "ADD_TO_WISHLIST_START",
     id: deal.id
@@ -50,9 +51,11 @@ export function* addToWishlistSaga({ id }: { id: number }): Saga<void> {
   }
 }
 
-export function* removeFromWishlistSaga(): Saga<void> {}
+export function* removeFromWishlistSaga(): Saga<void> {} */
 
 export async function getCurrentWishlist(): Promise<number[]> {
+  console.log("hello from getCurrent");
+
   const res = await axios.get(WishlistUrls.getWishlist);
   // console.log(res.data.includes("WISHLIST-2.HTML"));
 
@@ -66,12 +69,22 @@ export async function getCurrentWishlist(): Promise<number[]> {
   return wishlist;
 }
 
+export function* getWishlistSaga(): Saga<void> {
+  try {
+    const wishlist = yield call(getCurrentWishlist);
+  } catch (error) {
+    console.log("error:", error);
+  }
+}
+
+export function getWishlist(): Actions.GetWishlistStartAction {
+  return { type: Types.GET_WISHLIST_START };
+}
+
 export default function* wishlistSaga(): Saga<void> {
   yield all([
-    yield takeEvery(DealActionTypes.ADD_TO_WISHLIST_START, addToWishlistSaga),
-    yield takeEvery(
-      DealActionTypes.REMOVE_FROM_WISHLIST_START,
-      removeFromWishlistSaga
-    )
+    yield takeEvery(Types.GET_WISHLIST_START, getWishlistSaga)
+    // yield takeEvery(Types.ADD_TO_WISHLIST_START, addToWishlistSaga),
+    // yield takeEvery(Types.REMOVE_FROM_WISHLIST_START, removeFromWishlistSaga)
   ]);
 }

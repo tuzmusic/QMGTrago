@@ -1,5 +1,6 @@
+// @flow
 import type Deal from "../../models/Deal";
-
+import type { DealCollection } from "./dealsReducer";
 export const WishlistActionTypes = {
   ADD_TO_WISHLIST_START: "ADD_TO_WISHLIST_START",
   ADD_TO_WISHLIST_SUCCESS: "ADD_TO_WISHLIST_SUCCESS",
@@ -13,12 +14,14 @@ export const WishlistActionTypes = {
 };
 
 export type WishlistState = {
-  previousWishlist: ?(Deal[]),
-  currentWishlist: ?(Deal[]),
-  error: ?string
+  +deals: DealCollection,
+  +previousWishlist: ?(Deal[]),
+  +currentWishlist: ?(Deal[]),
+  +error: ?string
 };
 
 export const initialState: WishlistState = {
+  deals: {},
   previousWishlist: null,
   currentWishlist: null,
   error: null
@@ -32,9 +35,13 @@ export default function wishlistReducer(
 
   switch (action.type) {
     case types.GET_WISHLIST_SUCCESS:
+      const currentWishlist: Deal[] = action.wishlistIds.map(
+        d => state.deals[d]
+      );
+
       return {
         ...state,
-        currentWishlist: action.wishlist,
+        currentWishlist,
         previousWishlist: null,
         error: null
       };
@@ -42,6 +49,7 @@ export default function wishlistReducer(
       if (state.currentWishlist) return state;
       return { ...state, error: action.error.message };
     case types.ADD_TO_WISHLIST_START:
+      if (!state.currentWishlist) return state;
       return {
         ...state,
         currentWishlist: state.currentWishlist.concat(action.deal),
@@ -59,6 +67,7 @@ export default function wishlistReducer(
         error: action.error.message
       };
     case types.REMOVE_FROM_WISHLIST_START:
+      if (!state.currentWishlist) return state;
       const wishlist = [...state.currentWishlist];
       wishlist.splice(wishlist.indexOf(action.deal), 1);
       return {
@@ -84,35 +93,35 @@ export type WishlistAction =
   | RemoveFromWishlistFailureAction;
 
 export type GetWishlistStartAction = {
-  type: types.GET_WISHLIST_START
+  type: "GET_WISHLIST_START"
 };
 export type GetWishlistSuccessAction = {
-  type: types.GET_WISHLIST_SUCCESS,
-  wishlist: Deal[]
+  type: "GET_WISHLIST_SUCCESS",
+  wishlistIds: number[]
 };
 export type GetWishlistFailureAction = {
-  type: types.GET_WISHLIST_FAILURE,
+  type: "GET_WISHLIST_FAILURE",
   error: Error
 };
 export type AddToWishlistStartAction = {
-  type: types.ADD_TO_WISHLIST_START,
+  type: "ADD_TO_WISHLIST_START",
   deal: Deal
 };
 export type AddToWishlistSuccessAction = {
-  type: types.ADD_TO_WISHLIST_SUCCESS
+  type: "ADD_TO_WISHLIST_SUCCESS"
 };
 export type AddToWishlistFailureAction = {
-  type: types.ADD_TO_WISHLIST_FAILURE,
+  type: "ADD_TO_WISHLIST_FAILURE",
   error: Error
 };
 export type RemoveFromWishlistStartAction = {
-  type: types.REMOVE_FROM_WISHLIST_START,
+  type: "REMOVE_FROM_WISHLIST_START",
   deal: Deal
 };
 export type RemoveFromWishlistSuccessAction = {
-  type: types.REMOVE_FROM_WISHLIST_SUCCESS
+  type: "REMOVE_FROM_WISHLIST_SUCCESS"
 };
 export type RemoveFromWishlistFailureAction = {
-  type: types.REMOVE_FROM_WISHLIST_FAILURE,
+  type: "REMOVE_FROM_WISHLIST_FAILURE",
   error: Error
 };
