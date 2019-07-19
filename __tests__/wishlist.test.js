@@ -25,6 +25,7 @@ import wishlistSaga, {
   getWishlist,
   getWishlistSaga
 } from "../src/redux/actions/wishlistActions";
+import * as AcFn from "../src/redux/actions/wishlistActions";
 import recordSaga from "../recordSaga";
 import * as fs from "fs";
 import * as path from "path";
@@ -239,7 +240,7 @@ describe("getWishlist Actions/Saga", () => {
     });
   });
 
-  xdescribe("getWishlistSaga", () => {
+  fdescribe("getWishlistSaga", () => {
     describe("success response", () => {
       // setup mock response
       beforeAll(() => {
@@ -249,7 +250,7 @@ describe("getWishlist Actions/Saga", () => {
         );
         const mockWishlistStr = fs.readFileSync(mockWishlistPath).toString();
         const mock = new MockAdapter(axios);
-        mock.onGet(user).replyOnce(200, mockWishlistStr);
+        mock.onGet(WishlistUrls.get(user)).replyOnce(200, mockWishlistStr);
       });
       const mockResponseWishlistIds = [2094, 2122, 2129];
       const successResponse: GetWishlistSuccessAction = {
@@ -258,8 +259,8 @@ describe("getWishlist Actions/Saga", () => {
       };
 
       it("gets the wishlist", async () => {
-        const dispatched = await recordSaga(getWishlistSaga, startAction);
-        console.log(dispatched);
+        const dispatched = await recordSaga(wishlistSaga, startAction);
+        // console.log(dispatched);
         expect(dispatched).toContainEqual(successResponse);
         // done();
       });

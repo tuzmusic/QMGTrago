@@ -32,13 +32,13 @@ export default function wishlistReducer(
   state: WishlistState = initialState,
   action: WishlistAction
 ): WishlistState {
-  if (!action.type.startsWith("@@")) console.log(action.type);
+  // if (!action.type.startsWith("@@")) console.log(action.type);
 
   switch (action.type) {
     case "GET_DEALS_SUCCESS":
       return { ...state, deals: action.deals };
     case types.GET_WISHLIST_SUCCESS:
-      console.log(action);
+      // console.log(action);
       const currentWishlist: Deal[] = !state.deals
         ? []
         : action.wishlistIds.map(d => state.deals[d]);

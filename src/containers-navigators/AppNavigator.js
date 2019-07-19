@@ -20,10 +20,12 @@ import LoginScreen from "../screens/LoginScreen";
 import AuthNavigator from "./AuthNavigator";
 import axios from "axios";
 import UserScreen from "../screens/UserScreen";
+import FavoritesScreen from "../screens/FavoritesScreen";
 
 let initialRouteName;
 initialRouteName = "List";
 initialRouteName = "Map";
+initialRouteName = "Favorites";
 
 const MapStack = createStackNavigator({
   MapScreen: {
@@ -55,6 +57,15 @@ const ListStack = createStackNavigator({
   }
 });
 
+const FavoritesStack = createStackNavigator({
+  FavesScreen: {
+    screen: FavoritesScreen,
+    navigationOptions: {
+      title: "Favorites"
+    }
+  }
+});
+
 MapStack.navigationOptions = {
   tabBarIcon: ({ focused }) => (
     <TabBarIcon
@@ -74,6 +85,16 @@ ListStack.navigationOptions = {
   )
 };
 
+FavoritesStack.navigationOptions = {
+  tabBarLabel: "Faves",
+  tabBarIcon: ({ focused }) => (
+    <TabBarIcon
+      focused={focused}
+      name={focused ? "md-heart" : "md-heart-empty"}
+    />
+  )
+};
+
 UserScreen.navigationOptions = {
   tabBarLabel: "Me",
   tabBarIcon: ({ focused }) => (
@@ -89,6 +110,7 @@ const TabNavigator = createBottomTabNavigator(
   {
     Map: MapStack,
     List: ListStack,
+    Favorites: FavoritesStack,
     User: UserScreen
   },
   { initialRouteName }
