@@ -249,9 +249,7 @@ describe("getWishlist Actions/Saga", () => {
         );
         const mockWishlistStr = fs.readFileSync(mockWishlistPath).toString();
         const mock = new MockAdapter(axios);
-        mock
-          .onGet(WishlistUrls.getWishlist(user))
-          .replyOnce(200, mockWishlistStr);
+        mock.onGet(user).replyOnce(200, mockWishlistStr);
       });
       const mockResponseWishlistIds = [2094, 2122, 2129];
       const successResponse: GetWishlistSuccessAction = {

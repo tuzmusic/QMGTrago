@@ -31,8 +31,8 @@ export function* loadUserSaga(): Saga<void> {
   try {
     const user = yield call(AsyncStorage.getItem, "trago_logged_in_user");
     if (user) {
-      yield put(setUser(JSON.parse(user)));
       yield put({ type: "LOAD_USER_SUCCESS" });
+      yield put(setUser(JSON.parse(user)));
     } else {
       throw Error("No saved user found");
     }

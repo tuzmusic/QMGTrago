@@ -32,7 +32,7 @@ describe("Wishlist redux actions", () => {
       // .reply(200, fs.readFileSync(path2).toString(), {
       //   "content-type": "text/html"
       // })
-      .onGet(WishlistUrls.getWishlist(user))
+      .onGet(user)
       .reply(200, fs.readFileSync(path1).toString());
   });
 

@@ -92,12 +92,14 @@ class MapScreen extends Component<Props, State> {
           showsUserLocation={true}
           region={this.props.currentRegion || null}
         >
-          <DealMarkers
-            deals={this.props.deals}
-            onCalloutPress={this.onCalloutPress.bind(this)}
-            onMarkerPress={() => {}}
-            // onMarkerPress={this.onMarkerPress.bind(this)}
-          />
+          {this.props.deals && (
+            <DealMarkers
+              deals={this.props.deals}
+              onCalloutPress={this.onCalloutPress.bind(this)}
+              onMarkerPress={() => {}}
+              // onMarkerPress={this.onMarkerPress.bind(this)}
+            />
+          )}
           <CurrentRegionMarker currentRegion={this.props.currentRegion} />
         </MapView>
         <Callout style={styles.searchCallout}>

@@ -22,8 +22,8 @@ import axios from "axios";
 import UserScreen from "../screens/UserScreen";
 
 let initialRouteName;
-initialRouteName = "List";
 initialRouteName = "Map";
+initialRouteName = "List";
 
 const MapStack = createStackNavigator({
   MapScreen: {
@@ -102,7 +102,7 @@ class TabContainer extends Component<Object> {
   }
 
   componentDidUpdate = (prevProps, prevState) => {
-    if (this.props.deals.length && !this.props.wishlist)
+    if (this.props.deals && !this.props.wishlist)
       this.props.getWishlist(this.props.user);
   };
 
@@ -116,7 +116,7 @@ const SwitchNavigator = createSwitchNavigator({
   Main: connect(
     ({ auth, deals, location, wishlist }) => ({
       user: auth.user.user,
-      deals: Object.entries(deals.deals),
+      deals: deals.deals,
       location: location.currentRegion,
       wishlist: wishlist.currentWishlist
     }),

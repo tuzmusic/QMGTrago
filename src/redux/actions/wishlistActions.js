@@ -54,8 +54,7 @@ export function* addToWishlistSaga({ id }: { id: number }): Saga<void> {
 export function* removeFromWishlistSaga(): Saga<void> {} */
 
 export async function getCurrentWishlist(user: User): Promise<number[]> {
-  const url = WishlistUrls.getWishlist(user);
-  const { data } = await axios.get(WishlistUrls.getWishlist(user));
+  const { data } = await axios.get(WishlistUrls.get(user));
   if (data.includes("No products were added to the wishlist")) return [];
   const tags: string[] = data.match(/data-product_id="(\d+)"/g);
   const idStrings = tags.map(t => t.match(/\d+/));
