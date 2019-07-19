@@ -17,7 +17,6 @@ import reducer, {
   initialState as emptyState,
   WishlistActionTypes as t
 } from "../src/redux/reducers/wishlistReducer";
-import mockDeals from "../__mocks__/mockDeals";
 import products from "../__mocks__/api/products";
 import Deal from "../src/models/Deal";
 import type { DealCollection } from "../src/redux/reducers/dealsReducer";
@@ -26,11 +25,17 @@ import wishlistSaga, {
   getWishlistSaga
 } from "../src/redux/actions/wishlistActions";
 import recordSaga from "../recordSaga";
+import * as fs from "fs";
+import * as path from "path";
+import MockAdapter from "axios-mock-adapter";
+import axios from "axios";
+import { WishlistUrls } from "../src/constants/constants";
 
 // #endregion
 
 // #region PREP
 const fullList: Deal[] = products.map(d => Deal.fromApi(d));
+const fullListIds: number[] = fullList.map(d => d.id);
 const deals: DealCollection = Deal.collectionFromApiArray(products);
 const shorterList = [...fullList];
 const lastDeal = shorterList.pop();
@@ -55,7 +60,13 @@ const optimisticRemoveState: WishlistState = {
 // #endregion
 
 describe("wishlistReducer", () => {
-  fdescribe("GET_WISHLIST actions", () => {
+  describe("GET_DEALS_SUCCESS", () => {
+    it("gets the deals", () => {
+      const dealAction = { type: "GET_DEALS_SUCCESS", deals };
+      expect(reducer(emptyState, dealAction)).toEqual(initialState);
+    });
+  });
+  describe("GET_WISHLIST actions", () => {
     describe("start", () => {
       test("start action does nothing", () => {
         const startAction: GetWishlistStartAction = {
@@ -70,7 +81,7 @@ describe("wishlistReducer", () => {
     describe("success", () => {
       const getSuccessAction: GetWishlistSuccessAction = {
         type: t.GET_WISHLIST_SUCCESS,
-        wishlistIds: fullList.map(d => d.id)
+        wishlistIds: fullListIds
       };
       const successResult = reducer(initialState, getSuccessAction);
       it("updates the current wishlist", () => {
@@ -202,28 +213,44 @@ describe("wishlistReducer", () => {
 
 describe("getWishlist Actions/Saga", () => {
   const startAction: GetWishlistStartAction = { type: t.GET_WISHLIST_START };
-  it("is called by wishlistSaga", async () => {
-    const getWishlist = jest.fn().mockImplementation(() => []);
+  xit("is called by wishlistSaga", async () => {
+    const getCurrentWishlist = jest
+      .fn()
+      .mockImplementation(() => console.log("hello from mock"));
     const dispatched = await recordSaga(getWishlistSaga, startAction);
     console.log(dispatched);
+    expect(getCurrentWishlist).toHaveBeenCalled();
   });
+
   describe("action creator", () => {
     it("returns a start action", () => {
       expect(getWishlist()).toEqual(startAction);
     });
   });
+
   describe("getWishlistSaga", () => {
     describe("success response", () => {
+      // setup mock response
+      beforeAll(() => {
+        const mockWishlistPath = path.resolve(
+          __dirname,
+          "../__mocks__/wishlist-2.html"
+        );
+        const mockWishlistStr = fs.readFileSync(mockWishlistPath).toString();
+        const mock = new MockAdapter(axios);
+        mock.onGet(WishlistUrls.get).replyOnce(200, mockWishlistStr);
+      });
+      const mockResponseWishlistIds = [2094, 2122, 2129];
       const successResponse: GetWishlistSuccessAction = {
         type: t.GET_WISHLIST_SUCCESS,
-        wishlist: fullList
+        wishlistIds: mockResponseWishlistIds
       };
 
-      // NOT SURE IF THIS IS THE RIGHT WAY TO TEST A SAGA
-      it("returns the current wishlist", async () => {
-        expect((await getWishlistSaga()).wishlist).toEqual(
-          successResponse.wishlist
-        );
+      it("gets the wishlist", async () => {
+        const dispatched = await recordSaga(getWishlistSaga, startAction);
+        console.log(dispatched);
+        expect(dispatched).toContainEqual(successResponse);
+        // done();
       });
     });
   });
