@@ -3,6 +3,8 @@ import { connect } from "react-redux";
 import { Text, View } from "react-native";
 import { FlatList } from "react-native-gesture-handler";
 import DealCellView from "../subviews/DealCellView";
+// import DealsList from "../subviews/DealsList";
+import DealsListContainer from "../containers-navigators/DealsListContainer";
 
 class FavoritesScreen extends Component {
   render() {
@@ -10,14 +12,11 @@ class FavoritesScreen extends Component {
     return (
       <View>
         {!this.props.favorites ? (
-          <View style={{ justifyContent: "center", textAlign: "center" }}>
-            <Text>Loading favorites...</Text>
+          <View style={{ justifyContent: "center" }}>
+            <Text style={{ textAlign: "center" }}>Loading favorites...</Text>
           </View>
         ) : (
-          <FlatList
-            data={this.props.favorites}
-            renderItem={f => <DealCellView deal={f} />}
-          />
+          <DealsListContainer deals={this.props.favorites} />
         )}
       </View>
     );

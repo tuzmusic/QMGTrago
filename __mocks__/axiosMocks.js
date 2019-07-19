@@ -1,18 +1,26 @@
 import axios from "axios";
 import MockAdapter from "axios-mock-adapter";
-import { ApiUrls } from "../src/constants/constants";
+import { ApiUrls, WishlistUrls } from "../src/constants/constants";
 import {
   loginResponse,
   registerResponse,
   registration
 } from "./auth/authResponses";
 import mockProducts from "./api/products";
+import mockWishlistResponse from "./wishlist-2";
+// import * as fs from "react-native-fs";
+import path from "react-native-path";
 
-export function setupMockAdapter({ deals = false, auth = false }) {
-  let mock = new MockAdapter(axios, { delayResponse: 1000 });
+export function setupMockAdapter({
+  deals = false,
+  auth = false,
+  wishlist = false
+}) {
+  let mock = new MockAdapter(axios, { delayResponse: 500 });
   console.log("WARNING: Using mock api - not connecting to the internet!");
   if (deals) setupDealsMockAdapter(mock);
   if (auth) setupAuthMockAdapter(mock);
+  if (wishlist) setupWishlistMockAdapter(mock);
   mock.onAny().passThrough();
 }
 
@@ -20,6 +28,12 @@ export function setupDealsMockAdapter(mock) {
   mock.onGet(ApiUrls.getProductsAuthorized).reply(200, mockProducts);
 }
 
+// react-native-fs is dumb and I can't get it to work yet.
+// try exporting the html as text from a js file, that should be fine.
+export function setupWishlistMockAdapter(mock) {
+  // this doesn't catch the url correctly. whatever that's fine, I'll fix it later maybe.
+  mock.onGet(WishlistUrls.get()).reply(200, mockWishlistResponse);
+}
 export function setupAuthMockAdapter(mock) {
   mock
     // register

@@ -38,7 +38,7 @@ const sagaMiddleware = createSagaMiddleware();
 const store = createStore(combinedReducer, {}, applyMiddleware(sagaMiddleware));
 sagaMiddleware.run(rootSaga);
 
-// if (__DEV__) setupMockAdapter({ deals: true, auth: true });
+if (__DEV__) setupMockAdapter({ deals: true, auth: true, wishlist: true });
 
 export default function App() {
   // console.log(__DEV__ ? "development" : "production", "mode");

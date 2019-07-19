@@ -44,7 +44,7 @@ const DealsList = (props: Props) => {
             />
           )}
           style={{ marginLeft: 5, marginRight: 5 }}
-          keyExtractor={(_, index) => index.toString()}
+          keyExtractor={deal => deal.id.toString()}
         />
       )}
     </View>
