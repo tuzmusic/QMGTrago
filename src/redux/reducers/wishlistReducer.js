@@ -38,10 +38,10 @@ export default function wishlistReducer(
     case "GET_DEALS_SUCCESS":
       return { ...state, deals: action.deals };
     case types.GET_WISHLIST_SUCCESS:
-      // console.log(action);
-      const currentWishlist: Deal[] = !state.deals
-        ? []
-        : action.wishlistIds.map(d => state.deals[d]);
+      // console.log(action.wishlistIds);
+      const currentWishlist: Deal[] = action.wishlistIds
+        .map(d => state.deals[d])
+        .filter(Boolean); // allows through only truthy values
       return {
         ...state,
         currentWishlist,

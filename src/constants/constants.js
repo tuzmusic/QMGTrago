@@ -29,6 +29,6 @@ export const WishlistUrls = {
     return `${baseUrl}?remove_from_wishlist=${deal.id}&user_id=${user.id}`;
   },
   get(user: User) {
-    return `${baseUrl}wishlist-2/?user_id=${user.id}`;
+    return `${baseUrl}wishlist-2/` + (user && `?user_id=${user.id}`);
   }
 };
