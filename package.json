@@ -21,7 +21,7 @@
     "expo-location": "~5.0.1",
     "expo-permissions": "~5.0.1",
     "he": "^1.2.0",
-    "lodash": "^4.17.13",
+    "lodash": "^4.17.21",
     "native-base": "^2.12.1",
     "pluralize": "^7.0.0",
     "react": "16.5.0",
